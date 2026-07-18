@@ -1,0 +1,67 @@
+# .gitignore racine
+
+# =====================================================
+# IDE
+# =====================================================
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.DS_Store
+*.swp
+*.swo
+*~
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+local.properties
+
+# =====================================================
+# MAVEN
+# =====================================================
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+.mvn/
+
+# =====================================================
+# NODE / FRONTEND
+# =====================================================
+node_modules/
+npm-debug.log
+yarn-error.log
+dist/
+.env.local
+.env.*.local
+
+# =====================================================
+# BUILD / OUTPUT
+# =====================================================
+*.class
+*.jar
+*.war
+*.ear
+*.log
+build/
+
+# =====================================================
+# OS
+# =====================================================
+Thumbs.db
+.DS_Store
+
+# =====================================================
+# APPLICATION SPECIFIC
+# =====================================================
+.env
+.env.local
+application-local.properties
+application-dev.properties
+application-prod.properties
