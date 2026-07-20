@@ -1,0 +1,28 @@
+.stats-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.stats-icon {
+  font-size: 28px;
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #eef4ff;
+}
+.stats-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+}
+.stats-label {
+  font-size: 13px;
+  color: #888;
+}

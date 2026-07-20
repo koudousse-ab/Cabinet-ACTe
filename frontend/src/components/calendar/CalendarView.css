@@ -1,0 +1,246 @@
+.calendar-view {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.reminder-banner {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 12px 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+.reminder-banner .dismiss {
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #856404;
+  font-size: 14px;
+}
+.calendar-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  padding: 16px 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.nav-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav-btn, .today-btn, .mode-btn {
+  border: 1px solid #ddd;
+  background-color: white;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.mode-btn.active {
+  background-color: #0066cc;
+  color: white;
+  border-color: #0066cc;
+}
+.period-label {
+  font-weight: 700;
+  color: #333;
+  text-transform: capitalize;
+  min-width: 150px;
+  text-align: center;
+  display: inline-block;
+}
+.mode-group {
+  display: flex;
+  gap: 6px;
+}
+.filters {
+  display: flex;
+  gap: 8px;
+}
+.filters select {
+  padding: 6px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+}
+.month-grid {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+.weekday-row, .days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+.weekday-cell {
+  text-align: center;
+  padding: 10px;
+  font-weight: 700;
+  color: #666;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  font-size: 12px;
+}
+.day-cell {
+  min-height: 100px;
+  border: 1px solid #eee;
+  padding: 6px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: background-color 0.15s ease;
+}
+.day-cell:hover {
+  background-color: #f8f9fa;
+}
+.day-cell.other-month {
+  background-color: #fafafa;
+  color: #ccc;
+}
+.day-cell.today .day-number {
+  background-color: #0066cc;
+  color: white;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.day-cell.drag-over {
+  background-color: #dbe7fb;
+}
+.day-number {
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+}
+.day-tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+.week-day-column {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+}
+.week-day-column.today {
+  border: 2px solid #0066cc;
+}
+.week-day-column.drag-over {
+  background-color: #dbe7fb;
+}
+.week-day-header {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+.weekday-name {
+  display: block;
+  font-size: 11px;
+  color: #999;
+  text-transform: uppercase;
+}
+.week-day-header .day-number {
+  font-size: 16px;
+}
+.week-day-tasks {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+}
+.empty-day {
+  color: #ccc;
+  text-align: center;
+  font-size: 12px;
+}
+.day-list {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+.day-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.day-list-header h3 {
+  text-transform: capitalize;
+  color: #333;
+}
+.add-btn {
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.empty-day-list {
+  text-align: center;
+  color: #999;
+  padding: 30px;
+}
+.day-list-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.day-list-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.day-list-item:hover {
+  background-color: #eef0f3;
+}
+.priority-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.task-title {
+  flex: 1;
+  font-weight: 500;
+  color: #333;
+}
+.badge {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  color: white;
+}
+@media (max-width: 900px) {
+  .week-grid { grid-template-columns: 1fr; }
+  .day-cell { min-height: 70px; }
+}

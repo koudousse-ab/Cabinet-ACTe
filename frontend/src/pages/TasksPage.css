@@ -1,0 +1,32 @@
+.tasks-page {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.view-switch {
+  display: flex;
+  gap: 8px;
+  background-color: white;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: fit-content;
+}
+.switch-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: transparent;
+  color: #666;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.switch-btn:hover {
+  background-color: #f0f2f5;
+}
+.switch-btn.active {
+  background-color: #0066cc;
+  color: white;
+}

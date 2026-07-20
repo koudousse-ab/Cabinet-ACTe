@@ -1,0 +1,24 @@
+{
+  "name": "missionflow-module2-frontend",
+  "version": "1.0.0",
+  "description": "MissionFlow - Module 2 (Tâches + Calendrier) - David Djagbare",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .js,.jsx --fix"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.14.0",
+    "axios": "^1.6.0",
+    "bootstrap": "^5.3.0",
+    "recharts": "^2.8.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.0.4",
+    "vite": "^4.4.9"
+  }
+}
