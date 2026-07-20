@@ -250,7 +250,9 @@ Copyright © 2026 Cabinet ACTe. Tous droits réservés.
 
 ## 👨‍💻 Auteurs
 
-- **TCHEDRE Koudousse** - Développeur Principal
+- **TCHEDRE Koudousse** - Gestion des projets + Tableau de bord
+- **DJAGBARE Davide Damtaré** - Gestion des tâches + Calendrier automatisé
+- **PAKPALI Giles Essoyota** - Gestion des employés, suivi des activités, erreurs, rapports hebdomadaires
 - **Cabinet ACTe Team**
 
 ---
