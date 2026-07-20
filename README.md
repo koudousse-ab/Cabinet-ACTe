@@ -252,7 +252,7 @@ Copyright © 2026 Cabinet ACTe. Tous droits réservés.
 
 - **TCHEDRE Koudousse** - Gestion des projets + Tableau de bord
 - **DJAGBARE Davide Damtaré** - Gestion des tâches + Calendrier automatisé
-- **PAKPALI Giles Essoyota** - Gestion des employés, suivi des activités, erreurs, rapports hebdomadaires
+- **PAKPALI Gilles Essoyota** - Gestion des employés, suivi des activités, erreurs, rapports hebdomadaires
 - **Cabinet ACTe Team**
 
 ---
