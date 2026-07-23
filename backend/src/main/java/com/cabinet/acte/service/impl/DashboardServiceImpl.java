@@ -12,19 +12,15 @@ import com.cabinet.acte.repository.TaskRepository;
 import com.cabinet.acte.service.DashboardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional(readOnly = true)
 public class DashboardServiceImpl implements DashboardService {
 
     @Autowired
@@ -35,45 +31,65 @@ public class DashboardServiceImpl implements DashboardService {
 
     @Override
     public DashboardStatsDTO getStats() {
-        List<Project> projects = projectRepository.findAll();
-        List<Task> tasks = taskRepository.findAll();
+        List<Project> allProjects = projectRepository.findAll();
+        List<Task> allTasks = taskRepository.findAll();
 
-        long totalProjects = projects.size();
-        long inProgressProjects = projects.stream().filter(p -> p.getStatus() == Project.ProjectStatus.EN_COURS).count();
-        long completedProjects = projects.stream().filter(p -> p.getStatus() == Project.ProjectStatus.TERMINE).count();
+        long totalProjects = allProjects.size();
+        long inProgressProjects = allProjects.stream()
+                .filter(p -> p.getStatus() == Project.ProjectStatus.EN_COURS)
+                .count();
+        long completedProjects = allProjects.stream()
+                .filter(p -> p.getStatus() == Project.ProjectStatus.TERMINE)
+                .count();
 
-        long totalTasks = tasks.size();
-        long tasksInProgress = tasks.stream().filter(t -> t.getStatus() == Task.TaskStatus.EN_COURS).count();
-        long tasksCompleted = tasks.stream().filter(t -> t.getStatus() == Task.TaskStatus.TERMINE).count();
+        long totalTasks = allTasks.size();
+        long tasksInProgress = allTasks.stream()
+                .filter(t -> t.getStatus() == Task.TaskStatus.IN_PROGRESS)
+                .count();
+        long tasksCompleted = allTasks.stream()
+                .filter(t -> t.getStatus() == Task.TaskStatus.DONE)
+                .count();
 
-        return new DashboardStatsDTO(totalProjects, inProgressProjects, completedProjects, totalTasks, tasksInProgress, tasksCompleted);
+        return new DashboardStatsDTO(
+                totalProjects,
+                inProgressProjects,
+                completedProjects,
+                totalTasks,
+                tasksInProgress,
+                tasksCompleted
+        );
     }
 
     @Override
     public ChartDataDTO getChartData() {
-        List<Project> projects = projectRepository.findAll();
-        List<Task> tasks = taskRepository.findAll();
+        // Projets par statut
+        Map<String, Long> projectsByStatus = projectRepository.findAll().stream()
+                .collect(Collectors.groupingBy(
+                        p -> p.getStatus().name(),
+                        Collectors.counting()
+                ));
 
-        Map<String, Long> projectsByStatus = new LinkedHashMap<>();
-        for (Project.ProjectStatus status : Project.ProjectStatus.values()) {
-            projectsByStatus.put(status.name(), projects.stream().filter(p -> p.getStatus() == status).count());
-        }
+        // Tâches par statut
+        Map<String, Long> tasksByStatus = taskRepository.findAll().stream()
+                .collect(Collectors.groupingBy(
+                        t -> t.getStatus().name(),
+                        Collectors.counting()
+                ));
 
-        Map<String, Long> tasksByStatus = new LinkedHashMap<>();
-        for (Task.TaskStatus status : Task.TaskStatus.values()) {
-            tasksByStatus.put(status.name(), tasks.stream().filter(t -> t.getStatus() == status).count());
-        }
-
-        List<ChartDataDTO.DayCount> tasksCompletedPerDay = new ArrayList<>();
+        // Tâches complétées par jour (7 derniers jours)
         DateTimeFormatter fmt = DateTimeFormatter.ISO_LOCAL_DATE;
         LocalDate today = LocalDate.now();
+        List<ChartDataDTO.DayCount> tasksCompletedPerDay = new ArrayList<>();
+
         for (int i = 6; i >= 0; i--) {
             LocalDate day = today.minusDays(i);
-            long count = tasks.stream()
-                .filter(t -> t.getStatus() == Task.TaskStatus.TERMINE)
-                .filter(t -> t.getUpdatedAt() != null && t.getUpdatedAt().toLocalDate().equals(day))
-                .count();
-            tasksCompletedPerDay.add(new ChartDataDTO.DayCount(day.format(fmt), count));
+            String dateStr = day.format(fmt);
+            long count = taskRepository.findAll().stream()
+                    .filter(t -> t.getStatus() == Task.TaskStatus.DONE)
+                    .filter(t -> t.getUpdatedAt() != null)
+                    .filter(t -> t.getUpdatedAt().toLocalDate().equals(day))
+                    .count();
+            tasksCompletedPerDay.add(new ChartDataDTO.DayCount(dateStr, count));
         }
 
         return new ChartDataDTO(projectsByStatus, tasksByStatus, tasksCompletedPerDay);
@@ -82,16 +98,16 @@ public class DashboardServiceImpl implements DashboardService {
     @Override
     public RecentActivityDTO getRecentActivity() {
         List<ProjectDTO> recentProjects = projectRepository.findAll().stream()
-            .sorted(Comparator.comparing(Project::getCreatedAt, Comparator.nullsLast(Comparator.reverseOrder())))
-            .limit(5)
-            .map(ProjectDTO::fromEntity)
-            .collect(Collectors.toList());
+                .sorted((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()))
+                .limit(5)
+                .map(ProjectDTO::fromEntity)
+                .collect(Collectors.toList());
 
         List<TaskDTO> recentTasks = taskRepository.findAll().stream()
-            .sorted(Comparator.comparing(Task::getUpdatedAt, Comparator.nullsLast(Comparator.reverseOrder())))
-            .limit(5)
-            .map(TaskDTO::fromEntity)
-            .collect(Collectors.toList());
+                .sorted((a, b) -> b.getUpdatedAt().compareTo(a.getUpdatedAt()))
+                .limit(5)
+                .map(TaskDTO::fromEntity)
+                .collect(Collectors.toList());
 
         return new RecentActivityDTO(recentProjects, recentTasks);
     }

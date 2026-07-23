@@ -14,7 +14,7 @@
 }
 .board-header h2 {
   margin: 0;
-  color: #333;
+  color: #3D2B1F;
 }
 .board-columns {
   display: grid;
@@ -24,7 +24,7 @@
   padding-bottom: 10px;
 }
 .board-column {
-  background-color: #eef0f3;
+  background-color: #f4f6f9;
   border-radius: 8px;
   min-height: 300px;
   display: flex;
@@ -32,22 +32,24 @@
   transition: background-color 0.15s ease;
 }
 .board-column.drag-over {
-  background-color: #dbe7fb;
+  background-color: #e8edf4;
 }
 .column-header {
   padding: 12px 14px;
   font-weight: 700;
-  color: white;
+  color: #3D2B1F; /* Texte foncé */
   border-radius: 8px 8px 0 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #e9ecef; /* Fond clair pour l'en-tête */
 }
 .count-badge {
-  background-color: rgba(255, 255, 255, 0.25);
+  background-color: rgba(0, 0, 0, 0.1);
   padding: 2px 8px;
   border-radius: 10px;
   font-size: 12px;
+  color: #3D2B1F;
 }
 .column-body {
   padding: 10px;

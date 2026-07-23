@@ -1,9 +1,13 @@
 import { useState } from 'react';
+import { useAuth } from '../../context/AuthContext';
 import TaskCard from './TaskCard';
 import { STATUS_OPTIONS, STATUS_COLORS, statusLabel } from '../../utils/statusUtils';
 import './TaskDragDrop.css';
 
 export default function TaskDragDrop({ tasks, updateTaskStatus, setTasks, onOpenTask, employees }) {
+  const { user } = useAuth();
+  const isManager = user?.role === 'ADMIN' || user?.role === 'CHEF_PROJET';
+  const isEmployee = user?.role === 'EMPLOYE';
   const [draggedTask, setDraggedTask] = useState(null);
   const [dragOverColumn, setDragOverColumn] = useState(null);
 
@@ -22,15 +26,21 @@ export default function TaskDragDrop({ tasks, updateTaskStatus, setTasks, onOpen
     setTasks((prev) => prev.map((t) => (t.id === task.id ? { ...t, status } : t)));
 
     updateTaskStatus(task.id, status).catch(() => {
-      alert("Erreur lors du changement de statut, la tâche est restée dans sa colonne d'origine");
+      alert("Erreur lors du changement de statut");
       setTasks((prev) => prev.map((t) => (t.id === task.id ? { ...t, status: previousStatus } : t)));
     });
+  };
+
+  // Vérifier si l'utilisateur peut glisser la tâche
+  const canDrag = (task) => {
+    return isManager || task.assignedTo === user?.id;
   };
 
   return (
     <div className="task-board">
       <div className="board-header">
         <h2>Tableau des tâches</h2>
+        {!isManager && <p className="hint">Vous pouvez glisser uniquement vos propres tâches</p>}
       </div>
 
       <div className="board-columns">
@@ -51,7 +61,7 @@ export default function TaskDragDrop({ tasks, updateTaskStatus, setTasks, onOpen
                 <TaskCard
                   key={task.id}
                   task={task}
-                  draggable
+                  draggable={canDrag(task)}
                   isDragging={draggedTask?.id === task.id}
                   onDragStart={setDraggedTask}
                   onDragEnd={() => setDraggedTask(null)}

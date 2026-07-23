@@ -1,11 +1,16 @@
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import ProjectCard from './ProjectCard';
 import ProjectForm from './ProjectForm';
 import { PROJECT_STATUS_OPTIONS, projectStatusLabel } from '../../utils/statusUtils';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './ProjectList.css';
 
 export default function ProjectList({ projects, createProject, updateProject }) {
+  const { user } = useAuth();
+  const isManager = user?.role === 'ADMIN' || user?.role === 'CHEF_PROJET';
   const navigate = useNavigate();
   const [filters, setFilters] = useState({ status: '', client: '' });
   const [showForm, setShowForm] = useState(false);
@@ -38,7 +43,11 @@ export default function ProjectList({ projects, createProject, updateProject }) 
     <div className="project-list-container">
       <div className="project-list-header">
         <h2>Gestion des projets</h2>
-        <button className="btn-primary" onClick={openCreate}>+ Nouveau projet</button>
+        {isManager && (
+          <button className="btn-primary" onClick={openCreate}>
+            <FontAwesomeIcon icon={faPlus} /> Nouveau projet
+          </button>
+        )}
       </div>
 
       <div className="filters">

@@ -15,7 +15,7 @@ export default function ProgressChart({ data }) {
           <XAxis dataKey="label" fontSize={12} />
           <YAxis allowDecimals={false} fontSize={12} />
           <Tooltip />
-          <Line type="monotone" dataKey="count" stroke="#0066cc" strokeWidth={2} />
+          <Line type="monotone" dataKey="count" stroke="#3D2B1F" strokeWidth={2} />
         </LineChart>
       </ResponsiveContainer>
     </div>

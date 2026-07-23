@@ -46,13 +46,13 @@
   font-size: 13px;
 }
 .mode-btn.active {
-  background-color: #0066cc;
+  background-color: #C3B091;
   color: white;
-  border-color: #0066cc;
+  border-color: #C3B091;
 }
 .period-label {
   font-weight: 700;
-  color: #333;
+  color: #3D2B1F;
   text-transform: capitalize;
   min-width: 150px;
   text-align: center;
@@ -87,7 +87,7 @@
   padding: 10px;
   font-weight: 700;
   color: #666;
-  background-color: #f8f9fa;
+  background-color: #F4F6F9;
   border-bottom: 1px solid #dee2e6;
   font-size: 12px;
 }
@@ -102,14 +102,14 @@
   transition: background-color 0.15s ease;
 }
 .day-cell:hover {
-  background-color: #f8f9fa;
+  background-color: #F4F6F9;
 }
 .day-cell.other-month {
   background-color: #fafafa;
   color: #ccc;
 }
 .day-cell.today .day-number {
-  background-color: #0066cc;
+  background-color: #C3B091;
   color: white;
   border-radius: 50%;
   width: 22px;
@@ -124,7 +124,7 @@
 .day-number {
   font-size: 12px;
   font-weight: 600;
-  color: #333;
+  color: #3D2B1F;
 }
 .day-tasks {
   display: flex;
@@ -145,7 +145,7 @@
   flex-direction: column;
 }
 .week-day-column.today {
-  border: 2px solid #0066cc;
+  border: 2px solid #C3B091;
 }
 .week-day-column.drag-over {
   background-color: #dbe7fb;
@@ -191,10 +191,10 @@
 }
 .day-list-header h3 {
   text-transform: capitalize;
-  color: #333;
+  color: #3D2B1F;
 }
 .add-btn {
-  background-color: #0066cc;
+  background-color: #C3B091;
   color: white;
   border: none;
   padding: 8px 14px;
@@ -216,14 +216,13 @@
   align-items: center;
   gap: 10px;
   padding: 10px 14px;
-  background-color: #f8f9fa;
+  background-color: #F4F6F9;
   border-radius: 6px;
   cursor: pointer;
 }
 .day-list-item:hover {
   background-color: #eef0f3;
 }
-.priority-dot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
@@ -232,9 +231,8 @@
 .task-title {
   flex: 1;
   font-weight: 500;
-  color: #333;
+  color: #3D2B1F;
 }
-.badge {
   font-size: 11px;
   padding: 3px 8px;
   border-radius: 4px;

@@ -1,0 +1,40 @@
+// Ajouter cette méthode dans TaskController :
+
+// @GetMapping("/week")
+// public ResponseEntity<List<TaskDTO>> getTasksForWeek(
+//         @RequestParam String startDate,
+//         @RequestParam String endDate,
+//         @RequestParam(required = false) Long employeeId,
+//         Authentication authentication) {
+//     String role = authentication.getAuthorities().iterator().next().getAuthority();
+//     String email = authentication.getName();
+// 
+//     LocalDate start = LocalDate.parse(startDate);
+//     LocalDate end = LocalDate.parse(endDate);
+// 
+//     List<TaskDTO> tasks;
+// 
+//     if (employeeId != null) {
+//         // Si un employé est spécifié, seul un admin/chef projet peut le faire
+//         if (!role.equals("ROLE_ADMIN") && !role.equals("ROLE_CHEF_PROJET")) {
+//             throw new RuntimeException("Non autorisé à voir les tâches d'un autre employé");
+//         }
+//         tasks = taskService.getTasksByAssignedTo(employeeId);
+//     } else if (role.equals("ROLE_EMPLOYE")) {
+//         // L'employé voit ses propres tâches
+//         Employee employee = employeeRepository.findByEmail(email)
+//                 .orElseThrow(() -> new RuntimeException("Employé non trouvé"));
+//         tasks = taskService.getTasksByAssignedTo(employee.getId());
+//     } else {
+//         // Admin/chef projet voit toutes les tâches
+//         tasks = taskService.getAllTasks();
+//     }
+// 
+//     // Filtrer par date
+//     return ResponseEntity.ok(
+//         tasks.stream()
+//             .filter(t -> t.getDueDate() != null)
+//             .filter(t -> !t.getDueDate().isBefore(start) && !t.getDueDate().isAfter(end))
+//             .toList()
+//     );
+// }

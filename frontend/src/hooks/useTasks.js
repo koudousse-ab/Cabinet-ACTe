@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import taskApi from '../api/taskApi';
 
 export default function useTasks() {
@@ -6,56 +6,45 @@ export default function useTasks() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchTasks = useCallback(() => {
+  const fetchTasks = () => {
     setLoading(true);
-    return taskApi
-      .getAllTasks()
+    taskApi.getAllTasks()
       .then((response) => {
+        console.log('✅ Tâches reçues:', response.data);
         setTasks(response.data);
-        setError(null);
-        return response.data;
+        setLoading(false);
       })
       .catch((err) => {
         setError(err);
-        throw err;
-      })
-      .finally(() => setLoading(false));
-  }, []);
+        setLoading(false);
+        console.error('❌ Erreur chargement des tâches:', err);
+      });
+  };
 
   useEffect(() => {
     fetchTasks();
-  }, [fetchTasks]);
+  }, []);
 
-  const createTask = useCallback(
-    (taskData) => taskApi.createTask(taskData).then((res) => {
-      setTasks((prev) => [...prev, res.data]);
-      return res.data;
-    }),
-    []
-  );
+  const createTask = (taskData) => taskApi.createTask(taskData).then((res) => {
+    setTasks((prev) => [...prev, res.data]);
+    return res;
+  });
 
-  const updateTask = useCallback(
-    (id, taskData) => taskApi.updateTask(id, taskData).then((res) => {
-      setTasks((prev) => prev.map((t) => (t.id === id ? res.data : t)));
-      return res.data;
-    }),
-    []
-  );
+  const updateTask = (id, taskData) => taskApi.updateTask(id, taskData).then((res) => {
+    setTasks((prev) => prev.map((t) => t.id === id ? res.data : t));
+    return res;
+  });
 
-  const updateTaskStatus = useCallback(
-    (id, status) => taskApi.updateTaskStatus(id, status).then((res) => {
-      setTasks((prev) => prev.map((t) => (t.id === id ? res.data : t)));
-      return res.data;
-    }),
-    []
-  );
+  const updateTaskStatus = (id, status) => taskApi.updateTaskStatus(id, status).then((res) => {
+    setTasks((prev) => prev.map((t) => t.id === id ? res.data : t));
+    return res;
+  });
 
-  const deleteTask = useCallback(
-    (id) => taskApi.deleteTask(id).then(() => {
-      setTasks((prev) => prev.filter((t) => t.id !== id));
-    }),
-    []
-  );
+  const deleteTask = (id) => taskApi.deleteTask(id).then(() => {
+    setTasks((prev) => prev.filter((t) => t.id !== id));
+  });
 
-  return { tasks, setTasks, loading, error, fetchTasks, createTask, updateTask, updateTaskStatus, deleteTask };
+  const refreshTasks = fetchTasks;
+
+  return { tasks, setTasks, loading, error, createTask, updateTask, updateTaskStatus, deleteTask, refreshTasks };
 }

@@ -14,7 +14,7 @@
 }
 .project-list-header h2 {
   margin: 0;
-  color: #333;
+  color: #3D2B1F;
 }
 .filters {
   display: flex;
@@ -34,7 +34,7 @@
 .filter-group label {
   font-weight: 600;
   margin-bottom: 8px;
-  color: #333;
+  color: #3D2B1F;
   font-size: 13px;
 }
 .filter-group select,
@@ -50,7 +50,7 @@
   gap: 16px;
 }
 .btn-primary {
-  background-color: #0066cc;
+  background-color: #C3B091;
   color: white;
   border: none;
   padding: 9px 16px;
@@ -63,4 +63,32 @@
   color: #999;
   background-color: white;
   border-radius: 8px;
+}
+
+/* Barre de recherche */
+.search-group {
+  min-width: 200px;
+}
+.search-input-wrapper {
+  position: relative;
+}
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #C3B091;
+}
+.search-input-wrapper input {
+  padding-left: 32px;
+  width: 100%;
+  border: 1px solid #C3B091;
+  border-radius: 6px;
+  padding: 8px 12px 8px 32px;
+  font-size: 0.9rem;
+}
+.search-input-wrapper input:focus {
+  border-color: #C4A35A;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(196, 163, 90, 0.2);
 }

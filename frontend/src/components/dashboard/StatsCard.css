@@ -1,28 +1,23 @@
 .stats-card {
-  background-color: white;
+  background-color: #FFFFFF;
   border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  gap: 16px;
+  padding: 20px 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+  border-left: 4px solid #C4A35A; /* Pantone 147 */
+  text-align: center;
+  transition: box-shadow 0.2s;
 }
-.stats-icon {
-  font-size: 28px;
-  width: 52px;
-  height: 52px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #eef4ff;
+.stats-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
 }
 .stats-value {
-  font-size: 24px;
+  font-size: 2rem;
   font-weight: 700;
-  color: #333;
+  color: #3D2B1F; /* Bistre */
+  line-height: 1.2;
 }
 .stats-label {
-  font-size: 13px;
-  color: #888;
+  font-size: 0.9rem;
+  color: #5D6D7E;
+  margin-top: 4px;
 }

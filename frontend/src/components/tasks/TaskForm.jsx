@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
+import { useAuth } from '../../context/AuthContext';
 import { STATUS_OPTIONS, PRIORITY_OPTIONS, statusLabel, priorityLabel } from '../../utils/statusUtils';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import './TaskForm.css';
 
 const EMPTY_FORM = {
   title: '',
   description: '',
-  status: 'A_FAIRE',
-  priority: 'MOYENNE',
+  status: 'TODO',
+  priority: 'MEDIUM',
   projectId: '',
   assignedTo: '',
   dueDate: '',
@@ -15,6 +18,14 @@ const EMPTY_FORM = {
 };
 
 export default function TaskForm({ task, projects, employees, defaultDueDate, onSave, onClose }) {
+  const { user } = useAuth();
+  const isManager = user?.role === 'ADMIN' || user?.role === 'CHEF_PROJET';
+  const isAssignedToMe = task && task.assignedTo === user?.id;
+
+  // L'employé ne peut modifier que le statut
+  const canEditStatus = !isManager && isAssignedToMe;
+  const canEditAll = isManager;
+
   const [formData, setFormData] = useState(EMPTY_FORM);
 
   useEffect(() => {
@@ -32,8 +43,8 @@ export default function TaskForm({ task, projects, employees, defaultDueDate, on
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.title || !formData.projectId) {
-      alert('Veuillez remplir tous les champs obligatoires');
+    if (!formData.title) {
+      alert('Le titre est obligatoire');
       return;
     }
     onSave(formData);
@@ -42,32 +53,35 @@ export default function TaskForm({ task, projects, employees, defaultDueDate, on
   return (
     <div className="modal" onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="modal-content">
-        <button className="close" onClick={onClose}>&times;</button>
+        <button className="close" onClick={onClose}>
+          <FontAwesomeIcon icon={faTimes} />
+        </button>
         <h3>{task ? 'Éditer la tâche' : 'Créer une nouvelle tâche'}</h3>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="title">Titre *</label>
-            <input id="title" type="text" value={formData.title} onChange={handleChange('title')} required />
+            <label>Titre *</label>
+            <input type="text" value={formData.title} onChange={handleChange('title')} required disabled={!canEditAll} />
           </div>
 
           <div className="form-group">
-            <label htmlFor="description">Description</label>
-            <textarea id="description" rows={3} value={formData.description || ''} onChange={handleChange('description')} />
+            <label>Description</label>
+            <textarea rows={3} value={formData.description || ''} onChange={handleChange('description')} disabled={!canEditAll} />
           </div>
 
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="status">Statut *</label>
-              <select id="status" value={formData.status} onChange={handleChange('status')} required>
+              <label>Statut *</label>
+              <select value={formData.status} onChange={handleChange('status')} required disabled={!(canEditAll || canEditStatus)}>
                 {STATUS_OPTIONS.map((s) => (
                   <option key={s} value={s}>{statusLabel(s)}</option>
                 ))}
               </select>
+              {canEditStatus && <small className="hint">Vous ne pouvez modifier que le statut</small>}
             </div>
             <div className="form-group">
-              <label htmlFor="priority">Priorité *</label>
-              <select id="priority" value={formData.priority} onChange={handleChange('priority')} required>
+              <label>Priorité *</label>
+              <select value={formData.priority} onChange={handleChange('priority')} required disabled={!canEditAll}>
                 {PRIORITY_OPTIONS.map((p) => (
                   <option key={p} value={p}>{priorityLabel(p)}</option>
                 ))}
@@ -77,17 +91,17 @@ export default function TaskForm({ task, projects, employees, defaultDueDate, on
 
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="projectId">Projet *</label>
-              <select id="projectId" value={formData.projectId} onChange={handleChange('projectId')} required>
-                <option value="">Sélectionner un projet</option>
+              <label>Projet (optionnel)</label>
+              <select value={formData.projectId} onChange={handleChange('projectId')} disabled={!canEditAll}>
+                <option value="">Aucun projet</option>
                 {projects.map((p) => (
                   <option key={p.id} value={p.id}>{p.name}</option>
                 ))}
               </select>
             </div>
             <div className="form-group">
-              <label htmlFor="assignedTo">Assigné à</label>
-              <select id="assignedTo" value={formData.assignedTo || ''} onChange={handleChange('assignedTo')}>
+              <label>Assigné à</label>
+              <select value={formData.assignedTo || ''} onChange={handleChange('assignedTo')} disabled={!canEditAll}>
                 <option value="">Non assigné</option>
                 {employees.map((e) => (
                   <option key={e.id} value={e.id}>{e.name}</option>
@@ -98,17 +112,21 @@ export default function TaskForm({ task, projects, employees, defaultDueDate, on
 
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="dueDate">Date limite</label>
-              <input id="dueDate" type="date" value={formData.dueDate || ''} onChange={handleChange('dueDate')} />
+              <label>Date limite</label>
+              <input type="date" value={formData.dueDate || ''} onChange={handleChange('dueDate')} disabled={!canEditAll} />
             </div>
             <div className="form-group">
-              <label htmlFor="estimatedHours">Heures estimées</label>
-              <input id="estimatedHours" type="number" step="0.5" value={formData.estimatedHours || ''} onChange={handleChange('estimatedHours')} />
+              <label>Heures estimées</label>
+              <input type="number" step="0.5" value={formData.estimatedHours || ''} onChange={handleChange('estimatedHours')} disabled={!canEditAll} />
             </div>
           </div>
 
           <div className="form-actions">
-            <button type="submit" className="btn btn-primary">Enregistrer</button>
+            {(canEditAll || canEditStatus) && (
+              <button type="submit" className="btn btn-primary">
+                {canEditStatus ? 'Mettre à jour le statut' : 'Enregistrer'}
+              </button>
+            )}
             <button type="button" className="btn btn-secondary" onClick={onClose}>Annuler</button>
           </div>
         </form>

@@ -1,0 +1,14 @@
+// Ajouter cette injection dans TaskServiceImpl :
+// @Autowired
+// private NotificationService notificationService;
+
+// Dans la méthode createTask, après avoir sauvegardé la tâche, envoyer une notification à l'employé assigné :
+// if (task.getAssignedTo() != null) {
+//     notificationService.createNotification(
+//         "Une nouvelle tâche vous a été assignée : " + task.getTitle(),
+//         task.getAssignedTo(),
+//         task.getId()
+//     );
+// }
+
+// Dans updateTask, si l'assignation change, envoyer une notification au nouvel assigné.

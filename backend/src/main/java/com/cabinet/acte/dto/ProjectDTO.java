@@ -3,36 +3,50 @@ package com.cabinet.acte.dto;
 import com.cabinet.acte.entity.Project;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class ProjectDTO {
-
     private Long id;
-
-    @NotBlank(message = "Le nom du projet est obligatoire")
     private String name;
-
-    @NotBlank(message = "Le client est obligatoire")
     private String client;
-
     private String description;
-
-    @NotNull(message = "Le statut est obligatoire")
     private Project.ProjectStatus status;
-
     private LocalDate startDate;
-
     private LocalDate endDate;
-
     private LocalDateTime createdAt;
+
+    public ProjectDTO() {}
+    public ProjectDTO(Long id, String name, String client, String description, Project.ProjectStatus status,
+                      LocalDate startDate, LocalDate endDate, LocalDateTime createdAt) {
+        this.id = id;
+        this.name = name;
+        this.client = client;
+        this.description = description;
+        this.status = status;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.createdAt = createdAt;
+    }
+
+    public Long getId() { return id; }
+    public String getName() { return name; }
+    public String getClient() { return client; }
+    public String getDescription() { return description; }
+    public Project.ProjectStatus getStatus() { return status; }
+    public LocalDate getStartDate() { return startDate; }
+    public LocalDate getEndDate() { return endDate; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+
+    public void setId(Long id) { this.id = id; }
+    public void setName(String name) { this.name = name; }
+    public void setClient(String client) { this.client = client; }
+    public void setDescription(String description) { this.description = description; }
+    public void setStatus(Project.ProjectStatus status) { this.status = status; }
+    public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
+    public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
     public static ProjectDTO fromEntity(Project project) {
         return new ProjectDTO(

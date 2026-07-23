@@ -1,10 +1,15 @@
 import { useState, useMemo } from 'react';
+import { useAuth } from '../../context/AuthContext';
 import TaskForm from './TaskForm';
 import { formatDate, isOverdue } from '../../utils/dateUtils';
 import { STATUS_OPTIONS, PRIORITY_OPTIONS, STATUS_COLORS, PRIORITY_COLORS, statusLabel, priorityLabel } from '../../utils/statusUtils';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import './TaskList.css';
 
 export default function TaskList({ tasks, createTask, updateTask, deleteTask, openEditId, projects, employees }) {
+  const { user } = useAuth();
+  const isManager = user?.role === 'ADMIN' || user?.role === 'CHEF_PROJET';
   const [filters, setFilters] = useState({ status: '', priority: '', project: '' });
   const [showForm, setShowForm] = useState(Boolean(openEditId));
   const [editingTask, setEditingTask] = useState(null);
@@ -26,7 +31,6 @@ export default function TaskList({ tasks, createTask, updateTask, deleteTask, op
         setShowForm(true);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openEditId, tasks]);
 
   const openCreate = () => {
@@ -64,7 +68,11 @@ export default function TaskList({ tasks, createTask, updateTask, deleteTask, op
     <div className="task-list-container">
       <div className="task-list-header">
         <h2>Gestion des tâches</h2>
-        <button className="btn-primary" onClick={openCreate}>+ Nouvelle tâche</button>
+        {isManager && (
+          <button className="btn-primary" onClick={openCreate}>
+            <FontAwesomeIcon icon={faPlus} /> Nouvelle tâche
+          </button>
+        )}
       </div>
 
       <div className="filters">
@@ -125,12 +133,20 @@ export default function TaskList({ tasks, createTask, updateTask, deleteTask, op
                     </span>
                   </td>
                   <td>{task.assignedTo ? employeeName(task.assignedTo) : 'Non assigné'}</td>
-                  <td style={isOverdue(task) ? { color: '#dc3545', fontWeight: 600 } : undefined}>
+                  <td style={isOverdue(task) ? { color: '#B03A3A', fontWeight: 600 } : undefined}>
                     {formatDate(task.dueDate)}
                   </td>
                   <td className="actions">
-                    <button className="btn-sm btn-info" onClick={() => openEdit(task)} title="Éditer">✏️</button>
-                    <button className="btn-sm btn-danger" onClick={() => handleDelete(task.id)} title="Supprimer">🗑️</button>
+                    {isManager && (
+                      <>
+                        <button className="btn-sm btn-info" onClick={() => openEdit(task)} title="Éditer">
+                          <FontAwesomeIcon icon={faEdit} />
+                        </button>
+                        <button className="btn-sm btn-danger" onClick={() => handleDelete(task.id)} title="Supprimer">
+                          <FontAwesomeIcon icon={faTrash} />
+                        </button>
+                      </>
+                    )}
                   </td>
                 </tr>
               ))}

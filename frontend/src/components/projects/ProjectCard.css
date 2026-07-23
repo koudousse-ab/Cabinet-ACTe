@@ -18,8 +18,9 @@
 }
 .project-card-top h3 {
   margin: 0;
-  color: #333;
+  color: #000000;  /* noir */
   font-size: 16px;
+  font-weight: 600;
 }
 .badge {
   font-size: 11px;

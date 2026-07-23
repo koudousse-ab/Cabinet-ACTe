@@ -19,7 +19,7 @@
 }
 .modal-content h3 {
   margin-top: 0;
-  color: #333;
+  color: #3D2B1F;
 }
 .close {
   position: absolute;
@@ -38,7 +38,7 @@
   display: block;
   margin-bottom: 6px;
   font-weight: 600;
-  color: #333;
+  color: #3D2B1F;
   font-size: 13px;
 }
 .form-group input,
@@ -72,10 +72,10 @@
   font-size: 14px;
 }
 .btn-primary {
-  background-color: #0066cc;
+  background-color: #C3B091;
   color: white;
 }
 .btn-secondary {
-  background-color: #6c757d;
+  background-color: #7F8C8D;
   color: white;
 }

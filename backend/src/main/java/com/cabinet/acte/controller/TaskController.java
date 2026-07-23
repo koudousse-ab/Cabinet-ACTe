@@ -1,12 +1,16 @@
 package com.cabinet.acte.controller;
 
 import com.cabinet.acte.dto.TaskDTO;
+import com.cabinet.acte.entity.Employee;
 import com.cabinet.acte.entity.Task;
+import com.cabinet.acte.repository.EmployeeRepository;
+import com.cabinet.acte.service.NotificationService;
 import com.cabinet.acte.service.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -14,162 +18,169 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/tasks")
-@CrossOrigin(origins = "*", maxAge = 3600)
 public class TaskController {
 
     @Autowired
     private TaskService taskService;
 
-    /**
-     * Create a new task
-     * POST /api/v1/tasks
-     */
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private NotificationService notificationService;
+
     @PostMapping
     public ResponseEntity<TaskDTO> createTask(@Valid @RequestBody TaskDTO taskDTO) {
         TaskDTO createdTask = taskService.createTask(taskDTO);
+        if (taskDTO.getAssignedTo() != null) {
+            notificationService.createNotification(
+                "Une nouvelle tâche vous a été assignée : " + createdTask.getTitle(),
+                taskDTO.getAssignedTo(),
+                createdTask.getId()
+            );
+        }
         return new ResponseEntity<>(createdTask, HttpStatus.CREATED);
     }
 
-    /**
-     * Get task by ID
-     * GET /api/v1/tasks/{id}
-     */
     @GetMapping("/{id}")
     public ResponseEntity<TaskDTO> getTaskById(@PathVariable Long id) {
-        TaskDTO task = taskService.getTaskById(id);
-        return ResponseEntity.ok(task);
+        return ResponseEntity.ok(taskService.getTaskById(id));
     }
 
-    /**
-     * Get all tasks
-     * GET /api/v1/tasks
-     */
     @GetMapping
-    public ResponseEntity<List<TaskDTO>> getAllTasks() {
-        List<TaskDTO> tasks = taskService.getAllTasks();
-        return ResponseEntity.ok(tasks);
+    public ResponseEntity<List<TaskDTO>> getAllTasks(Authentication authentication) {
+        String role = authentication.getAuthorities().iterator().next().getAuthority();
+        String email = authentication.getName();
+
+        if (role.equals("ROLE_EMPLOYE")) {
+            Employee employee = employeeRepository.findByEmail(email)
+                    .orElseThrow(() -> new RuntimeException("Employé non trouvé"));
+            return ResponseEntity.ok(taskService.getTasksByAssignedTo(employee.getId()));
+        }
+        return ResponseEntity.ok(taskService.getAllTasks());
     }
 
-    /**
-     * Update task
-     * PUT /api/v1/tasks/{id}
-     */
     @PutMapping("/{id}")
     public ResponseEntity<TaskDTO> updateTask(@PathVariable Long id, @Valid @RequestBody TaskDTO taskDTO) {
         TaskDTO updatedTask = taskService.updateTask(id, taskDTO);
+        if (taskDTO.getAssignedTo() != null) {
+            notificationService.createNotification(
+                "La tâche '" + updatedTask.getTitle() + "' vous a été réassignée",
+                taskDTO.getAssignedTo(),
+                updatedTask.getId()
+            );
+        }
         return ResponseEntity.ok(updatedTask);
     }
 
-    /**
-     * Delete task
-     * DELETE /api/v1/tasks/{id}
-     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
         taskService.deleteTask(id);
         return ResponseEntity.noContent().build();
     }
 
-    /**
-     * Get tasks by project ID
-     * GET /api/v1/tasks/project/{projectId}
-     */
     @GetMapping("/project/{projectId}")
     public ResponseEntity<List<TaskDTO>> getTasksByProjectId(@PathVariable Long projectId) {
-        List<TaskDTO> tasks = taskService.getTasksByProjectId(projectId);
-        return ResponseEntity.ok(tasks);
+        return ResponseEntity.ok(taskService.getTasksByProjectId(projectId));
     }
 
-    /**
-     * Get tasks assigned to employee
-     * GET /api/v1/tasks/assigned/{employeeId}
-     */
     @GetMapping("/assigned/{employeeId}")
     public ResponseEntity<List<TaskDTO>> getTasksByAssignedTo(@PathVariable Long employeeId) {
-        List<TaskDTO> tasks = taskService.getTasksByAssignedTo(employeeId);
-        return ResponseEntity.ok(tasks);
+        return ResponseEntity.ok(taskService.getTasksByAssignedTo(employeeId));
     }
 
-    /**
-     * Get tasks by status
-     * GET /api/v1/tasks/status/{status}
-     */
     @GetMapping("/status/{status}")
     public ResponseEntity<List<TaskDTO>> getTasksByStatus(@PathVariable String status) {
-        Task.TaskStatus taskStatus = Task.TaskStatus.valueOf(status.toUpperCase());
-        List<TaskDTO> tasks = taskService.getTasksByStatus(taskStatus);
-        return ResponseEntity.ok(tasks);
+        return ResponseEntity.ok(taskService.getTasksByStatus(Task.TaskStatus.valueOf(status.toUpperCase())));
     }
 
-    /**
-     * Get tasks by priority
-     * GET /api/v1/tasks/priority/{priority}
-     */
     @GetMapping("/priority/{priority}")
     public ResponseEntity<List<TaskDTO>> getTasksByPriority(@PathVariable String priority) {
-        Task.TaskPriority taskPriority = Task.TaskPriority.valueOf(priority.toUpperCase());
-        List<TaskDTO> tasks = taskService.getTasksByPriority(taskPriority);
-        return ResponseEntity.ok(tasks);
+        return ResponseEntity.ok(taskService.getTasksByPriority(Task.TaskPriority.valueOf(priority.toUpperCase())));
     }
 
-    /**
-     * Get tasks by project and status
-     * GET /api/v1/tasks/project/{projectId}/status/{status}
-     */
     @GetMapping("/project/{projectId}/status/{status}")
     public ResponseEntity<List<TaskDTO>> getTasksByProjectAndStatus(
-        @PathVariable Long projectId,
-        @PathVariable String status) {
-        Task.TaskStatus taskStatus = Task.TaskStatus.valueOf(status.toUpperCase());
-        List<TaskDTO> tasks = taskService.getTasksByProjectAndStatus(projectId, taskStatus);
-        return ResponseEntity.ok(tasks);
+            @PathVariable Long projectId, @PathVariable String status) {
+        return ResponseEntity.ok(taskService.getTasksByProjectAndStatus(
+                projectId, Task.TaskStatus.valueOf(status.toUpperCase())));
     }
 
-    /**
-     * Get overdue tasks
-     * GET /api/v1/tasks/overdue
-     */
     @GetMapping("/overdue")
     public ResponseEntity<List<TaskDTO>> getOverdueTasks() {
-        List<TaskDTO> tasks = taskService.getOverdueTasks();
-        return ResponseEntity.ok(tasks);
+        return ResponseEntity.ok(taskService.getOverdueTasks());
     }
 
-    /**
-     * Get upcoming tasks
-     * GET /api/v1/tasks/upcoming?startDate=2024-01-01&endDate=2024-01-31
-     */
     @GetMapping("/upcoming")
     public ResponseEntity<List<TaskDTO>> getUpcomingTasks(
-        @RequestParam LocalDate startDate,
-        @RequestParam LocalDate endDate) {
-        List<TaskDTO> tasks = taskService.getUpcomingTasks(startDate, endDate);
-        return ResponseEntity.ok(tasks);
+            @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
+        return ResponseEntity.ok(taskService.getUpcomingTasks(startDate, endDate));
     }
 
-    /**
-     * Update task status
-     * PATCH /api/v1/tasks/{id}/status/{status}
-     */
     @PatchMapping("/{id}/status/{status}")
     public ResponseEntity<TaskDTO> updateTaskStatus(
-        @PathVariable Long id,
-        @PathVariable String status) {
-        Task.TaskStatus taskStatus = Task.TaskStatus.valueOf(status.toUpperCase());
-        TaskDTO updatedTask = taskService.updateTaskStatus(id, taskStatus);
+            @PathVariable Long id, @PathVariable String status, Authentication authentication) {
+        TaskDTO updatedTask = taskService.updateTaskStatus(id, Task.TaskStatus.valueOf(status.toUpperCase()));
         return ResponseEntity.ok(updatedTask);
     }
 
-    /**
-     * Get task count by status
-     * GET /api/v1/tasks/count/project/{projectId}/status/{status}
-     */
     @GetMapping("/count/project/{projectId}/status/{status}")
     public ResponseEntity<Long> getTaskCountByStatus(
-        @PathVariable Long projectId,
-        @PathVariable String status) {
-        Task.TaskStatus taskStatus = Task.TaskStatus.valueOf(status.toUpperCase());
-        Long count = taskService.getTaskCountByStatus(projectId, taskStatus);
-        return ResponseEntity.ok(count);
+            @PathVariable Long projectId, @PathVariable String status) {
+        return ResponseEntity.ok(taskService.getTaskCountByStatus(
+                projectId, Task.TaskStatus.valueOf(status.toUpperCase())));
+    }
+
+    @GetMapping("/week")
+    public ResponseEntity<List<TaskDTO>> getTasksForWeek(
+            @RequestParam String startDate,
+            @RequestParam String endDate,
+            @RequestParam(required = false) Long employeeId,
+            Authentication authentication) {
+        String role = authentication.getAuthorities().iterator().next().getAuthority();
+        String email = authentication.getName();
+
+        LocalDate start = LocalDate.parse(startDate);
+        LocalDate end = LocalDate.parse(endDate);
+
+        List<TaskDTO> tasks;
+
+        if (employeeId != null) {
+            if (!role.equals("ROLE_ADMIN") && !role.equals("ROLE_CHEF_PROJET")) {
+                throw new RuntimeException("Non autorisé à voir les tâches d'un autre employé");
+            }
+            tasks = taskService.getTasksByAssignedTo(employeeId);
+        } else if (role.equals("ROLE_EMPLOYE")) {
+            Employee employee = employeeRepository.findByEmail(email)
+                    .orElseThrow(() -> new RuntimeException("Employé non trouvé"));
+            tasks = taskService.getTasksByAssignedTo(employee.getId());
+        } else {
+            tasks = taskService.getAllTasks();
+        }
+
+        final LocalDate startFinal = start;
+        final LocalDate endFinal = end;
+        return ResponseEntity.ok(
+            tasks.stream()
+                .filter(t -> t.getDueDate() != null)
+                .filter(t -> !t.getDueDate().isBefore(startFinal) && !t.getDueDate().isAfter(endFinal))
+                .toList()
+        );
+    }
+
+    @GetMapping("/notifications")
+    public ResponseEntity<Long> getNotificationCount(Authentication authentication) {
+        String role = authentication.getAuthorities().iterator().next().getAuthority();
+        String email = authentication.getName();
+
+        if (role.equals("ROLE_EMPLOYE")) {
+            Employee employee = employeeRepository.findByEmail(email)
+                    .orElseThrow(() -> new RuntimeException("Employé non trouvé"));
+            return ResponseEntity.ok(taskService.countByAssignedToAndStatusIn(
+                    employee.getId(),
+                    List.of(Task.TaskStatus.TODO, Task.TaskStatus.IN_PROGRESS)
+            ));
+        }
+        return ResponseEntity.ok(0L);
     }
 }

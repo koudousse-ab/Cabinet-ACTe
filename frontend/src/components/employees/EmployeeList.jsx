@@ -1,88 +1,71 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import EmployeeForm from './EmployeeForm';
-import { ROLE_COLORS, roleLabel } from '../../utils/statusUtils';
+import { useAuth } from '../../context/AuthContext';
+import { ROLE_LABELS, roleLabel } from '../../utils/statusUtils';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrash, faEye, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import './EmployeeList.css';
 
-export default function EmployeeList({ employees, createEmployee, updateEmployee, deleteEmployee }) {
+export default function EmployeeList({ employees, deleteEmployee, openEdit }) {   // ← openEdit récupéré des props
+  const { user } = useAuth();
   const navigate = useNavigate();
-  const [showForm, setShowForm] = useState(false);
-  const [editingEmployee, setEditingEmployee] = useState(null);
+  const isManager = user?.role === 'ADMIN' || user?.role === 'CHEF_PROJET';
 
-  const openCreate = () => {
-    setEditingEmployee(null);
-    setShowForm(true);
-  };
-
-  const openEdit = (employee) => {
-    setEditingEmployee(employee);
-    setShowForm(true);
-  };
-
-  const handleSave = (formData) => {
-    const promise = editingEmployee ? updateEmployee(editingEmployee.id, formData) : createEmployee(formData);
-    promise
-      .then(() => {
-        setShowForm(false);
-        setEditingEmployee(null);
-      })
-      .catch(() => alert("Erreur lors de l'enregistrement de l'employé"));
-  };
-
-  const handleDelete = (id) => {
-    if (window.confirm('Êtes-vous sûr de vouloir supprimer cet employé ?')) {
-      deleteEmployee(id).catch(() => alert("Erreur lors de la suppression de l'employé"));
+  const handleDelete = (id, name) => {
+    if (window.confirm(`Supprimer l'employé ${name} ?`)) {
+      deleteEmployee(id);
     }
   };
 
   return (
-    <div className="employee-list-container">
+    <div className="employee-list">
       <div className="employee-list-header">
         <h2>Gestion des employés</h2>
-        <button className="btn-primary" onClick={openCreate}>+ Nouvel employé</button>
-      </div>
-
-      <div className="employees-table-wrapper">
-        {employees.length > 0 ? (
-          <table className="employees-table">
-            <thead>
-              <tr>
-                <th>Nom</th>
-                <th>Email</th>
-                <th>Rôle</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {employees.map((employee) => (
-                <tr key={employee.id}>
-                  <td className="name-cell" onClick={() => navigate(`/employees/${employee.id}`)}>{employee.name}</td>
-                  <td>{employee.email}</td>
-                  <td>
-                    <span className="badge" style={{ backgroundColor: ROLE_COLORS[employee.role] }}>
-                      {roleLabel(employee.role)}
-                    </span>
-                  </td>
-                  <td className="actions">
-                    <button className="btn-sm btn-info" onClick={() => openEdit(employee)} title="Éditer">✏️</button>
-                    <button className="btn-sm btn-danger" onClick={() => handleDelete(employee.id)} title="Supprimer">🗑️</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <div className="no-employees"><p>Aucun employé trouvé</p></div>
+        {isManager && (
+          <button className="btn-add" onClick={() => openEdit(null)}>
+            <FontAwesomeIcon icon={faUserPlus} /> Ajouter
+          </button>
         )}
       </div>
 
-      {showForm && (
-        <EmployeeForm
-          employee={editingEmployee}
-          onSave={handleSave}
-          onClose={() => { setShowForm(false); setEditingEmployee(null); }}
-        />
-      )}
+      <div className="employee-table-wrapper">
+        <table className="employee-table">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Email</th>
+              <th>Rôle</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {employees.map((emp) => (
+              <tr key={emp.id}>
+                <td>{emp.name}</td>
+                <td>{emp.email}</td>
+                <td>
+                  <span className="role-badge role-text">{roleLabel(emp.role)}</span>
+                </td>
+                <td className="actions">
+                  <button className="btn-icon" onClick={() => navigate(`/employees/${emp.id}`)} title="Voir">
+                    <FontAwesomeIcon icon={faEye} />
+                  </button>
+                  {isManager && (
+                    <>
+                      <button className="btn-icon" onClick={() => openEdit(emp)} title="Éditer">
+                        <FontAwesomeIcon icon={faEdit} />
+                      </button>
+                      <button className="btn-icon danger" onClick={() => handleDelete(emp.id, emp.name)} title="Supprimer">
+                        <FontAwesomeIcon icon={faTrash} />
+                      </button>
+                    </>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

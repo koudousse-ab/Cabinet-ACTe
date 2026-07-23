@@ -9,6 +9,17 @@ export default function TaskStatusChart({ data }) {
     status
   }));
 
+  const getColor = (status) => {
+    const colors = {
+      TODO: '#6c757d',
+      IN_PROGRESS: '#17a2b8',   // bleu visible pour "En cours"
+      DONE: '#28a745',
+      BLOCKED: '#dc3545',
+      CANCELLED: '#6c757d'
+    };
+    return colors[status] || '#6c757d';
+  };
+
   return (
     <div className="chart-card">
       <h3>Répartition des tâches par statut</h3>
@@ -19,7 +30,7 @@ export default function TaskStatusChart({ data }) {
           <Tooltip />
           <Bar dataKey="value" radius={[4, 4, 0, 0]}>
             {chartData.map((entry) => (
-              <Cell key={entry.status} fill={STATUS_COLORS[entry.status]} />
+              <Cell key={entry.status} fill={getColor(entry.status)} />
             ))}
           </Bar>
         </BarChart>

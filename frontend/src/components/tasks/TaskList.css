@@ -14,7 +14,7 @@
 }
 .task-list-header h2 {
   margin: 0;
-  color: #333;
+  color: #3D2B1F;
 }
 .filters {
   display: flex;
@@ -34,7 +34,7 @@
 .filter-group label {
   font-weight: 600;
   margin-bottom: 8px;
-  color: #333;
+  color: #3D2B1F;
   font-size: 13px;
 }
 .filter-group select {
@@ -54,13 +54,13 @@
   border-collapse: collapse;
 }
 .tasks-table thead {
-  background-color: #f8f9fa;
+  background-color: #F4F6F9;
 }
 .tasks-table th {
   padding: 15px;
   text-align: left;
   font-weight: 600;
-  color: #333;
+  color: #3D2B1F;
   border-bottom: 2px solid #dee2e6;
 }
 .tasks-table td {
@@ -68,14 +68,13 @@
   border-bottom: 1px solid #dee2e6;
 }
 .tasks-table tbody tr:hover {
-  background-color: #f8f9fa;
+  background-color: #F4F6F9;
 }
 .title-cell {
   font-weight: 500;
-  color: #0066cc;
+  color: #C3B091;
   cursor: pointer;
 }
-.badge {
   display: inline-block;
   padding: 4px 8px;
   border-radius: 4px;
@@ -95,15 +94,15 @@
   cursor: pointer;
 }
 .btn-info {
-  background-color: #17a2b8;
+  background-color: #C3B091;
   color: white;
 }
 .btn-danger {
-  background-color: #dc3545;
+  background-color: #B03A3A;
   color: white;
 }
 .btn-primary {
-  background-color: #0066cc;
+  background-color: #C3B091;
   color: white;
   border: none;
   padding: 9px 16px;
@@ -122,4 +121,32 @@
   .tasks-table {
     font-size: 12px;
   }
+}
+
+/* Barre de recherche */
+.search-group {
+  min-width: 200px;
+}
+.search-input-wrapper {
+  position: relative;
+}
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #C3B091;
+}
+.search-input-wrapper input {
+  padding-left: 32px;
+  width: 100%;
+  border: 1px solid #C3B091;
+  border-radius: 6px;
+  padding: 8px 12px 8px 32px;
+  font-size: 0.9rem;
+}
+.search-input-wrapper input:focus {
+  border-color: #C4A35A;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(196, 163, 90, 0.2);
 }

@@ -10,6 +10,7 @@ import com.cabinet.acte.repository.ErrorLogRepository;
 import com.cabinet.acte.service.EmployeeService;
 import com.cabinet.acte.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,9 +30,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private TaskService taskService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public EmployeeDTO createEmployee(EmployeeDTO employeeDTO) {
         Employee employee = employeeDTO.toEntity();
+        if (employeeDTO.getPassword() != null && !employeeDTO.getPassword().isEmpty()) {
+            employee.setPassword(passwordEncoder.encode(employeeDTO.getPassword()));
+        }
         Employee saved = employeeRepository.save(employee);
         return EmployeeDTO.fromEntity(saved);
     }
@@ -52,6 +59,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setName(employeeDTO.getName());
         employee.setEmail(employeeDTO.getEmail());
         employee.setRole(employeeDTO.getRole());
+
+        if (employeeDTO.getPassword() != null && !employeeDTO.getPassword().isEmpty()) {
+            employee.setPassword(passwordEncoder.encode(employeeDTO.getPassword()));
+        }
 
         Employee updated = employeeRepository.save(employee);
         return EmployeeDTO.fromEntity(updated);

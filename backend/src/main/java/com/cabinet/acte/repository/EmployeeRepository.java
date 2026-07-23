@@ -10,5 +10,6 @@ import java.util.Optional;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<Employee> findByRole(Employee.EmployeeRole role);
+    List<Employee> findByRoleIn(List<Employee.EmployeeRole> roles);
     Optional<Employee> findByEmail(String email);
 }

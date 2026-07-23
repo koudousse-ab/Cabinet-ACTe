@@ -1,10 +1,11 @@
 .task-card {
-  background-color: white;
+  background-color: #FFFFFF;
   border-radius: 6px;
   padding: 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
   cursor: pointer;
   transition: transform 0.1s ease, box-shadow 0.1s ease;
+  color: #3D2B1F; /* Texte noir */
 }
 .task-card:hover {
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
@@ -26,7 +27,7 @@
 }
 .task-title {
   font-weight: 600;
-  color: #333;
+  color: #3D2B1F;
   font-size: 14px;
 }
 .task-card-meta {
@@ -34,9 +35,12 @@
   flex-direction: column;
   gap: 4px;
   font-size: 12px;
-  color: #666;
+  color: #5D6D7E; /* Gris foncé pour les métadonnées */
 }
 .due-date.overdue {
-  color: #dc3545;
+  color: #B03A3A;
   font-weight: 600;
+}
+.assignee {
+  color: #5D6D7E;
 }

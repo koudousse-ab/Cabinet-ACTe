@@ -5,6 +5,7 @@ import com.cabinet.acte.entity.Task;
 import com.cabinet.acte.repository.TaskRepository;
 import com.cabinet.acte.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,120 +23,121 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskDTO createTask(TaskDTO taskDTO) {
         Task task = taskDTO.toEntity();
-        Task savedTask = taskRepository.save(task);
-        return TaskDTO.fromEntity(savedTask);
+        Task saved = taskRepository.save(task);
+        return TaskDTO.fromEntity(saved);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public TaskDTO getTaskById(Long id) {
         return taskRepository.findById(id)
-            .map(TaskDTO::fromEntity)
-            .orElseThrow(() -> new RuntimeException("Task not found with id: " + id));
+                .map(TaskDTO::fromEntity)
+                .orElseThrow(() -> new RuntimeException("Task not found"));
+    }
+
+    @Override
+    public List<TaskDTO> getAllTasks() {
+        return taskRepository.findAll().stream()
+                .map(TaskDTO::fromEntity)
+                .collect(Collectors.toList());
     }
 
     @Override
     public TaskDTO updateTask(Long id, TaskDTO taskDTO) {
         Task task = taskRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Task not found with id: " + id));
-
+                .orElseThrow(() -> new RuntimeException("Task not found"));
         task.setTitle(taskDTO.getTitle());
         task.setDescription(taskDTO.getDescription());
         task.setStatus(taskDTO.getStatus());
         task.setPriority(taskDTO.getPriority());
+        task.setProjectId(taskDTO.getProjectId());
         task.setAssignedTo(taskDTO.getAssignedTo());
         task.setDueDate(taskDTO.getDueDate());
         task.setEstimatedHours(taskDTO.getEstimatedHours());
         task.setActualHours(taskDTO.getActualHours());
-
-        Task updatedTask = taskRepository.save(task);
-        return TaskDTO.fromEntity(updatedTask);
+        Task updated = taskRepository.save(task);
+        return TaskDTO.fromEntity(updated);
     }
 
     @Override
     public void deleteTask(Long id) {
         if (!taskRepository.existsById(id)) {
-            throw new RuntimeException("Task not found with id: " + id);
+            throw new RuntimeException("Task not found");
         }
         taskRepository.deleteById(id);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<TaskDTO> getAllTasks() {
-        return taskRepository.findAll().stream()
-            .map(TaskDTO::fromEntity)
-            .collect(Collectors.toList());
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public List<TaskDTO> getTasksByProjectId(Long projectId) {
         return taskRepository.findByProjectId(projectId).stream()
-            .map(TaskDTO::fromEntity)
-            .collect(Collectors.toList());
+                .map(TaskDTO::fromEntity)
+                .collect(Collectors.toList());
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<TaskDTO> getTasksByAssignedTo(Long employeeId) {
         return taskRepository.findByAssignedTo(employeeId).stream()
-            .map(TaskDTO::fromEntity)
-            .collect(Collectors.toList());
+                .map(TaskDTO::fromEntity)
+                .collect(Collectors.toList());
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<TaskDTO> getTasksByStatus(Task.TaskStatus status) {
         return taskRepository.findByStatus(status).stream()
-            .map(TaskDTO::fromEntity)
-            .collect(Collectors.toList());
+                .map(TaskDTO::fromEntity)
+                .collect(Collectors.toList());
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<TaskDTO> getTasksByPriority(Task.TaskPriority priority) {
         return taskRepository.findByPriority(priority).stream()
-            .map(TaskDTO::fromEntity)
-            .collect(Collectors.toList());
+                .map(TaskDTO::fromEntity)
+                .collect(Collectors.toList());
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<TaskDTO> getTasksByProjectAndStatus(Long projectId, Task.TaskStatus status) {
         return taskRepository.findByProjectIdAndStatus(projectId, status).stream()
-            .map(TaskDTO::fromEntity)
-            .collect(Collectors.toList());
+                .map(TaskDTO::fromEntity)
+                .collect(Collectors.toList());
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<TaskDTO> getOverdueTasks() {
-        return taskRepository.findOverdueTasks(LocalDate.now()).stream()
-            .map(TaskDTO::fromEntity)
-            .collect(Collectors.toList());
+        LocalDate today = LocalDate.now();
+        return taskRepository.findByDueDateBeforeAndStatusNot(today, Task.TaskStatus.DONE).stream()
+                .map(TaskDTO::fromEntity)
+                .collect(Collectors.toList());
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<TaskDTO> getUpcomingTasks(LocalDate startDate, LocalDate endDate) {
-        return taskRepository.findUpcomingTasks(startDate, endDate).stream()
-            .map(TaskDTO::fromEntity)
-            .collect(Collectors.toList());
+        return taskRepository.findByDueDateBetween(startDate, endDate).stream()
+                .map(TaskDTO::fromEntity)
+                .collect(Collectors.toList());
     }
 
     @Override
     public TaskDTO updateTaskStatus(Long id, Task.TaskStatus status) {
         Task task = taskRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Task not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("Task not found"));
         task.setStatus(status);
-        Task updatedTask = taskRepository.save(task);
-        return TaskDTO.fromEntity(updatedTask);
+        Task updated = taskRepository.save(task);
+        return TaskDTO.fromEntity(updated);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Long getTaskCountByStatus(Long projectId, Task.TaskStatus status) {
         return taskRepository.countByProjectIdAndStatus(projectId, status);
+    }
+
+    @Override
+    public Long countByAssignedToAndStatusIn(Long employeeId, List<Task.TaskStatus> statuses) {
+        return taskRepository.countByAssignedToAndStatusIn(employeeId, statuses);
+    }
+
+    @Override
+    public List<TaskDTO> getFilteredTasks(String status, String priority, Long projectId, Authentication authentication) {
+        // Pour l'instant, on retourne toutes les tâches (à implémenter plus tard)
+        return getAllTasks();
     }
 }

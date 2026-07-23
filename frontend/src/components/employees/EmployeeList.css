@@ -1,4 +1,4 @@
-.employee-list-container {
+.employee-list {
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -7,78 +7,80 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .employee-list-header h2 {
   margin: 0;
-  color: #333;
+  color: #3D2B1F;
 }
-.btn-primary {
-  background-color: #0066cc;
+.btn-add {
+  background: #C3B091;
   color: white;
   border: none;
-  padding: 9px 16px;
+  padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
 }
-.employees-table-wrapper {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.btn-add:hover {
+  background: #3D5E8A;
+}
+.employee-table-wrapper {
   overflow-x: auto;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+  border: 1px solid #e9ecef;
 }
-.employees-table {
+.employee-table {
   width: 100%;
   border-collapse: collapse;
 }
-.employees-table thead {
-  background-color: #f8f9fa;
-}
-.employees-table th {
-  padding: 15px;
+.employee-table th {
+  padding: 12px 16px;
   text-align: left;
   font-weight: 600;
-  color: #333;
-  border-bottom: 2px solid #dee2e6;
+  color: #3D2B1F;
+  background: #F5E6D3;
+  border-bottom: 2px solid #e9ecef;
 }
-.employees-table td {
-  padding: 15px;
-  border-bottom: 1px solid #dee2e6;
+.employee-table td {
+  padding: 10px 16px;
+  border-bottom: 1px solid #e9ecef;
 }
-.employees-table tbody tr:hover {
-  background-color: #f8f9fa;
+.employee-table tbody tr:hover {
+  background: #F5E6D3;
 }
-.name-cell {
-  font-weight: 500;
-  color: #0066cc;
-  cursor: pointer;
-}
-.badge {
+.role-badge {
   display: inline-block;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 600;
-  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+/* Rôles : uniquement du texte, pas de couleur de fond */
+.role-text {
+  background: transparent;
+  color: #3D2B1F;
 }
 .actions {
   display: flex;
   gap: 8px;
 }
-.btn-sm {
-  padding: 6px 10px;
-  font-size: 12px;
+.btn-icon {
+  background: transparent;
   border: none;
-  border-radius: 4px;
   cursor: pointer;
+  padding: 4px 6px;
+  color: #5D6D7E;
+  font-size: 1rem;
+  transition: color 0.15s;
 }
-.btn-info { background-color: #17a2b8; color: white; }
-.btn-danger { background-color: #dc3545; color: white; }
-.no-employees {
-  text-align: center;
-  padding: 40px;
-  color: #999;
+.btn-icon:hover {
+  color: #C3B091;
+}
+.btn-icon.danger:hover {
+  color: #B03A3A;
 }
