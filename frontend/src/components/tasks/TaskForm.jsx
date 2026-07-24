@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { STATUS_OPTIONS, PRIORITY_OPTIONS, statusLabel, priorityLabel } from '../../utils/statusUtils';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import './TaskForm.css';
 
 const EMPTY_FORM = {
@@ -13,6 +11,7 @@ const EMPTY_FORM = {
   projectId: '',
   assignedTo: '',
   dueDate: '',
+  scheduledTime: '',
   estimatedHours: '',
   actualHours: ''
 };
@@ -21,8 +20,6 @@ export default function TaskForm({ task, projects, employees, defaultDueDate, on
   const { user } = useAuth();
   const isManager = user?.role === 'ADMIN' || user?.role === 'CHEF_PROJET';
   const isAssignedToMe = task && task.assignedTo === user?.id;
-
-  // L'employé ne peut modifier que le statut
   const canEditStatus = !isManager && isAssignedToMe;
   const canEditAll = isManager;
 
@@ -53,46 +50,41 @@ export default function TaskForm({ task, projects, employees, defaultDueDate, on
   return (
     <div className="modal" onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="modal-content">
-        <button className="close" onClick={onClose}>
-          <FontAwesomeIcon icon={faTimes} />
-        </button>
+        <button className="close" onClick={onClose}>&times;</button>
         <h3>{task ? 'Éditer la tâche' : 'Créer une nouvelle tâche'}</h3>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Titre *</label>
-            <input type="text" value={formData.title} onChange={handleChange('title')} required disabled={!canEditAll} />
+            <label htmlFor="title">Titre *</label>
+            <input id="title" type="text" value={formData.title} onChange={handleChange('title')} required disabled={!canEditAll} />
           </div>
-
           <div className="form-group">
-            <label>Description</label>
-            <textarea rows={3} value={formData.description || ''} onChange={handleChange('description')} disabled={!canEditAll} />
+            <label htmlFor="description">Description</label>
+            <textarea id="description" rows={3} value={formData.description || ''} onChange={handleChange('description')} disabled={!canEditAll} />
           </div>
-
           <div className="form-row">
             <div className="form-group">
-              <label>Statut *</label>
-              <select value={formData.status} onChange={handleChange('status')} required disabled={!(canEditAll || canEditStatus)}>
+              <label htmlFor="status">Statut *</label>
+              <select id="status" value={formData.status} onChange={handleChange('status')} required disabled={!(canEditAll || canEditStatus)}>
                 {STATUS_OPTIONS.map((s) => (
                   <option key={s} value={s}>{statusLabel(s)}</option>
                 ))}
               </select>
-              {canEditStatus && <small className="hint">Vous ne pouvez modifier que le statut</small>}
+              {canEditStatus && <small style={{ color: '#0066cc' }}>Vous ne pouvez modifier que le statut</small>}
             </div>
             <div className="form-group">
-              <label>Priorité *</label>
-              <select value={formData.priority} onChange={handleChange('priority')} required disabled={!canEditAll}>
+              <label htmlFor="priority">Priorité *</label>
+              <select id="priority" value={formData.priority} onChange={handleChange('priority')} required disabled={!canEditAll}>
                 {PRIORITY_OPTIONS.map((p) => (
                   <option key={p} value={p}>{priorityLabel(p)}</option>
                 ))}
               </select>
             </div>
           </div>
-
           <div className="form-row">
             <div className="form-group">
-              <label>Projet (optionnel)</label>
-              <select value={formData.projectId} onChange={handleChange('projectId')} disabled={!canEditAll}>
+              <label htmlFor="projectId">Projet (optionnel)</label>
+              <select id="projectId" value={formData.projectId} onChange={handleChange('projectId')} disabled={!canEditAll}>
                 <option value="">Aucun projet</option>
                 {projects.map((p) => (
                   <option key={p.id} value={p.id}>{p.name}</option>
@@ -100,8 +92,8 @@ export default function TaskForm({ task, projects, employees, defaultDueDate, on
               </select>
             </div>
             <div className="form-group">
-              <label>Assigné à</label>
-              <select value={formData.assignedTo || ''} onChange={handleChange('assignedTo')} disabled={!canEditAll}>
+              <label htmlFor="assignedTo">Assigné à</label>
+              <select id="assignedTo" value={formData.assignedTo || ''} onChange={handleChange('assignedTo')} disabled={!canEditAll}>
                 <option value="">Non assigné</option>
                 {employees.map((e) => (
                   <option key={e.id} value={e.id}>{e.name}</option>
@@ -109,18 +101,20 @@ export default function TaskForm({ task, projects, employees, defaultDueDate, on
               </select>
             </div>
           </div>
-
           <div className="form-row">
             <div className="form-group">
-              <label>Date limite</label>
-              <input type="date" value={formData.dueDate || ''} onChange={handleChange('dueDate')} disabled={!canEditAll} />
+              <label htmlFor="dueDate">Date limite</label>
+              <input id="dueDate" type="date" value={formData.dueDate || ''} onChange={handleChange('dueDate')} disabled={!canEditAll} />
             </div>
             <div className="form-group">
-              <label>Heures estimées</label>
-              <input type="number" step="0.5" value={formData.estimatedHours || ''} onChange={handleChange('estimatedHours')} disabled={!canEditAll} />
+              <label htmlFor="scheduledTime">Heure prévue</label>
+              <input id="scheduledTime" type="time" value={formData.scheduledTime || ''} onChange={handleChange('scheduledTime')} disabled={!canEditAll} />
             </div>
           </div>
-
+          <div className="form-group">
+            <label htmlFor="estimatedHours">Heures estimées</label>
+            <input id="estimatedHours" type="number" step="0.5" value={formData.estimatedHours || ''} onChange={handleChange('estimatedHours')} disabled={!canEditAll} />
+          </div>
           <div className="form-actions">
             {(canEditAll || canEditStatus) && (
               <button type="submit" className="btn btn-primary">

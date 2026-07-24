@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,8 +21,24 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private TaskRepository taskRepository;
 
+    // Vérifier si l'employé est disponible à cette date et heure
+    private void checkAvailability(Long employeeId, LocalDate dueDate, LocalTime scheduledTime, Long excludeTaskId) {
+        if (employeeId == null || dueDate == null || scheduledTime == null) {
+            return; // Pas de vérification si pas d'assignation ou de date/heure
+        }
+        List<Task> conflictingTasks = taskRepository.findByAssignedToAndDueDateAndScheduledTime(employeeId, dueDate, scheduledTime);
+        // Exclure la tâche en cours de modification
+        if (excludeTaskId != null) {
+            conflictingTasks.removeIf(t -> t.getId().equals(excludeTaskId));
+        }
+        if (!conflictingTasks.isEmpty()) {
+            throw new RuntimeException("L'employé est déjà occupé à cette date et heure.");
+        }
+    }
+
     @Override
     public TaskDTO createTask(TaskDTO taskDTO) {
+        checkAvailability(taskDTO.getAssignedTo(), taskDTO.getDueDate(), taskDTO.getScheduledTime(), null);
         Task task = taskDTO.toEntity();
         Task saved = taskRepository.save(task);
         return TaskDTO.fromEntity(saved);
@@ -43,6 +60,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskDTO updateTask(Long id, TaskDTO taskDTO) {
+        checkAvailability(taskDTO.getAssignedTo(), taskDTO.getDueDate(), taskDTO.getScheduledTime(), id);
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Task not found"));
         task.setTitle(taskDTO.getTitle());
@@ -54,6 +72,7 @@ public class TaskServiceImpl implements TaskService {
         task.setDueDate(taskDTO.getDueDate());
         task.setEstimatedHours(taskDTO.getEstimatedHours());
         task.setActualHours(taskDTO.getActualHours());
+        task.setScheduledTime(taskDTO.getScheduledTime());
         Task updated = taskRepository.save(task);
         return TaskDTO.fromEntity(updated);
     }
@@ -137,7 +156,6 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskDTO> getFilteredTasks(String status, String priority, Long projectId, Authentication authentication) {
-        // Pour l'instant, on retourne toutes les tâches (à implémenter plus tard)
-        return getAllTasks();
+        return getAllTasks(); // simplifié
     }
 }
