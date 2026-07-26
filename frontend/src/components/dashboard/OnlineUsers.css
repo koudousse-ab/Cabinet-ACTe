@@ -1,0 +1,88 @@
+.online-users-card {
+  background: #fff;
+  border: 1px solid #e9ecef;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.online-users-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.online-users-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #2B1D14;
+}
+.online-count {
+  background: #E9F7EF;
+  color: #1E8449;
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 2px 9px;
+  border-radius: 12px;
+}
+
+.online-empty {
+  color: #7A6A57;
+  font-size: 0.88rem;
+  margin: 0;
+}
+
+.online-users-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.online-users-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.online-dot {
+  position: absolute;
+  left: 14px;
+  top: -1px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #2ecc71;
+  box-shadow: 0 0 0 2px #fff;
+}
+
+.online-avatar {
+  font-size: 1.6rem;
+  color: #C4A35A;
+}
+
+.online-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.online-user-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #2B1D14;
+}
+
+.online-user-meta {
+  font-size: 0.76rem;
+  color: #7A6A57;
+}
+
+@media (max-width: 600px) {
+  .online-users-card {
+    padding: 16px;
+  }
+}

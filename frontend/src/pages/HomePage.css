@@ -64,6 +64,19 @@
   padding: 28px 32px;
 }
 
+.bottom-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .bottom-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .dashboard-loading,
 .dashboard-error,
 .dashboard-empty {

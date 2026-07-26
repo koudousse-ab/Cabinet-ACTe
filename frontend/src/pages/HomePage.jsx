@@ -4,6 +4,7 @@ import ProjectStatusChart from '../components/dashboard/ProjectStatusChart';
 import TaskStatusChart from '../components/dashboard/TaskStatusChart';
 import ProgressChart from '../components/dashboard/ProgressChart';
 import RecentActivity from '../components/dashboard/RecentActivity';
+import OnlineUsers from '../components/dashboard/OnlineUsers';
 import { useAuth } from '../context/AuthContext';
 import './HomePage.css';
 
@@ -57,11 +58,14 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div className="recent-section">
-        <RecentActivity
-          recentProjects={recentActivity.recentProjects}
-          recentTasks={recentActivity.recentTasks}
-        />
+      <div className="bottom-grid">
+        <div className="recent-section">
+          <RecentActivity
+            recentProjects={recentActivity.recentProjects}
+            recentTasks={recentActivity.recentTasks}
+          />
+        </div>
+        <OnlineUsers />
       </div>
     </div>
   );

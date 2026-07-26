@@ -18,10 +18,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService userDetailsService;
+    private final PresenceTracker presenceTracker;
 
-    public JwtAuthenticationFilter(JwtUtil jwtUtil, CustomUserDetailsService userDetailsService) {
+    public JwtAuthenticationFilter(JwtUtil jwtUtil, CustomUserDetailsService userDetailsService, PresenceTracker presenceTracker) {
         this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;
+        this.presenceTracker = presenceTracker;
     }
 
     @Override
@@ -39,8 +41,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             try {
                 username = jwtUtil.extractUsername(jwt);
             } catch (Exception e) {
-                // Token invalide, expiré, signé avec une ancienne clé, ou malformé :
-                // on continue la requête sans authentification plutôt que de planter (=> 401/403 propre au lieu d'une erreur 500/403 silencieuse)
                 logger.warn("Jeton JWT invalide ignoré : " + e.getMessage());
             }
         }
@@ -53,9 +53,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                             new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
+                    presenceTracker.touch(username);
                 }
             } catch (Exception e) {
-                // Utilisateur du token introuvable (compte supprimé, base réinitialisée, etc.)
                 logger.warn("Impossible d'authentifier le porteur du jeton : " + e.getMessage());
             }
         }
