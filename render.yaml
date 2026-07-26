@@ -1,12 +1,12 @@
 databases:
-  - name: missionflow-db
-    databaseName: mission_flow
+  - name: cabinet-acte-db
+    databaseName: cabinet_acte
     plan: free
 
 services:
   # ─── Backend Spring Boot ───
   - type: web
-    name: missionflow-backend
+    name: cabinet-acte-backend
     runtime: java
     plan: free
     rootDir: backend
@@ -16,15 +16,15 @@ services:
     envVars:
       - key: SPRING_DATASOURCE_URL
         fromDatabase:
-          name: missionflow-db
+          name: cabinet-acte-db
           property: connectionString
       - key: SPRING_DATASOURCE_USERNAME
         fromDatabase:
-          name: missionflow-db
+          name: cabinet-acte-db
           property: user
       - key: SPRING_DATASOURCE_PASSWORD
         fromDatabase:
-          name: missionflow-db
+          name: cabinet-acte-db
           property: password
       - key: DDL_AUTO
         value: update
@@ -37,7 +37,7 @@ services:
       - key: ADMIN_PASSWORD
         generateValue: true
       - key: CORS_ALLOWED_ORIGINS
-        value: https://missionflow-frontend.onrender.com
+        value: https://cabinet-acte-frontend.onrender.com
       - key: LOG_LEVEL_SQL
         value: WARN
       - key: LOG_LEVEL_SQL_PARAMS
@@ -45,7 +45,7 @@ services:
 
   # ─── Frontend React (Vite) — site statique ───
   - type: web
-    name: missionflow-frontend
+    name: cabinet-acte-frontend
     runtime: static
     plan: free
     rootDir: frontend
@@ -53,7 +53,7 @@ services:
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
-        value: https://missionflow-backend.onrender.com/api/v1
+        value: https://cabinet-acte-backend.onrender.com/api/v1
     routes:
       - type: rewrite
         source: /*
