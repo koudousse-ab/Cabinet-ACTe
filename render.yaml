@@ -4,14 +4,13 @@ databases:
     plan: free
 
 services:
-  # ─── Backend Spring Boot ───
+  # ─── Backend Spring Boot (via Docker, Render n'a pas de runtime Java natif) ───
   - type: web
     name: cabinet-acte-backend
-    runtime: java
+    runtime: docker
     plan: free
-    rootDir: backend
-    buildCommand: mvn clean package -DskipTests
-    startCommand: java -jar target/*.jar
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
     healthCheckPath: /actuator/health
     envVars:
       - key: SPRING_DATASOURCE_URL
