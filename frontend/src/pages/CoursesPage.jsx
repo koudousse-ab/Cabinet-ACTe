@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
 import useCourses from '../hooks/useCourses';
 import useEnseignants from '../hooks/useEnseignants';
+import SearchableSelect from '../components/common/SearchableSelect';
 import { formatDate } from '../utils/dateUtils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -283,12 +284,13 @@ export default function CoursesPage() {
               </div>
               <div className="form-group">
                 <label>Assigner à</label>
-                <select name="assignedTo" value={formData.assignedTo} onChange={handleChange}>
-                  <option value="">Non assigné</option>
-                  {enseignants.map(e => (
-                    <option key={e.id} value={e.id}>{e.name}</option>
-                  ))}
-                </select>
+                <SearchableSelect
+                  options={enseignants.map(e => ({ value: e.id, label: e.name }))}
+                  value={formData.assignedTo}
+                  onChange={(val) => setFormData({ ...formData, assignedTo: val })}
+                  placeholder="Rechercher un enseignant..."
+                  emptyLabel="Non assigné"
+                />
               </div>
               <div className="form-actions">
                 <button type="submit" className="btn-submit">

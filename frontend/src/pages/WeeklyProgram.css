@@ -484,6 +484,9 @@
   border: 1px solid #d1d5db;
   border-radius: 6px;
 }
+.enseignant-filter .searchable-select {
+  max-width: 260px;
+}
 .enseignant-badge {
   background: #e9ecef;
   padding: 4px 12px;

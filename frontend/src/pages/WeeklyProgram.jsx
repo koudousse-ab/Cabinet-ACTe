@@ -4,6 +4,7 @@ import useTasks from '../hooks/useTasks';
 import useCourses from '../hooks/useCourses';
 import useProjects from '../hooks/useProjects';
 import useEnseignants from '../hooks/useEnseignants';
+import SearchableSelect from '../components/common/SearchableSelect';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { WeeklyProgramPDF } from './WeeklyProgramPDF';
 import { formatDate } from '../utils/dateUtils';
@@ -208,12 +209,13 @@ export default function WeeklyProgram() {
       {isManager && (
         <div className="enseignant-filter">
           <label><FontAwesomeIcon icon={faUser} /> Voir le programme de :</label>
-          <select value={selectedEnseignantId} onChange={e => setSelectedEnseignantId(Number(e.target.value))}>
-            <option value="">-- Tous les enseignants --</option>
-            {enseignants.map(e => (
-              <option key={e.id} value={e.id}>{e.name}</option>
-            ))}
-          </select>
+          <SearchableSelect
+            options={enseignants.map(e => ({ value: e.id, label: e.name }))}
+            value={selectedEnseignantId}
+            onChange={(val) => setSelectedEnseignantId(Number(val))}
+            placeholder="Rechercher un enseignant..."
+            emptyLabel="-- Tous les enseignants --"
+          />
         </div>
       )}
 

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { STATUS_OPTIONS, PRIORITY_OPTIONS, statusLabel, priorityLabel } from '../../utils/statusUtils';
+import SearchableSelect from '../common/SearchableSelect';
 import './TaskForm.css';
 
 const EMPTY_FORM = {
@@ -93,12 +94,14 @@ export default function TaskForm({ task, projects, enseignants, defaultDueDate, 
             </div>
             <div className="form-group">
               <label htmlFor="assignedTo">Assigné à</label>
-              <select id="assignedTo" value={formData.assignedTo || ''} onChange={handleChange('assignedTo')} disabled={!canEditAll}>
-                <option value="">Non assigné</option>
-                {enseignants.map((e) => (
-                  <option key={e.id} value={e.id}>{e.name}</option>
-                ))}
-              </select>
+              <SearchableSelect
+                options={enseignants.map((e) => ({ value: e.id, label: e.name }))}
+                value={formData.assignedTo}
+                onChange={(val) => setFormData((prev) => ({ ...prev, assignedTo: val }))}
+                placeholder="Rechercher un enseignant..."
+                emptyLabel="Non assigné"
+                disabled={!canEditAll}
+              />
             </div>
           </div>
           <div className="form-row">
