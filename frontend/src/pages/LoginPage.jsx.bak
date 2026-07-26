@@ -1,0 +1,97 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { login as apiLogin } from '../api/authApi';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope, faLock, faArrowRight, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import './LoginPage.css';
+
+export default function LoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+    try {
+      const response = await apiLogin(email, password);
+      login(response.data.token);
+      navigate('/');
+    } catch {
+      setError('Identifiants invalides');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="login-page">
+      <div className="login-card">
+        <div className="login-brand">
+          <h1>MissionFlow</h1>
+          <p>Cabinet ACTe – Gestion de missions</p>
+        </div>
+
+        {error && (
+          <div className="login-error">
+            <span className="error-icon">✕</span> {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="login-form">
+          <div className="field-group">
+            <label>
+              <FontAwesomeIcon icon={faEnvelope} className="field-icon" />
+              Email
+            </label>
+            <input
+              type="email"
+              placeholder="votre@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoFocus
+            />
+          </div>
+
+          <div className="field-group">
+            <label>
+              <FontAwesomeIcon icon={faLock} className="field-icon" />
+              Mot de passe
+            </label>
+            <input
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <button type="submit" className="btn-login" disabled={loading}>
+            {loading ? (
+              <>
+                <FontAwesomeIcon icon={faSpinner} spin /> Connexion...
+              </>
+            ) : (
+              <>
+                Se connecter <FontAwesomeIcon icon={faArrowRight} />
+              </>
+            )}
+          </button>
+        </form>
+
+        <div className="login-help">
+          <span>admin@cabinet-acte.com</span>
+          <span className="help-sep">·</span>
+          <span>admin123</span>
+        </div>
+      </div>
+    </div>
+  );
+}

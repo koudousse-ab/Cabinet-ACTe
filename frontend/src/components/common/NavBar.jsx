@@ -42,7 +42,7 @@ export default function NavBar() {
           <FontAwesomeIcon icon={faBars} />
         </button>
         <img src="/logo.png" alt="Logo" className="mobile-topbar-logo" />
-        <span className="mobile-topbar-name">MissionFlow</span>
+        <span className="mobile-topbar-name">Cabinet ACTe</span>
         <NavLink to="/notifications" className="mobile-topbar-bell">
           <FontAwesomeIcon icon={faBell} />
           {unreadCount > 0 && <span className="notif-badge-sidebar">{unreadCount}</span>}
@@ -55,7 +55,7 @@ export default function NavBar() {
       <nav className={`sidebar${isOpen ? ' sidebar-open' : ''}`}>
         <div className="sidebar-brand">
           <img src="/logo.png" alt="Logo" className="sidebar-logo" />
-          <span className="sidebar-brand-name">MissionFlow</span>
+          <span className="sidebar-brand-name">Cabinet ACTe</span>
           <button className="sidebar-close-btn" onClick={() => setIsOpen(false)} aria-label="Fermer le menu">
             <FontAwesomeIcon icon={faXmark} />
           </button>

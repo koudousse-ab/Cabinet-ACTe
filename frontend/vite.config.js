@@ -10,8 +10,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['logo.png'],
       manifest: {
-        name: 'MissionFlow - Gestion Enseignants & Étudiants',
-        short_name: 'MissionFlow',
+        name: 'Cabinet ACTe - Gestion Enseignants & Étudiants',
+        short_name: 'Cabinet ACTe',
         description: 'Gestion des projets, tâches, cours et programmes pour Admin, Chef de projet, Enseignants et Étudiants',
         theme_color: '#1b6ec2',
         background_color: '#ffffff',
