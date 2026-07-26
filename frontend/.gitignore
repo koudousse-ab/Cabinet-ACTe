@@ -10,3 +10,4 @@ dist-ssr/
 *.iml
 .vscode/
 npm-debug.log*
+*.bak
