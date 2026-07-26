@@ -13,10 +13,18 @@ services:
     dockerContext: ./backend
     healthCheckPath: /actuator/health
     envVars:
-      - key: SPRING_DATASOURCE_URL
+      - key: DB_HOST
         fromDatabase:
           name: cabinet-acte-db
-          property: connectionString
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: cabinet-acte-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: cabinet-acte-db
+          property: database
       - key: SPRING_DATASOURCE_USERNAME
         fromDatabase:
           name: cabinet-acte-db
