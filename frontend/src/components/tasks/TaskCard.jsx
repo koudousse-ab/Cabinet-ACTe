@@ -1,12 +1,14 @@
 import { formatDateShort, isOverdue } from '../../utils/dateUtils';
 import { PRIORITY_COLORS } from '../../utils/statusUtils';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClock, faCalendarDay, faUser } from '@fortawesome/free-solid-svg-icons';
 import './TaskCard.css';
 
-export default function TaskCard({ task, onClick, draggable, onDragStart, onDragEnd, isDragging, employees }) {
+export default function TaskCard({ task, onClick, draggable, onDragStart, onDragEnd, isDragging, enseignants }) {
   const assigneeName = () => {
     if (!task.assignedTo) return null;
-    const employee = (employees || []).find((e) => e.id === task.assignedTo);
-    return employee ? employee.name : `#${task.assignedTo}`;
+    const enseignant = (enseignants || []).find((e) => e.id === task.assignedTo);
+    return enseignant ? enseignant.name : `#${task.assignedTo}`;
   };
 
   return (
@@ -27,14 +29,14 @@ export default function TaskCard({ task, onClick, draggable, onDragStart, onDrag
       </div>
       <div className="task-card-meta">
         {task.scheduledTime && (
-          <span className="scheduled-time">⏰ {task.scheduledTime}</span>
+          <span className="scheduled-time"><FontAwesomeIcon icon={faClock} /> {task.scheduledTime}</span>
         )}
         {task.dueDate && (
           <span className={`due-date${isOverdue(task) ? ' overdue' : ''}`}>
-            📅 {formatDateShort(task.dueDate)}
+            <FontAwesomeIcon icon={faCalendarDay} /> {formatDateShort(task.dueDate)}
           </span>
         )}
-        {task.assignedTo && <span className="assignee">👤 {assigneeName()}</span>}
+        {task.assignedTo && <span className="assignee"><FontAwesomeIcon icon={faUser} /> {assigneeName()}</span>}
       </div>
     </div>
   );

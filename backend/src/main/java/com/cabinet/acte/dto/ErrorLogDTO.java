@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ErrorLogDTO {
     private Long id;
-    private Long employeeId;
+    private Long enseignantId;
     private String description;
     private LocalDate date;
     private LocalDateTime createdAt;
@@ -21,7 +21,7 @@ public class ErrorLogDTO {
     public static ErrorLogDTO fromEntity(ErrorLog errorLog) {
         return new ErrorLogDTO(
             errorLog.getId(),
-            errorLog.getEmployeeId(),
+            errorLog.getEnseignantId(),
             errorLog.getDescription(),
             errorLog.getDate(),
             errorLog.getCreatedAt()
@@ -31,7 +31,7 @@ public class ErrorLogDTO {
     public ErrorLog toEntity() {
         ErrorLog errorLog = new ErrorLog();
         errorLog.setId(this.id);
-        errorLog.setEmployeeId(this.employeeId);
+        errorLog.setEnseignantId(this.enseignantId);
         errorLog.setDescription(this.description);
         errorLog.setDate(this.date);
         return errorLog;

@@ -82,4 +82,11 @@ public class ProjectServiceImpl implements ProjectService {
             .map(ProjectDTO::fromEntity)
             .collect(Collectors.toList());
     }
+
+    @Override
+    public List<ProjectDTO> searchProjects(String query) {
+        return projectRepository.findByNameContainingIgnoreCaseOrClientContainingIgnoreCase(query, query).stream()
+            .map(ProjectDTO::fromEntity)
+            .collect(Collectors.toList());
+    }
 }

@@ -67,16 +67,16 @@ export function projectStatusLabel(status) {
 // ============================================
 // RÔLES
 // ============================================
-export const ROLE_OPTIONS = ['ADMIN', 'CHEF_PROJET', 'EMPLOYE'];
+export const ROLE_OPTIONS = ['ADMIN', 'CHEF_PROJET', 'ENSEIGNANT'];
 export const ROLE_LABELS = {
   ADMIN: 'Administrateur',
   CHEF_PROJET: 'Chef de projet',
-  EMPLOYE: 'Employé'
+  ENSEIGNANT: 'Enseignant'
 };
 export const ROLE_COLORS = {
   ADMIN: '#dc3545',
   CHEF_PROJET: '#0066cc',
-  EMPLOYE: '#6c757d'
+  ENSEIGNANT: '#6c757d'
 };
 export function roleLabel(role) {
   return ROLE_LABELS[role] || role;

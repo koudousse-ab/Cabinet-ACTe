@@ -1,7 +1,9 @@
-import EmployeeCoursesPage from "./pages/EmployeeCoursesPage";
-import EmployeeTasksPage from "./pages/EmployeeTasksPage";
+import EnseignantCoursesPage from "./pages/EnseignantCoursesPage";
+import EnseignantTasksPage from "./pages/EnseignantTasksPage";
 import CoursesPage from "./pages/CoursesPage";
 import NotificationsPage from "./pages/NotificationsPage";
+import EtudiantsPage from "./pages/EtudiantsPage";
+import MonAgendaPage from "./pages/MonAgendaPage";
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/common/ProtectedRoute';
@@ -12,8 +14,8 @@ import ProjectsPage from './pages/ProjectsPage';
 import ProjectDetailPage from './pages/ProjectDetailPage';
 import TasksPage from './pages/TasksPage';
 import CalendarPage from './pages/CalendarPage';
-import EmployeesPage from './pages/EmployeesPage';
-import EmployeeDetailPage from './pages/EmployeeDetailPage';
+import EnseignantsPage from './pages/EnseignantsPage';
+import EnseignantDetailPage from './pages/EnseignantDetailPage';
 import ReportsPage from './pages/ReportsPage';
 import WeeklyProgram from './pages/WeeklyProgram';
 import './App.css';
@@ -51,10 +53,18 @@ export default function App() {
             <Route path="projects/:id" element={<ProjectDetailPage />} />
             <Route path="tasks" element={<TasksPage />} />
             <Route path="calendar" element={<CalendarPage />} />
-            <Route path="employees" element={<EmployeesPage />} />
-            <Route path="employees/:id" element={<EmployeeDetailPage />} />
+            <Route path="enseignants" element={<EnseignantsPage />} />
+            <Route path="enseignants/:id" element={<EnseignantDetailPage />} />
             <Route path="reports" element={<ReportsPage />} />
             <Route path="courses" element={<CoursesPage />} />
+          </Route>
+
+          <Route path="/" element={
+            <ProtectedRoute allowedRoles={['ADMIN']}>
+              <AppLayout />
+            </ProtectedRoute>
+          }>
+            <Route path="etudiants" element={<EtudiantsPage />} />
           </Route>
 
           <Route path="/" element={
@@ -63,8 +73,9 @@ export default function App() {
             </ProtectedRoute>
           }>
             <Route path="weekly" element={<WeeklyProgram />} />
-            <Route path="employee-tasks" element={<EmployeeTasksPage />} />
-            <Route path="employee-courses" element={<EmployeeCoursesPage />} />
+            <Route path="enseignant-tasks" element={<EnseignantTasksPage />} />
+            <Route path="enseignant-courses" element={<EnseignantCoursesPage />} />
+            <Route path="mon-agenda" element={<MonAgendaPage />} />
             <Route path="notifications" element={<NotificationsPage />} />
           </Route>
 

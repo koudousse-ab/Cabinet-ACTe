@@ -1,9 +1,9 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
 import useTasks from '../hooks/useTasks';
 import useCourses from '../hooks/useCourses';
 import useProjects from '../hooks/useProjects';
-import useEmployees from '../hooks/useEmployees';
+import useEnseignants from '../hooks/useEnseignants';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { WeeklyProgramPDF } from './WeeklyProgramPDF';
 import { formatDate } from '../utils/dateUtils';
@@ -15,7 +15,7 @@ import {
   faGraduationCap, faBuilding, faList, faChartBar,
   faMoneyBill, faUsers, faMapPin, faThumbtack,
   faChevronLeft, faChevronRight, faTimes,
-  faLocationDot, faBriefcase
+  faLocationDot, faBriefcase, faFilePdf
 } from '@fortawesome/free-solid-svg-icons';
 import './WeeklyProgram.css';
 
@@ -27,23 +27,18 @@ export default function WeeklyProgram() {
   const { tasks, loading: tasksLoading, updateTaskStatus } = useTasks();
   const { courses, loading: coursesLoading, updateCourseStatus } = useCourses();
   const { projects } = useProjects();
-  const { employees } = useEmployees();
+  const { enseignants } = useEnseignants();
 
   const [weekOffset, setWeekOffset] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [popoverPosition, setPopoverPosition] = useState({ x: 0, y: 0 });
-  const [selectedEmployeeId, setSelectedEmployeeId] = useState(user?.id || '');
+  const [selectedEnseignantId, setSelectedEnseignantId] = useState('');
 
   const isManager = user?.role === 'ADMIN' || user?.role === 'CHEF_PROJET';
-  const effectiveEmployeeId = isManager ? (selectedEmployeeId || user?.id) : user?.id;
-
-  useEffect(() => {
-    console.log('👤 Employé sélectionné ID:', effectiveEmployeeId);
-    console.log('📋 Tâches totales:', tasks.length);
-    console.log('📋 Tâches filtrées:', tasks.filter(t => String(t.assignedTo) === String(effectiveEmployeeId)).length);
-    console.log('📚 Cours filtrés:', courses.filter(c => String(c.assignedTo) === String(effectiveEmployeeId)).length);
-  }, [effectiveEmployeeId, tasks, courses]);
+  const isEtudiant = user?.role === 'ETUDIANT';
+  // Admin/Chef de projet : par défaut le programme complet (aucun filtre) ; ils peuvent cibler un enseignant précis.
+  const effectiveEnseignantId = isManager ? selectedEnseignantId : user?.id;
 
   const getWeekStart = (offset) => {
     const now = new Date();
@@ -59,8 +54,17 @@ export default function WeeklyProgram() {
   const weekEnd = new Date(weekStart);
   weekEnd.setDate(weekStart.getDate() + 6);
 
-  const userTasks = useMemo(() => tasks.filter(t => String(t.assignedTo) === String(effectiveEmployeeId)), [tasks, effectiveEmployeeId]);
-  const userCourses = useMemo(() => courses.filter(c => String(c.assignedTo) === String(effectiveEmployeeId)), [courses, effectiveEmployeeId]);
+  const userTasks = useMemo(() => {
+    if (isEtudiant) return []; // Les tâches de projet ne concernent pas les étudiants
+    if (isManager && !effectiveEnseignantId) return tasks; // Programme complet
+    return tasks.filter(t => String(t.assignedTo) === String(effectiveEnseignantId));
+  }, [tasks, effectiveEnseignantId, isManager, isEtudiant]);
+
+  const userCourses = useMemo(() => {
+    if (isEtudiant) return courses.filter(c => c.classe === user?.classe);
+    if (isManager && !effectiveEnseignantId) return courses; // Programme complet
+    return courses.filter(c => String(c.assignedTo) === String(effectiveEnseignantId));
+  }, [courses, effectiveEnseignantId, isManager, isEtudiant, user]);
 
   const filterBySearch = (items) => {
     if (!searchQuery) return items;
@@ -111,8 +115,8 @@ export default function WeeklyProgram() {
     return p ? p.name : 'Projet inconnu';
   };
 
-  const getEmployeeName = (id) => {
-    const emp = employees.find(e => e.id === id);
+  const getEnseignantName = (id) => {
+    const emp = enseignants.find(e => e.id === id);
     return emp ? emp.name : 'Inconnu';
   };
 
@@ -151,7 +155,7 @@ export default function WeeklyProgram() {
   const loading = tasksLoading || coursesLoading;
   if (loading) return <div className="loading">Chargement...</div>;
 
-  const displayedEmployee = effectiveEmployeeId ? getEmployeeName(effectiveEmployeeId) : 'Tous les employés';
+  const displayedEnseignant = effectiveEnseignantId ? getEnseignantName(effectiveEnseignantId) : 'Tous les enseignants';
 
   return (
     <div className="weekly-program">
@@ -161,9 +165,9 @@ export default function WeeklyProgram() {
           <span className="week-badge">
             {formatDate(weekStart)} — {formatDate(weekEnd)}
           </span>
-          {isManager && effectiveEmployeeId && (
-            <span className="employee-badge">
-              <FontAwesomeIcon icon={faUser} /> {displayedEmployee}
+          {isManager && effectiveEnseignantId && (
+            <span className="enseignant-badge">
+              <FontAwesomeIcon icon={faUser} /> {displayedEnseignant}
             </span>
           )}
         </div>
@@ -173,12 +177,12 @@ export default function WeeklyProgram() {
               weekStart={weekStart} 
               weekEnd={weekEnd} 
               activitiesByDay={pdfActivities}
-              employeeName={isManager ? displayedEmployee : null}
+              enseignantName={isManager ? displayedEnseignant : null}
             />}
             fileName="programme_semaine.pdf"
             className="btn-print"
           >
-            {({ loading }) => (loading ? 'Génération...' : '📄 Exporter PDF')}
+            {({ loading }) => (loading ? 'Génération...' : <><FontAwesomeIcon icon={faFilePdf} /> Exporter PDF</>)}
           </PDFDownloadLink>
         </div>
       </header>
@@ -202,11 +206,11 @@ export default function WeeklyProgram() {
       </div>
 
       {isManager && (
-        <div className="employee-filter">
+        <div className="enseignant-filter">
           <label><FontAwesomeIcon icon={faUser} /> Voir le programme de :</label>
-          <select value={selectedEmployeeId} onChange={e => setSelectedEmployeeId(Number(e.target.value))}>
-            <option value="">-- Tous les employés --</option>
-            {employees.map(e => (
+          <select value={selectedEnseignantId} onChange={e => setSelectedEnseignantId(Number(e.target.value))}>
+            <option value="">-- Tous les enseignants --</option>
+            {enseignants.map(e => (
               <option key={e.id} value={e.id}>{e.name}</option>
             ))}
           </select>

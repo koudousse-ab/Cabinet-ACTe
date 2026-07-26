@@ -1,8 +1,8 @@
 package com.cabinet.acte.controller;
 
-import com.cabinet.acte.entity.Employee;
+import com.cabinet.acte.entity.Enseignant;
 import com.cabinet.acte.entity.Notification;
-import com.cabinet.acte.repository.EmployeeRepository;
+import com.cabinet.acte.repository.EnseignantRepository;
 import com.cabinet.acte.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,22 +21,22 @@ public class NotificationController {
     private NotificationService notificationService;
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private EnseignantRepository enseignantRepository;
 
     @GetMapping
     public ResponseEntity<List<Notification>> getNotifications(Authentication authentication) {
         String email = authentication.getName();
-        Employee employee = employeeRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Employé non trouvé"));
-        return ResponseEntity.ok(notificationService.getNotificationsForEmployee(employee.getId()));
+        Enseignant enseignant = enseignantRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Enseignant non trouvé"));
+        return ResponseEntity.ok(notificationService.getNotificationsForEnseignant(enseignant.getId()));
     }
 
     @GetMapping("/unread")
     public ResponseEntity<Long> getUnreadCount(Authentication authentication) {
         String email = authentication.getName();
-        Employee employee = employeeRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Employé non trouvé"));
-        return ResponseEntity.ok(notificationService.getUnreadCount(employee.getId()));
+        Enseignant enseignant = enseignantRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Enseignant non trouvé"));
+        return ResponseEntity.ok(notificationService.getUnreadCount(enseignant.getId()));
     }
 
     @PatchMapping("/{id}/read")
@@ -48,9 +48,9 @@ public class NotificationController {
     @PatchMapping("/read-all")
     public ResponseEntity<Void> markAllAsRead(Authentication authentication) {
         String email = authentication.getName();
-        Employee employee = employeeRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Employé non trouvé"));
-        notificationService.markAllAsRead(employee.getId());
+        Enseignant enseignant = enseignantRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Enseignant non trouvé"));
+        notificationService.markAllAsRead(enseignant.getId());
         return ResponseEntity.ok().build();
     }
 }

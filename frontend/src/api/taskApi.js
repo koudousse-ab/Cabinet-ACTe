@@ -13,7 +13,7 @@ const taskApi = {
 
   getTasksByProjectId: (projectId) => apiClient.get(`/tasks/project/${projectId}`),
 
-  getTasksByAssignedTo: (employeeId) => apiClient.get(`/tasks/assigned/${employeeId}`),
+  getTasksByAssignedTo: (enseignantId) => apiClient.get(`/tasks/assigned/${enseignantId}`),
 
   getTasksByStatus: (status) => apiClient.get(`/tasks/status/${status}`),
 
@@ -30,7 +30,9 @@ const taskApi = {
   updateTaskStatus: (id, status) => apiClient.patch(`/tasks/${id}/status/${status}`),
 
   getTaskCountByStatus: (projectId, status) =>
-    apiClient.get(`/tasks/count/project/${projectId}/status/${status}`)
+    apiClient.get(`/tasks/count/project/${projectId}/status/${status}`),
+
+  searchTasks: (q) => apiClient.get('/tasks/search', { params: { q } })
 };
 
 export default taskApi;

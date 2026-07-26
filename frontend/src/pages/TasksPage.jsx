@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
 import useTasks from '../hooks/useTasks';
 import useProjects from '../hooks/useProjects';
-import useEmployees from '../hooks/useEmployees';
+import useEnseignants from '../hooks/useEnseignants';
 import { formatDate } from '../utils/dateUtils';
 import { statusLabel, priorityLabel } from '../utils/statusUtils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,7 +16,7 @@ export default function TasksPage() {
   const { user } = useAuth();
   const { tasks, loading, createTask, updateTask, deleteTask } = useTasks();
   const { projects } = useProjects();
-  const { employees } = useEmployees();
+  const { enseignants } = useEnseignants();
 
   const [filters, setFilters] = useState({ project: '', status: '', priority: '' });
   const [showModal, setShowModal] = useState(false);
@@ -102,8 +102,8 @@ export default function TasksPage() {
     }
   };
 
-  const getEmployeeName = (id) => {
-    const emp = employees.find(e => e.id === id);
+  const getEnseignantName = (id) => {
+    const emp = enseignants.find(e => e.id === id);
     return emp ? emp.name : 'Non assigné';
   };
 
@@ -191,7 +191,7 @@ export default function TasksPage() {
               {filteredTasks.map(task => (
                 <tr key={task.id}>
                   <td>{task.title}</td>
-                  <td>{getEmployeeName(task.assignedTo)}</td>
+                  <td>{getEnseignantName(task.assignedTo)}</td>
                   <td>
                     <span className={`badge status-${task.status}`}>
                       {statusLabel(task.status)}
@@ -285,7 +285,7 @@ export default function TasksPage() {
                   <label>Assigné à</label>
                   <select name="assignedTo" value={formData.assignedTo} onChange={handleChange}>
                     <option value="">Non assigné</option>
-                    {employees.map(e => (
+                    {enseignants.map(e => (
                       <option key={e.id} value={e.id}>{e.name}</option>
                     ))}
                   </select>

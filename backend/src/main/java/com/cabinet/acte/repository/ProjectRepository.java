@@ -16,4 +16,6 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     List<Project> findByStatusAndClient(Project.ProjectStatus status, String client);
 
     long countByStatus(Project.ProjectStatus status);
+
+    List<Project> findByNameContainingIgnoreCaseOrClientContainingIgnoreCase(String name, String client);
 }

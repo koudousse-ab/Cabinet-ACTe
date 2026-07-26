@@ -1,0 +1,86 @@
+.enseignant-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.stat-box {
+  background-color: #F4F6F9;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+}
+.stat-box .value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #3D2B1F;
+}
+.stat-box .label {
+  font-size: 12px;
+  color: #888;
+  margin-top: 4px;
+}
+
+.error-counter {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.error-counter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.error-counter-header h3 {
+  margin: 0;
+  color: #3D2B1F;
+}
+.error-count-badge {
+  background-color: #B03A3A;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 13px;
+}
+.error-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 13px;
+}
+.error-item:last-child {
+  border-bottom: none;
+}
+.error-date {
+  color: #999;
+  white-space: nowrap;
+  margin-left: 10px;
+}
+.add-error-form {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+.add-error-form input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+.add-error-form button {
+  background-color: #B03A3A;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.no-errors {
+  color: #999;
+  text-align: center;
+  padding: 10px;
+}

@@ -64,21 +64,22 @@ export default function WeeklyReport() {
  </div>
  </div>
 
+ <div className="report-table-wrapper">
  <table className="report-table">
  <thead>
  <tr>
- <th>Employé</th>
+ <th>Enseignant</th>
  <th>Tâches terminées</th>
  <th>Erreurs</th>
  </tr>
  </thead>
  <tbody>
- {report.employeeSummaries.length === 0 ? (
- <tr><td colSpan={3}>Aucun employé enregistré</td></tr>
+ {report.enseignantSummaries.length === 0 ? (
+ <tr><td colSpan={3}>Aucun enseignant enregistré</td></tr>
 ) : (
- report.employeeSummaries.map((s) => (
- <tr key={s.employeeId}>
- <td>{s.employeeName}</td>
+ report.enseignantSummaries.map((s) => (
+ <tr key={s.enseignantId}>
+ <td>{s.enseignantName}</td>
  <td>{s.tasksCompleted}</td>
  <td>{s.errorsCount}</td>
  </tr>
@@ -86,6 +87,7 @@ export default function WeeklyReport() {
 )}
  </tbody>
  </table>
+ </div>
  </div>
 )}
  </div>

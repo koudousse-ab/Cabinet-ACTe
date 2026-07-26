@@ -79,3 +79,9 @@
   background-color: #7F8C8D;
   color: white;
 }
+
+@media (max-width: 600px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}

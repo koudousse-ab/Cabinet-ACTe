@@ -1,7 +1,10 @@
 package com.cabinet.acte.config.security;
 
-import com.cabinet.acte.entity.Employee;
-import com.cabinet.acte.repository.EmployeeRepository;
+import com.cabinet.acte.entity.Enseignant;
+import com.cabinet.acte.repository.EnseignantRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -9,24 +12,33 @@ import org.springframework.stereotype.Component;
 @Component
 public class DataInitializer implements CommandLineRunner {
 
-    private final EmployeeRepository employeeRepository;
+    private static final Logger log = LoggerFactory.getLogger(DataInitializer.class);
+
+    private final EnseignantRepository enseignantRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public DataInitializer(EmployeeRepository employeeRepository, PasswordEncoder passwordEncoder) {
-        this.employeeRepository = employeeRepository;
+    @Value("${app.admin.email}")
+    private String adminEmail;
+
+    @Value("${app.admin.password}")
+    private String adminPassword;
+
+    public DataInitializer(EnseignantRepository enseignantRepository, PasswordEncoder passwordEncoder) {
+        this.enseignantRepository = enseignantRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public void run(String... args) {
-        if (employeeRepository.findByEmail("admin@cabinet-acte.com").isEmpty()) {
-            Employee admin = new Employee();
+        if (enseignantRepository.findByEmail(adminEmail).isEmpty()) {
+            Enseignant admin = new Enseignant();
             admin.setName("Administrateur");
-            admin.setEmail("admin@cabinet-acte.com");
-            admin.setPassword(passwordEncoder.encode("admin123"));
-            admin.setRole(Employee.EmployeeRole.ADMIN);
-            employeeRepository.save(admin);
-            System.out.println("✅ Compte admin créé : admin@cabinet-acte.com / admin123");
+            admin.setEmail(adminEmail);
+            admin.setPassword(passwordEncoder.encode(adminPassword));
+            admin.setRole(Enseignant.EnseignantRole.ADMIN);
+            enseignantRepository.save(admin);
+            log.info("Compte admin créé : {}", adminEmail);
+            log.warn("Pensez à changer le mot de passe admin par défaut dès la première connexion.");
         }
     }
 }

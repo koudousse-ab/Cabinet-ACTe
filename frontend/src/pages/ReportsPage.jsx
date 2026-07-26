@@ -3,20 +3,24 @@ import { PDFDownloadLink } from '@react-pdf/renderer';
 import { ReportsPDF } from './ReportsPDF';
 import useTasks from '../hooks/useTasks';
 import useProjects from '../hooks/useProjects';
-import useEmployees from '../hooks/useEmployees';
+import useEnseignants from '../hooks/useEnseignants';
 import { statusLabel, priorityLabel } from '../utils/statusUtils';
 import './ReportsPage.css';
 
 export default function ReportsPage() {
   const { tasks } = useTasks();
   const { projects } = useProjects();
-  const { employees } = useEmployees();
-  const [filters, setFilters] = useState({ project: '', assignedTo: '' });
+  const { enseignants } = useEnseignants();
+  const [filters, setFilters] = useState({ project: '', assignedTo: '', status: '', priority: '', startDate: '', endDate: '' });
 
   const filteredTasks = useMemo(() => {
     return tasks.filter(t => {
       if (filters.project && String(t.projectId) !== filters.project) return false;
       if (filters.assignedTo && String(t.assignedTo) !== filters.assignedTo) return false;
+      if (filters.status && t.status !== filters.status) return false;
+      if (filters.priority && t.priority !== filters.priority) return false;
+      if (filters.startDate && (!t.dueDate || t.dueDate < filters.startDate)) return false;
+      if (filters.endDate && (!t.dueDate || t.dueDate > filters.endDate)) return false;
       return true;
     });
   }, [tasks, filters]);
@@ -26,14 +30,14 @@ export default function ReportsPage() {
     return p ? p.name : 'Projet inconnu';
   };
 
-  const getEmployeeName = (id) => {
-    const emp = employees.find(e => e.id === id);
+  const getEnseignantName = (id) => {
+    const emp = enseignants.find(e => e.id === id);
     return emp ? emp.name : 'Non assigné';
   };
 
   const enhancedTasks = filteredTasks.map(task => ({
     ...task,
-    assignedToName: getEmployeeName(task.assignedTo),
+    assignedToName: getEnseignantName(task.assignedTo),
     projectName: getProjectName(task.projectId),
     statusLabel: statusLabel(task.status),
     priorityLabel: priorityLabel(task.priority)
@@ -71,11 +75,46 @@ export default function ReportsPage() {
             value={filters.assignedTo}
             onChange={e => setFilters(f => ({ ...f, assignedTo: e.target.value }))}
           >
-            <option value="">Tous les employés</option>
-            {employees.map(e => (
+            <option value="">Tous les enseignants</option>
+            {enseignants.map(e => (
               <option key={e.id} value={e.id}>{e.name}</option>
             ))}
           </select>
+        </div>
+        <div className="filter-group">
+          <label>Statut</label>
+          <select
+            value={filters.status}
+            onChange={e => setFilters(f => ({ ...f, status: e.target.value }))}
+          >
+            <option value="">Tous les statuts</option>
+            <option value="TODO">À faire</option>
+            <option value="IN_PROGRESS">En cours</option>
+            <option value="REVIEW">En révision</option>
+            <option value="DONE">Terminée</option>
+            <option value="BLOCKED">Bloquée</option>
+            <option value="CANCELLED">Annulée</option>
+          </select>
+        </div>
+        <div className="filter-group">
+          <label>Priorité</label>
+          <select
+            value={filters.priority}
+            onChange={e => setFilters(f => ({ ...f, priority: e.target.value }))}
+          >
+            <option value="">Toutes les priorités</option>
+            <option value="LOW">Basse</option>
+            <option value="MEDIUM">Moyenne</option>
+            <option value="HIGH">Haute</option>
+          </select>
+        </div>
+        <div className="filter-group">
+          <label>Du</label>
+          <input type="date" value={filters.startDate} onChange={e => setFilters(f => ({ ...f, startDate: e.target.value }))} />
+        </div>
+        <div className="filter-group">
+          <label>Au</label>
+          <input type="date" value={filters.endDate} onChange={e => setFilters(f => ({ ...f, endDate: e.target.value }))} />
         </div>
       </div>
 

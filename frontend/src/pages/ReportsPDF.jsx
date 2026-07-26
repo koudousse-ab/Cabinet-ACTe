@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   footer: { marginTop: 20, textAlign: 'center', color: '#888', fontSize: 8 },
 });
 
-export const ReportsPDF = ({ tasks, title = 'Rapport des tâches', project, employee }) => {
+export const ReportsPDF = ({ tasks, title = 'Rapport des tâches', project, enseignant }) => {
   const enhancedTasks = tasks.map(task => ({
     ...task,
     statusLabel: statusLabel(task.status),
@@ -29,7 +29,7 @@ export const ReportsPDF = ({ tasks, title = 'Rapport des tâches', project, empl
       <Page size="A4" style={styles.page}>
         <Text style={styles.title}>{title}</Text>
         {project && <Text style={styles.subtitle}>Projet : {project}</Text>}
-        {employee && <Text style={styles.subtitle}>Employé : {employee}</Text>}
+        {enseignant && <Text style={styles.subtitle}>Enseignant : {enseignant}</Text>}
         <View style={styles.table}>
           <View style={[styles.row, styles.headerRow]}>
             <Text style={styles.col1}>Titre</Text>

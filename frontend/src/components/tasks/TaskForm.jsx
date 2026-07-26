@@ -16,7 +16,7 @@ const EMPTY_FORM = {
   actualHours: ''
 };
 
-export default function TaskForm({ task, projects, employees, defaultDueDate, onSave, onClose }) {
+export default function TaskForm({ task, projects, enseignants, defaultDueDate, onSave, onClose }) {
   const { user } = useAuth();
   const isManager = user?.role === 'ADMIN' || user?.role === 'CHEF_PROJET';
   const isAssignedToMe = task && task.assignedTo === user?.id;
@@ -95,7 +95,7 @@ export default function TaskForm({ task, projects, employees, defaultDueDate, on
               <label htmlFor="assignedTo">Assigné à</label>
               <select id="assignedTo" value={formData.assignedTo || ''} onChange={handleChange('assignedTo')} disabled={!canEditAll}>
                 <option value="">Non assigné</option>
-                {employees.map((e) => (
+                {enseignants.map((e) => (
                   <option key={e.id} value={e.id}>{e.name}</option>
                 ))}
               </select>

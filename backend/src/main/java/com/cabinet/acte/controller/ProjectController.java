@@ -28,7 +28,7 @@ public class ProjectController {
     @PostMapping
     public ResponseEntity<ProjectDTO> createProject(@Valid @RequestBody ProjectDTO dto, Authentication auth) {
         String role = auth.getAuthorities().iterator().next().getAuthority();
-        if (role.equals("ROLE_EMPLOYE")) {
+        if (role.equals("ROLE_ENSEIGNANT")) {
             throw new AccessDeniedException("Vous n'avez pas le droit de créer un projet");
         }
         ProjectDTO created = projectService.createProject(dto);
@@ -37,13 +37,18 @@ public class ProjectController {
 
     @GetMapping
     public ResponseEntity<List<ProjectDTO>> getAllProjects(Authentication auth) {
-        // Les employés ne voient que les projets où ils ont des tâches
+        // Les enseignants ne voient que les projets où ils ont des tâches
         String role = auth.getAuthorities().iterator().next().getAuthority();
-        if (role.equals("ROLE_EMPLOYE")) {
+        if (role.equals("ROLE_ENSEIGNANT")) {
             // Le filtrage sera fait côté frontend ou on peut filtrer ici
             // Pour simplifier, on renvoie tous les projets, le frontend filtrera
         }
         return ResponseEntity.ok(projectService.getAllProjects());
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ProjectDTO>> searchProjects(@RequestParam String q) {
+        return ResponseEntity.ok(projectService.searchProjects(q));
     }
 
     @GetMapping("/{id}")
@@ -54,7 +59,7 @@ public class ProjectController {
     @PutMapping("/{id}")
     public ResponseEntity<ProjectDTO> updateProject(@PathVariable Long id, @Valid @RequestBody ProjectDTO dto, Authentication auth) {
         String role = auth.getAuthorities().iterator().next().getAuthority();
-        if (role.equals("ROLE_EMPLOYE")) {
+        if (role.equals("ROLE_ENSEIGNANT")) {
             throw new AccessDeniedException("Vous n'avez pas le droit de modifier un projet");
         }
         return ResponseEntity.ok(projectService.updateProject(id, dto));
@@ -63,7 +68,7 @@ public class ProjectController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProject(@PathVariable Long id, Authentication auth) {
         String role = auth.getAuthorities().iterator().next().getAuthority();
-        if (role.equals("ROLE_EMPLOYE")) {
+        if (role.equals("ROLE_ENSEIGNANT")) {
             throw new AccessDeniedException("Vous n'avez pas le droit de supprimer un projet");
         }
         projectService.deleteProject(id);

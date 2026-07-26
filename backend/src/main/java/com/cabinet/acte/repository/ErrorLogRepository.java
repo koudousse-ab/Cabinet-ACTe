@@ -10,11 +10,11 @@ import java.util.List;
 @Repository
 public interface ErrorLogRepository extends JpaRepository<ErrorLog, Long> {
 
-    List<ErrorLog> findByEmployeeId(Long employeeId);
+    List<ErrorLog> findByEnseignantId(Long enseignantId);
 
-    List<ErrorLog> findByEmployeeIdAndDateBetween(Long employeeId, LocalDate start, LocalDate end);
+    List<ErrorLog> findByEnseignantIdAndDateBetween(Long enseignantId, LocalDate start, LocalDate end);
 
-    long countByEmployeeIdAndDateBetween(Long employeeId, LocalDate start, LocalDate end);
+    long countByEnseignantIdAndDateBetween(Long enseignantId, LocalDate start, LocalDate end);
 
     List<ErrorLog> findByDateBetween(LocalDate start, LocalDate end);
 }

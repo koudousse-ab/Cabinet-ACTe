@@ -22,4 +22,6 @@ public interface ProjectService {
     List<ProjectDTO> getProjectsByClient(String client);
 
     List<ProjectDTO> filterProjects(Project.ProjectStatus status, String client);
+
+    List<ProjectDTO> searchProjects(String query);
 }

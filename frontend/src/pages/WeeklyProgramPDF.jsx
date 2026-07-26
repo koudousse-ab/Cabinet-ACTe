@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   footer: { marginTop: 20, textAlign: 'center', color: '#888', fontSize: 8 },
 });
 
-export const WeeklyProgramPDF = ({ weekStart, weekEnd, activitiesByDay, employeeName }) => {
+export const WeeklyProgramPDF = ({ weekStart, weekEnd, activitiesByDay, enseignantName }) => {
   const days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
   const start = new Date(weekStart);
   const end = new Date(weekEnd);
@@ -35,7 +35,7 @@ export const WeeklyProgramPDF = ({ weekStart, weekEnd, activitiesByDay, employee
         <Text style={styles.title}>Programme de la semaine</Text>
         <Text style={styles.subtitle}>
           Du {formatDate(start)} au {formatDate(end)}
-          {employeeName && ` - ${employeeName}`}
+          {enseignantName && ` - ${enseignantName}`}
         </Text>
 
         <View style={styles.table}>
@@ -54,7 +54,7 @@ export const WeeklyProgramPDF = ({ weekStart, weekEnd, activitiesByDay, employee
                   ) : (
                     activities.map((act, index) => (
                       <Text key={index} style={styles.activityItem}>
-                        {act.type === 'course' ? '🎓 Cours' : '📋 Tâche'} - {act.title}
+                        {act.type === 'course' ? 'Cours' : 'Tâche'} - {act.title}
                         {act.type === 'course' && act.startTime && ` (${act.startTime})`}
                         {' - '}
                         <Text style={styles.activityType}>

@@ -7,10 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import './TaskList.css';
 
-export default function TaskList({ tasks, createTask, updateTask, deleteTask, openEditId, projects, employees }) {
+export default function TaskList({ tasks, createTask, updateTask, deleteTask, openEditId, projects, enseignants }) {
   const { user } = useAuth();
   const isManager = user?.role === 'ADMIN' || user?.role === 'CHEF_PROJET';
-  const [filters, setFilters] = useState({ status: '', priority: '', project: '' });
+  const [filters, setFilters] = useState({ status: '', priority: '', project: '', search: '' });
   const [showForm, setShowForm] = useState(Boolean(openEditId));
   const [editingTask, setEditingTask] = useState(null);
 
@@ -19,6 +19,7 @@ export default function TaskList({ tasks, createTask, updateTask, deleteTask, op
       if (filters.status && t.status !== filters.status) return false;
       if (filters.priority && t.priority !== filters.priority) return false;
       if (filters.project && String(t.projectId) !== String(filters.project)) return false;
+      if (filters.search && !t.title.toLowerCase().includes(filters.search.toLowerCase())) return false;
       return true;
     });
   }, [tasks, filters]);
@@ -59,9 +60,9 @@ export default function TaskList({ tasks, createTask, updateTask, deleteTask, op
     }
   };
 
-  const employeeName = (employeeId) => {
-    const employee = employees.find((e) => e.id === employeeId);
-    return employee ? employee.name : `#${employeeId}`;
+  const enseignantName = (enseignantId) => {
+    const enseignant = enseignants.find((e) => e.id === enseignantId);
+    return enseignant ? enseignant.name : `#${enseignantId}`;
   };
 
   return (
@@ -76,6 +77,15 @@ export default function TaskList({ tasks, createTask, updateTask, deleteTask, op
       </div>
 
       <div className="filters">
+        <div className="filter-group">
+          <label>Recherche</label>
+          <input
+            type="text"
+            placeholder="Rechercher une tâche..."
+            value={filters.search}
+            onChange={(e) => setFilters((f) => ({ ...f, search: e.target.value }))}
+          />
+        </div>
         <div className="filter-group">
           <label>Projet</label>
           <select value={filters.project} onChange={(e) => setFilters((f) => ({ ...f, project: e.target.value }))}>
@@ -132,7 +142,7 @@ export default function TaskList({ tasks, createTask, updateTask, deleteTask, op
                       {priorityLabel(task.priority)}
                     </span>
                   </td>
-                  <td>{task.assignedTo ? employeeName(task.assignedTo) : 'Non assigné'}</td>
+                  <td>{task.assignedTo ? enseignantName(task.assignedTo) : 'Non assigné'}</td>
                   <td style={isOverdue(task) ? { color: '#B03A3A', fontWeight: 600 } : undefined}>
                     {formatDate(task.dueDate)}
                   </td>
@@ -161,7 +171,7 @@ export default function TaskList({ tasks, createTask, updateTask, deleteTask, op
         <TaskForm
           task={editingTask}
           projects={projects}
-          employees={employees}
+          enseignants={enseignants}
           onSave={handleSave}
           onClose={() => { setShowForm(false); setEditingTask(null); }}
         />

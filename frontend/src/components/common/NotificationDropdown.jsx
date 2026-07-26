@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 import useNotifications from '../../hooks/useNotifications';
 import './NotificationDropdown.css';
 
@@ -59,7 +59,7 @@ export default function NotificationDropdown() {
                     <div className="notification-footer">
                       <span className="notification-date">{formatDate(notif.createdAt)}</span>
                       <button className="mark-read-btn" onClick={() => markAsRead(notif.id)} title="Marquer comme lu">
-                        ✔
+                        <FontAwesomeIcon icon={faCheck} />
                       </button>
                     </div>
                   </div>

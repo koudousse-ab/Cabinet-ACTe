@@ -16,8 +16,8 @@ public class Notification {
     @Column(nullable = false)
     private String message;
 
-    @Column(name = "employee_id", nullable = false)
-    private Long employeeId;
+    @Column(name = "enseignant_id", nullable = false)
+    private Long enseignantId;
 
     @Column(name = "task_id")
     private Long taskId;
@@ -30,9 +30,9 @@ public class Notification {
     private LocalDateTime createdAt;
 
     public Notification() {}
-    public Notification(String message, Long employeeId, Long taskId) {
+    public Notification(String message, Long enseignantId, Long taskId) {
         this.message = message;
-        this.employeeId = employeeId;
+        this.enseignantId = enseignantId;
         this.taskId = taskId;
         this.isRead = false;
     }
@@ -43,8 +43,8 @@ public class Notification {
     public String getMessage() { return message; }
     public void setMessage(String message) { this.message = message; }
 
-    public Long getEmployeeId() { return employeeId; }
-    public void setEmployeeId(Long employeeId) { this.employeeId = employeeId; }
+    public Long getEnseignantId() { return enseignantId; }
+    public void setEnseignantId(Long enseignantId) { this.enseignantId = enseignantId; }
 
     public Long getTaskId() { return taskId; }
     public void setTaskId(Long taskId) { this.taskId = taskId; }

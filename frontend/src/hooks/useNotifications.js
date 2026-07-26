@@ -14,7 +14,7 @@ export default function useNotifications() {
       })
       .catch(err => {
         // En cas d'erreur (403, 404, etc.), on ne bloque pas l'affichage
-        console.warn('⚠️ Impossible de charger les notifications:', err.message);
+        console.warn('Impossible de charger les notifications:', err.message);
         setUnreadCount(0);
         setError(err);
         setLoading(false);

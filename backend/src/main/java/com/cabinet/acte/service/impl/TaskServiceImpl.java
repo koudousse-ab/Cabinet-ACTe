@@ -2,6 +2,8 @@ package com.cabinet.acte.service.impl;
 
 import com.cabinet.acte.dto.TaskDTO;
 import com.cabinet.acte.entity.Task;
+import com.cabinet.acte.exception.TaskException;
+import com.cabinet.acte.repository.CourseRepository;
 import com.cabinet.acte.repository.TaskRepository;
 import com.cabinet.acte.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,18 +23,22 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private TaskRepository taskRepository;
 
-    // Vérifier si l'employé est disponible à cette date et heure
-    private void checkAvailability(Long employeeId, LocalDate dueDate, LocalTime scheduledTime, Long excludeTaskId) {
-        if (employeeId == null || dueDate == null || scheduledTime == null) {
+    @Autowired
+    private CourseRepository courseRepository;
+
+    // Vérifier si l'enseignant est disponible à cette date et heure (tâches ET cours confondus)
+    private void checkAvailability(Long enseignantId, LocalDate dueDate, LocalTime scheduledTime, Long excludeTaskId) {
+        if (enseignantId == null || dueDate == null || scheduledTime == null) {
             return; // Pas de vérification si pas d'assignation ou de date/heure
         }
-        List<Task> conflictingTasks = taskRepository.findByAssignedToAndDueDateAndScheduledTime(employeeId, dueDate, scheduledTime);
+        List<Task> conflictingTasks = taskRepository.findByAssignedToAndDueDateAndScheduledTime(enseignantId, dueDate, scheduledTime);
         // Exclure la tâche en cours de modification
         if (excludeTaskId != null) {
             conflictingTasks.removeIf(t -> t.getId().equals(excludeTaskId));
         }
-        if (!conflictingTasks.isEmpty()) {
-            throw new RuntimeException("L'employé est déjà occupé à cette date et heure.");
+        boolean conflitCours = !courseRepository.findByAssignedToAndStartDateAndStartTime(enseignantId, dueDate, scheduledTime).isEmpty();
+        if (!conflictingTasks.isEmpty() || conflitCours) {
+            throw new TaskException("déjà occupé", "ENSEIGNANT_DEJA_OCCUPE");
         }
     }
 
@@ -93,8 +99,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskDTO> getTasksByAssignedTo(Long employeeId) {
-        return taskRepository.findByAssignedTo(employeeId).stream()
+    public List<TaskDTO> getTasksByAssignedTo(Long enseignantId) {
+        return taskRepository.findByAssignedTo(enseignantId).stream()
                 .map(TaskDTO::fromEntity)
                 .collect(Collectors.toList());
     }
@@ -150,12 +156,23 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Long countByAssignedToAndStatusIn(Long employeeId, List<Task.TaskStatus> statuses) {
-        return taskRepository.countByAssignedToAndStatusIn(employeeId, statuses);
+    public Long countByAssignedToAndStatusIn(Long enseignantId, List<Task.TaskStatus> statuses) {
+        return taskRepository.countByAssignedToAndStatusIn(enseignantId, statuses);
     }
 
     @Override
     public List<TaskDTO> getFilteredTasks(String status, String priority, Long projectId, Authentication authentication) {
-        return getAllTasks(); // simplifié
+        return getAllTasks().stream()
+                .filter(t -> status == null || status.isEmpty() || (t.getStatus() != null && t.getStatus().name().equalsIgnoreCase(status)))
+                .filter(t -> priority == null || priority.isEmpty() || (t.getPriority() != null && t.getPriority().name().equalsIgnoreCase(priority)))
+                .filter(t -> projectId == null || projectId.equals(t.getProjectId()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TaskDTO> searchTasks(String query) {
+        return taskRepository.findByTitleContainingIgnoreCase(query).stream()
+                .map(TaskDTO::fromEntity)
+                .collect(Collectors.toList());
     }
 }

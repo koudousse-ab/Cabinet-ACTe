@@ -20,6 +20,7 @@ public class CourseDTO {
     private LocalDate endDate;
     private LocalTime startTime;
     private Long assignedTo;
+    private String classe;
     private Course.CourseStatus status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -33,6 +34,7 @@ public class CourseDTO {
             course.getEndDate(),
             course.getStartTime(),
             course.getAssignedTo(),
+            course.getClasse(),
             course.getStatus(),
             course.getCreatedAt(),
             course.getUpdatedAt()
@@ -48,6 +50,7 @@ public class CourseDTO {
         course.setEndDate(this.endDate);
         course.setStartTime(this.startTime);
         course.setAssignedTo(this.assignedTo);
+        course.setClasse(this.classe);
         course.setStatus(this.status != null ? this.status : Course.CourseStatus.PLANNED);
         return course;
     }

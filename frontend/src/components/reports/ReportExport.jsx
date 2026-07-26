@@ -2,13 +2,13 @@ import { useState } from 'react';
 import reportApi from '../../api/reportApi';
 import { downloadBlob, printElement } from '../../utils/printUtils';
 
-export default function ReportExport({ weekStart, employeeId }) {
+export default function ReportExport({ weekStart, enseignantId }) {
  const [exporting, setExporting] = useState(false);
 
  const handleExportPdf = () => {
  setExporting(true);
  reportApi
- .exportPDF(weekStart, employeeId)
+ .exportPDF(weekStart, enseignantId)
  .then((res) => downloadBlob(res.data, `bilan-hebdomadaire-${weekStart}.pdf`))
  .catch(() => alert("Erreur lors de l'export PDF"))
  .finally(() => setExporting(false));

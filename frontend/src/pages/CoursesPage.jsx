@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
 import useCourses from '../hooks/useCourses';
-import useEmployees from '../hooks/useEmployees';
+import useEnseignants from '../hooks/useEnseignants';
 import { formatDate } from '../utils/dateUtils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -13,7 +13,7 @@ import './CoursesPage.css';
 export default function CoursesPage() {
   const { user } = useAuth();
   const { courses, loading, createCourse, updateCourse, deleteCourse } = useCourses();
-  const { employees } = useEmployees();
+  const { enseignants } = useEnseignants();
 
   const [filters, setFilters] = useState({ status: '', assignedTo: '' });
   const [showModal, setShowModal] = useState(false);
@@ -99,8 +99,8 @@ export default function CoursesPage() {
     }
   };
 
-  const getEmployeeName = (id) => {
-    const emp = employees.find(e => e.id === id);
+  const getEnseignantName = (id) => {
+    const emp = enseignants.find(e => e.id === id);
     return emp ? emp.name : 'Non assigné';
   };
 
@@ -145,8 +145,8 @@ export default function CoursesPage() {
             value={filters.assignedTo}
             onChange={e => setFilters(f => ({ ...f, assignedTo: e.target.value }))}
           >
-            <option value="">Tous les employés</option>
-            {employees.map(e => (
+            <option value="">Tous les enseignants</option>
+            {enseignants.map(e => (
               <option key={e.id} value={e.id}>{e.name}</option>
             ))}
           </select>
@@ -186,7 +186,7 @@ export default function CoursesPage() {
                   <td>{formatDate(course.startDate)}</td>
                   <td>{course.endDate ? formatDate(course.endDate) : '-'}</td>
                   <td>{course.startTime || '-'}</td>
-                  <td>{getEmployeeName(course.assignedTo)}</td>
+                  <td>{getEnseignantName(course.assignedTo)}</td>
                   <td>
                     <span className={`badge status-${course.status}`}>
                       {statusLabel(course.status)}
@@ -285,7 +285,7 @@ export default function CoursesPage() {
                 <label>Assigner à</label>
                 <select name="assignedTo" value={formData.assignedTo} onChange={handleChange}>
                   <option value="">Non assigné</option>
-                  {employees.map(e => (
+                  {enseignants.map(e => (
                     <option key={e.id} value={e.id}>{e.name}</option>
                   ))}
                 </select>

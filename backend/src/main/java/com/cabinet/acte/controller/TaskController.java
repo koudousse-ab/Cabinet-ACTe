@@ -1,9 +1,9 @@
 package com.cabinet.acte.controller;
 
 import com.cabinet.acte.dto.TaskDTO;
-import com.cabinet.acte.entity.Employee;
+import com.cabinet.acte.entity.Enseignant;
 import com.cabinet.acte.entity.Task;
-import com.cabinet.acte.repository.EmployeeRepository;
+import com.cabinet.acte.repository.EnseignantRepository;
 import com.cabinet.acte.service.NotificationService;
 import com.cabinet.acte.service.TaskService;
 import jakarta.validation.Valid;
@@ -24,7 +24,7 @@ public class TaskController {
     private TaskService taskService;
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private EnseignantRepository enseignantRepository;
 
     @Autowired
     private NotificationService notificationService;
@@ -47,15 +47,20 @@ public class TaskController {
         return ResponseEntity.ok(taskService.getTaskById(id));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<TaskDTO>> searchTasks(@RequestParam String q) {
+        return ResponseEntity.ok(taskService.searchTasks(q));
+    }
+
     @GetMapping
     public ResponseEntity<List<TaskDTO>> getAllTasks(Authentication authentication) {
         String role = authentication.getAuthorities().iterator().next().getAuthority();
         String email = authentication.getName();
 
-        if (role.equals("ROLE_EMPLOYE")) {
-            Employee employee = employeeRepository.findByEmail(email)
-                    .orElseThrow(() -> new RuntimeException("Employé non trouvé"));
-            return ResponseEntity.ok(taskService.getTasksByAssignedTo(employee.getId()));
+        if (role.equals("ROLE_ENSEIGNANT")) {
+            Enseignant enseignant = enseignantRepository.findByEmail(email)
+                    .orElseThrow(() -> new RuntimeException("Enseignant non trouvé"));
+            return ResponseEntity.ok(taskService.getTasksByAssignedTo(enseignant.getId()));
         }
         return ResponseEntity.ok(taskService.getAllTasks());
     }
@@ -84,9 +89,9 @@ public class TaskController {
         return ResponseEntity.ok(taskService.getTasksByProjectId(projectId));
     }
 
-    @GetMapping("/assigned/{employeeId}")
-    public ResponseEntity<List<TaskDTO>> getTasksByAssignedTo(@PathVariable Long employeeId) {
-        return ResponseEntity.ok(taskService.getTasksByAssignedTo(employeeId));
+    @GetMapping("/assigned/{enseignantId}")
+    public ResponseEntity<List<TaskDTO>> getTasksByAssignedTo(@PathVariable Long enseignantId) {
+        return ResponseEntity.ok(taskService.getTasksByAssignedTo(enseignantId));
     }
 
     @GetMapping("/status/{status}")
@@ -135,7 +140,7 @@ public class TaskController {
     public ResponseEntity<List<TaskDTO>> getTasksForWeek(
             @RequestParam String startDate,
             @RequestParam String endDate,
-            @RequestParam(required = false) Long employeeId,
+            @RequestParam(required = false) Long enseignantId,
             Authentication authentication) {
         String role = authentication.getAuthorities().iterator().next().getAuthority();
         String email = authentication.getName();
@@ -145,15 +150,15 @@ public class TaskController {
 
         List<TaskDTO> tasks;
 
-        if (employeeId != null) {
+        if (enseignantId != null) {
             if (!role.equals("ROLE_ADMIN") && !role.equals("ROLE_CHEF_PROJET")) {
-                throw new RuntimeException("Non autorisé à voir les tâches d'un autre employé");
+                throw new RuntimeException("Non autorisé à voir les tâches d'un autre enseignant");
             }
-            tasks = taskService.getTasksByAssignedTo(employeeId);
-        } else if (role.equals("ROLE_EMPLOYE")) {
-            Employee employee = employeeRepository.findByEmail(email)
-                    .orElseThrow(() -> new RuntimeException("Employé non trouvé"));
-            tasks = taskService.getTasksByAssignedTo(employee.getId());
+            tasks = taskService.getTasksByAssignedTo(enseignantId);
+        } else if (role.equals("ROLE_ENSEIGNANT")) {
+            Enseignant enseignant = enseignantRepository.findByEmail(email)
+                    .orElseThrow(() -> new RuntimeException("Enseignant non trouvé"));
+            tasks = taskService.getTasksByAssignedTo(enseignant.getId());
         } else {
             tasks = taskService.getAllTasks();
         }
@@ -173,11 +178,11 @@ public class TaskController {
         String role = authentication.getAuthorities().iterator().next().getAuthority();
         String email = authentication.getName();
 
-        if (role.equals("ROLE_EMPLOYE")) {
-            Employee employee = employeeRepository.findByEmail(email)
-                    .orElseThrow(() -> new RuntimeException("Employé non trouvé"));
+        if (role.equals("ROLE_ENSEIGNANT")) {
+            Enseignant enseignant = enseignantRepository.findByEmail(email)
+                    .orElseThrow(() -> new RuntimeException("Enseignant non trouvé"));
             return ResponseEntity.ok(taskService.countByAssignedToAndStatusIn(
-                    employee.getId(),
+                    enseignant.getId(),
                     List.of(Task.TaskStatus.TODO, Task.TaskStatus.IN_PROGRESS)
             ));
         }

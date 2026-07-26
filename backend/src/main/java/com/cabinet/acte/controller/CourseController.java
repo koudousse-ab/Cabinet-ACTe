@@ -43,7 +43,9 @@ public class CourseController {
         return ResponseEntity.ok(courseService.getCourseById(id));
     }
 
+    // Programme complet : réservé à l'Admin (et Chef de projet pour la gestion)
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'CHEF_PROJET')")
     public ResponseEntity<List<CourseDTO>> getAllCourses() {
         return ResponseEntity.ok(courseService.getAllCourses());
     }
@@ -69,7 +71,10 @@ public class CourseController {
         return ResponseEntity.noContent().build();
     }
 
+    // Programme complet de la semaine : réservé à l'Admin/Chef de projet.
+    // Enseignant/Étudiant : utiliser /assigned/{id} ou /classe/{classe} pour leur programme individuel.
     @GetMapping("/week")
+    @PreAuthorize("hasAnyRole('ADMIN', 'CHEF_PROJET')")
     public ResponseEntity<List<CourseDTO>> getCoursesForWeek(
             @RequestParam String startDate,
             @RequestParam String endDate) {
@@ -87,8 +92,14 @@ public class CourseController {
         return ResponseEntity.ok(updated);
     }
 
-    @GetMapping("/assigned/{employeeId}")
-    public ResponseEntity<List<CourseDTO>> getCoursesByAssignedTo(@PathVariable Long employeeId) {
-        return ResponseEntity.ok(courseService.getCoursesByAssignedTo(employeeId));
+    @GetMapping("/assigned/{enseignantId}")
+    public ResponseEntity<List<CourseDTO>> getCoursesByAssignedTo(@PathVariable Long enseignantId) {
+        return ResponseEntity.ok(courseService.getCoursesByAssignedTo(enseignantId));
+    }
+
+    // Programme individuel d'une classe (utilisé par les étudiants)
+    @GetMapping("/classe/{classe}")
+    public ResponseEntity<List<CourseDTO>> getCoursesByClasse(@PathVariable String classe) {
+        return ResponseEntity.ok(courseService.getCoursesByClasse(classe));
     }
 }

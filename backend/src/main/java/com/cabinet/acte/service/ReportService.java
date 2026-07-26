@@ -1,9 +1,9 @@
 package com.cabinet.acte.service;
 
 import com.cabinet.acte.dto.TaskDTO;
-import com.cabinet.acte.entity.Employee;
+import com.cabinet.acte.entity.Enseignant;
 import com.cabinet.acte.entity.Project;
-import com.cabinet.acte.repository.EmployeeRepository;
+import com.cabinet.acte.repository.EnseignantRepository;
 import com.cabinet.acte.repository.ProjectRepository;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -28,15 +28,15 @@ import java.util.stream.Collectors;
 public class ReportService {
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private EnseignantRepository enseignantRepository;
 
     @Autowired
     private ProjectRepository projectRepository;
 
     public byte[] generateTasksPDF(List<TaskDTO> tasks) throws DocumentException {
         // Récupérer les noms pour éviter les appels en boucle
-        Map<Long, String> employeeNames = employeeRepository.findAll().stream()
-                .collect(Collectors.toMap(Employee::getId, Employee::getName));
+        Map<Long, String> enseignantNames = enseignantRepository.findAll().stream()
+                .collect(Collectors.toMap(Enseignant::getId, Enseignant::getName));
         Map<Long, String> projectNames = projectRepository.findAll().stream()
                 .collect(Collectors.toMap(Project::getId, Project::getName));
 
@@ -78,7 +78,7 @@ public class ReportService {
         // Données
         for (TaskDTO task : tasks) {
             table.addCell(task.getTitle() != null ? task.getTitle() : "");
-            String assignee = task.getAssignedTo() != null ? employeeNames.getOrDefault(task.getAssignedTo(), "Inconnu") : "Non assigné";
+            String assignee = task.getAssignedTo() != null ? enseignantNames.getOrDefault(task.getAssignedTo(), "Inconnu") : "Non assigné";
             table.addCell(assignee);
             table.addCell(task.getStatus() != null ? task.getStatus().toString() : "");
             table.addCell(task.getPriority() != null ? task.getPriority().toString() : "");

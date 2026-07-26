@@ -13,17 +13,17 @@ public class NotificationService {
     @Autowired
     private NotificationRepository notificationRepository;
 
-    public Notification createNotification(String message, Long employeeId, Long taskId) {
-        Notification notif = new Notification(message, employeeId, taskId);
+    public Notification createNotification(String message, Long enseignantId, Long taskId) {
+        Notification notif = new Notification(message, enseignantId, taskId);
         return notificationRepository.save(notif);
     }
 
-    public List<Notification> getNotificationsForEmployee(Long employeeId) {
-        return notificationRepository.findByEmployeeIdOrderByCreatedAtDesc(employeeId);
+    public List<Notification> getNotificationsForEnseignant(Long enseignantId) {
+        return notificationRepository.findByEnseignantIdOrderByCreatedAtDesc(enseignantId);
     }
 
-    public Long getUnreadCount(Long employeeId) {
-        return notificationRepository.countByEmployeeIdAndIsReadFalse(employeeId);
+    public Long getUnreadCount(Long enseignantId) {
+        return notificationRepository.countByEnseignantIdAndIsReadFalse(enseignantId);
     }
 
     public void markAsRead(Long notificationId) {
@@ -33,8 +33,8 @@ public class NotificationService {
         notificationRepository.save(notif);
     }
 
-    public void markAllAsRead(Long employeeId) {
-        List<Notification> notifications = notificationRepository.findByEmployeeIdOrderByCreatedAtDesc(employeeId);
+    public void markAllAsRead(Long enseignantId) {
+        List<Notification> notifications = notificationRepository.findByEnseignantIdOrderByCreatedAtDesc(enseignantId);
         notifications.forEach(n -> n.setRead(true));
         notificationRepository.saveAll(notifications);
     }

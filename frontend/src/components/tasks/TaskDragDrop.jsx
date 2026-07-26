@@ -4,10 +4,10 @@ import TaskCard from './TaskCard';
 import { STATUS_OPTIONS, STATUS_COLORS, statusLabel } from '../../utils/statusUtils';
 import './TaskDragDrop.css';
 
-export default function TaskDragDrop({ tasks, updateTaskStatus, setTasks, onOpenTask, employees }) {
+export default function TaskDragDrop({ tasks, updateTaskStatus, setTasks, onOpenTask, enseignants }) {
   const { user } = useAuth();
   const isManager = user?.role === 'ADMIN' || user?.role === 'CHEF_PROJET';
-  const isEmployee = user?.role === 'EMPLOYE';
+  const isEnseignant = user?.role === 'ENSEIGNANT';
   const [draggedTask, setDraggedTask] = useState(null);
   const [dragOverColumn, setDragOverColumn] = useState(null);
 
@@ -66,7 +66,7 @@ export default function TaskDragDrop({ tasks, updateTaskStatus, setTasks, onOpen
                   onDragStart={setDraggedTask}
                   onDragEnd={() => setDraggedTask(null)}
                   onClick={() => !draggedTask && onOpenTask(task)}
-                  employees={employees}
+                  enseignants={enseignants}
                 />
               ))}
               {tasksByStatus(status).length === 0 && <p className="empty-column">Aucune tâche</p>}

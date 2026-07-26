@@ -37,8 +37,13 @@ public class Course {
     @Column(name = "start_time")
     private LocalTime startTime;
 
+    // Enseignant assigné au cours
     @Column(name = "assigned_to")
     private Long assignedTo;
+
+    // Classe concernée par le cours (permet aux étudiants de voir leur programme individuel)
+    @Column(name = "classe")
+    private String classe;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

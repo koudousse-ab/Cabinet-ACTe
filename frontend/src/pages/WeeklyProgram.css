@@ -465,7 +465,7 @@
     display: none;
   }
 }
-.employee-filter {
+.enseignant-filter {
   margin: 16px 0;
   display: flex;
   align-items: center;
@@ -475,16 +475,16 @@
   border-radius: 8px;
   border: 1px solid #e9ecef;
 }
-.employee-filter label {
+.enseignant-filter label {
   font-weight: 500;
   color: #1e293b;
 }
-.employee-filter select {
+.enseignant-filter select {
   padding: 6px 12px;
   border: 1px solid #d1d5db;
   border-radius: 6px;
 }
-.employee-badge {
+.enseignant-badge {
   background: #e9ecef;
   padding: 4px 12px;
   border-radius: 16px;

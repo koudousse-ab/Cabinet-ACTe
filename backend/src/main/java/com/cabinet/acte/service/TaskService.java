@@ -14,7 +14,7 @@ public interface TaskService {
     TaskDTO updateTask(Long id, TaskDTO taskDTO);
     void deleteTask(Long id);
     List<TaskDTO> getTasksByProjectId(Long projectId);
-    List<TaskDTO> getTasksByAssignedTo(Long employeeId);
+    List<TaskDTO> getTasksByAssignedTo(Long enseignantId);
     List<TaskDTO> getTasksByStatus(Task.TaskStatus status);
     List<TaskDTO> getTasksByPriority(Task.TaskPriority priority);
     List<TaskDTO> getTasksByProjectAndStatus(Long projectId, Task.TaskStatus status);
@@ -22,6 +22,7 @@ public interface TaskService {
     List<TaskDTO> getUpcomingTasks(LocalDate startDate, LocalDate endDate);
     TaskDTO updateTaskStatus(Long id, Task.TaskStatus status);
     Long getTaskCountByStatus(Long projectId, Task.TaskStatus status);
-    Long countByAssignedToAndStatusIn(Long employeeId, List<Task.TaskStatus> statuses);
+    Long countByAssignedToAndStatusIn(Long enseignantId, List<Task.TaskStatus> statuses);
     List<TaskDTO> getFilteredTasks(String status, String priority, Long projectId, Authentication authentication);
+    List<TaskDTO> searchTasks(String query);
 }

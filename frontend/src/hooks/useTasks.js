@@ -10,14 +10,14 @@ export default function useTasks() {
     setLoading(true);
     taskApi.getAllTasks()
       .then((response) => {
-        console.log('✅ Tâches reçues:', response.data);
+        console.log('Tâches reçues:', response.data);
         setTasks(response.data);
         setLoading(false);
       })
       .catch((err) => {
         setError(err);
         setLoading(false);
-        console.error('❌ Erreur chargement des tâches:', err);
+        console.error('Erreur chargement des tâches:', err);
       });
   };
 

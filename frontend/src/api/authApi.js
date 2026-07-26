@@ -1,8 +1,11 @@
 import axios from 'axios';
 
-// ═══════ Instance dédiée à l’authentification (sans /api/v1) ═══════
+// ═══════ Instance dédiée à l'authentification (sans /api/v1) ═══════
+// Dérivée de la même variable d'environnement que le reste de l'app pour
+// fonctionner aussi bien en local qu'une fois déployé (ex: Render).
+const API_ROOT = (import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1').replace(/\/api\/v1\/?$/, '');
 const authClient = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: API_ROOT,
   headers: { 'Content-Type': 'application/json' }
 });
 

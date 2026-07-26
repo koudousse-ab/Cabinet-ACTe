@@ -1,6 +1,6 @@
 package com.cabinet.acte.dto;
 
-import com.cabinet.acte.entity.Employee;
+import com.cabinet.acte.entity.Enseignant;
 import com.cabinet.acte.entity.Notification;
 
 import java.time.LocalDateTime;
@@ -8,16 +8,16 @@ import java.time.LocalDateTime;
 public class NotificationDTO {
     private Long id;
     private String message;
-    private Long employeeId;
+    private Long enseignantId;
     private Long taskId;
     private boolean isRead;
     private LocalDateTime createdAt;
 
     public NotificationDTO() {}
-    public NotificationDTO(Long id, String message, Long employeeId, Long taskId, boolean isRead, LocalDateTime createdAt) {
+    public NotificationDTO(Long id, String message, Long enseignantId, Long taskId, boolean isRead, LocalDateTime createdAt) {
         this.id = id;
         this.message = message;
-        this.employeeId = employeeId;
+        this.enseignantId = enseignantId;
         this.taskId = taskId;
         this.isRead = isRead;
         this.createdAt = createdAt;
@@ -25,14 +25,14 @@ public class NotificationDTO {
 
     public Long getId() { return id; }
     public String getMessage() { return message; }
-    public Long getEmployeeId() { return employeeId; }
+    public Long getEnseignantId() { return enseignantId; }
     public Long getTaskId() { return taskId; }
     public boolean isRead() { return isRead; }
     public LocalDateTime getCreatedAt() { return createdAt; }
 
     public void setId(Long id) { this.id = id; }
     public void setMessage(String message) { this.message = message; }
-    public void setEmployeeId(Long employeeId) { this.employeeId = employeeId; }
+    public void setEnseignantId(Long enseignantId) { this.enseignantId = enseignantId; }
     public void setTaskId(Long taskId) { this.taskId = taskId; }
     public void setRead(boolean read) { isRead = read; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
@@ -41,7 +41,7 @@ public class NotificationDTO {
         return new NotificationDTO(
             notification.getId(),
             notification.getMessage(),
-            notification.getEmployeeId(),
+            notification.getEnseignantId(),
             notification.getTaskId(),
             notification.isRead(),
             notification.getCreatedAt()
@@ -52,7 +52,7 @@ public class NotificationDTO {
         Notification notification = new Notification();
         notification.setId(this.id);
         notification.setMessage(this.message);
-        notification.setEmployeeId(this.employeeId);
+        notification.setEnseignantId(this.enseignantId);
         notification.setTaskId(this.taskId);
         notification.setRead(this.isRead);
         return notification;

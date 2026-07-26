@@ -1,8 +1,10 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import taskApi from '../../api/taskApi';
 import projectApi from '../../api/projectApi';
-import employeeApi from '../../api/employeeApi';
+import enseignantApi from '../../api/enseignantApi';
 import CalendarTaskItem from './CalendarTaskItem';
 import { toISODate, isSameDay, formatDateShort, formatFullDate as fmtFullDate } from '../../utils/dateUtils';
 import { STATUS_OPTIONS, PRIORITY_OPTIONS, statusLabel, priorityLabel } from '../../utils/statusUtils';
@@ -51,7 +53,7 @@ export default function CalendarView() {
  const navigate = useNavigate();
  const [tasks, setTasks] = useState([]);
  const [projects, setProjects] = useState([]);
- const [employees, setEmployees] = useState([]);
+ const [enseignants, setEnseignants] = useState([]);
  const [currentDate, setCurrentDate] = useState(new Date());
  const [viewMode, setViewMode] = useState('month');
  const [filters, setFilters] = useState({ status: '', priority: '', assignedTo: '' });
@@ -72,7 +74,7 @@ export default function CalendarView() {
  useEffect(() => {
  fetchTasks();
  projectApi.getAllProjects().then((res) => setProjects(res.data));
- employeeApi.getAllEmployees().then((res) => setEmployees(res.data));
+ enseignantApi.getAllEnseignants().then((res) => setEnseignants(res.data));
  const stop = startReminderPolling(
  () => taskApi.getAllTasks().then((r) => r.data),
  { onDue: setDueSoonBanner }
@@ -170,7 +172,7 @@ export default function CalendarView() {
  {dueSoonBanner.length > 0 && (
  <div className="reminder-banner">
  {dueSoonBanner.length} tâche(s) proche(s) de l'échéance ou en retard
- <button className="dismiss" onClick={() => setDueSoonBanner([])}>✕</button>
+ <button className="dismiss" onClick={() => setDueSoonBanner([])}><FontAwesomeIcon icon={faXmark} /></button>
  </div>
 )}
 
@@ -204,8 +206,8 @@ export default function CalendarView() {
  {PRIORITY_OPTIONS.map((p) => <option key={p} value={p}>{priorityLabel(p)}</option>)}
  </select>
  <select value={filters.assignedTo} onChange={(e) => setFilters((f) => ({ ...f, assignedTo: e.target.value }))}>
- <option value="">Tous employés</option>
- {employees.map((e) => <option key={e.id} value={e.id}>{e.name}</option>)}
+ <option value="">Tous enseignants</option>
+ {enseignants.map((e) => <option key={e.id} value={e.id}>{e.name}</option>)}
  </select>
  </div>
  </div>
@@ -327,7 +329,7 @@ export default function CalendarView() {
  onChange={(e) => setQuickAddForm((f) => ({ ...f, assignedTo: e.target.value }))}
  >
  <option value="">Non assigné</option>
- {employees.map((e) => <option key={e.id} value={e.id}>{e.name}</option>)}
+ {enseignants.map((e) => <option key={e.id} value={e.id}>{e.name}</option>)}
  </select>
  </div>
  <div className="form-actions">

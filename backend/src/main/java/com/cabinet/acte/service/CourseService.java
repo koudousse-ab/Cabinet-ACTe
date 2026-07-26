@@ -13,6 +13,7 @@ public interface CourseService {
     CourseDTO updateCourse(Long id, CourseDTO courseDTO);
     void deleteCourse(Long id);
     List<CourseDTO> getCoursesForWeek(LocalDate startDate, LocalDate endDate);
-    List<CourseDTO> getCoursesByAssignedTo(Long employeeId);
+    List<CourseDTO> getCoursesByAssignedTo(Long enseignantId);
+    List<CourseDTO> getCoursesByClasse(String classe);
     CourseDTO updateCourseStatus(Long id, Course.CourseStatus status);
 }

@@ -19,7 +19,11 @@ export default function ProjectList({ projects, createProject, updateProject }) 
   const filteredProjects = useMemo(() => {
     return projects.filter((p) => {
       if (filters.status && p.status !== filters.status) return false;
-      if (filters.client && !p.client.toLowerCase().includes(filters.client.toLowerCase())) return false;
+      if (filters.client) {
+        const q = filters.client.toLowerCase();
+        const matches = p.name.toLowerCase().includes(q) || p.client.toLowerCase().includes(q);
+        if (!matches) return false;
+      }
       return true;
     });
   }, [projects, filters]);
@@ -61,10 +65,10 @@ export default function ProjectList({ projects, createProject, updateProject }) 
           </select>
         </div>
         <div className="filter-group">
-          <label>Client</label>
+          <label>Recherche</label>
           <input
             type="text"
-            placeholder="Rechercher un client..."
+            placeholder="Rechercher un projet ou un client..."
             value={filters.client}
             onChange={(e) => setFilters((f) => ({ ...f, client: e.target.value }))}
           />
