@@ -19,7 +19,7 @@
 --   prof.akakpo@men.tg         (prof123)    -> ENSEIGNANT
 --   prof.mensah@men.tg         (prof123)    -> ENSEIGNANT
 --   prof.dosseh@men.tg         (prof123)    -> ENSEIGNANT
---   etu1@men.tg ... etu6@men.tg (etu123)    -> ÉTUDIANT (classes L1-INFO / L2-INFO)
+--   etu1@men.tg ... etu6@men.tg (etu123)    -> ÉTUDIANT (cours Formation DevOps / Formation Cybersécurité)
 -- =====================================================================
 
 -- ---------------------------------------------------------------------
@@ -42,15 +42,15 @@ INSERT INTO enseignant (name, email, role, password, created_at) VALUES
 ON CONFLICT (email) DO NOTHING;
 
 -- ---------------------------------------------------------------------
--- 2. ÉTUDIANTS (2 classes : L1-INFO, L2-INFO)
+-- 2. ÉTUDIANTS (2 cours : Formation DevOps, Formation Cybersécurité)
 -- ---------------------------------------------------------------------
 INSERT INTO etudiant (name, email, password, classe, created_at) VALUES
-  ('Yawa KUMOJI',   'etu1@men.tg', '$2b$10$qTP6DP1x2A9IwdUQQf.vMe1RA0/D5JEZS1YHvRKP./6iH24AgnVcO', 'L1-INFO', now()),
-  ('Komi TCHALLA',  'etu2@men.tg', '$2b$10$qTP6DP1x2A9IwdUQQf.vMe1RA0/D5JEZS1YHvRKP./6iH24AgnVcO', 'L1-INFO', now()),
-  ('Essi BAKPESSI', 'etu3@men.tg', '$2b$10$qTP6DP1x2A9IwdUQQf.vMe1RA0/D5JEZS1YHvRKP./6iH24AgnVcO', 'L1-INFO', now()),
-  ('Kwami SEDDOH',  'etu4@men.tg', '$2b$10$qTP6DP1x2A9IwdUQQf.vMe1RA0/D5JEZS1YHvRKP./6iH24AgnVcO', 'L2-INFO', now()),
-  ('Adjo BALOUKI',  'etu5@men.tg', '$2b$10$qTP6DP1x2A9IwdUQQf.vMe1RA0/D5JEZS1YHvRKP./6iH24AgnVcO', 'L2-INFO', now()),
-  ('Yao GNASSINGBE','etu6@men.tg', '$2b$10$qTP6DP1x2A9IwdUQQf.vMe1RA0/D5JEZS1YHvRKP./6iH24AgnVcO', 'L2-INFO', now())
+  ('Yawa KUMOJI',   'etu1@men.tg', '$2b$10$qTP6DP1x2A9IwdUQQf.vMe1RA0/D5JEZS1YHvRKP./6iH24AgnVcO', 'Formation DevOps', now()),
+  ('Komi TCHALLA',  'etu2@men.tg', '$2b$10$qTP6DP1x2A9IwdUQQf.vMe1RA0/D5JEZS1YHvRKP./6iH24AgnVcO', 'Formation DevOps', now()),
+  ('Essi BAKPESSI', 'etu3@men.tg', '$2b$10$qTP6DP1x2A9IwdUQQf.vMe1RA0/D5JEZS1YHvRKP./6iH24AgnVcO', 'Formation DevOps', now()),
+  ('Kwami SEDDOH',  'etu4@men.tg', '$2b$10$qTP6DP1x2A9IwdUQQf.vMe1RA0/D5JEZS1YHvRKP./6iH24AgnVcO', 'Formation Cybersécurité', now()),
+  ('Adjo BALOUKI',  'etu5@men.tg', '$2b$10$qTP6DP1x2A9IwdUQQf.vMe1RA0/D5JEZS1YHvRKP./6iH24AgnVcO', 'Formation Cybersécurité', now()),
+  ('Yao GNASSINGBE','etu6@men.tg', '$2b$10$qTP6DP1x2A9IwdUQQf.vMe1RA0/D5JEZS1YHvRKP./6iH24AgnVcO', 'Formation Cybersécurité', now())
 ON CONFLICT (email) DO NOTHING;
 
 -- ---------------------------------------------------------------------
@@ -104,30 +104,30 @@ SELECT 'Rapport d''avancement mensuel', 'Rédiger le rapport à transmettre à l
 WHERE NOT EXISTS (SELECT 1 FROM task WHERE title = 'Rapport d''avancement mensuel');
 
 -- ---------------------------------------------------------------------
--- 5. COURS (liés aux enseignants + classes des étudiants)
+-- 5. COURS (liés aux enseignants + cours des étudiants)
 -- ---------------------------------------------------------------------
 INSERT INTO course (title, description, start_date, end_date, start_time, assigned_to, classe, status, created_at, updated_at)
 SELECT 'Algorithmique - Chapitre 3', 'Salle B12 - Structures de données',
        CURRENT_DATE + INTERVAL '2 day', CURRENT_DATE + INTERVAL '2 day', '08:00:00',
-       (SELECT id FROM enseignant WHERE email = 'prof.akakpo@men.tg'), 'L1-INFO', 'PLANNED', now(), now()
+       (SELECT id FROM enseignant WHERE email = 'prof.akakpo@men.tg'), 'Formation DevOps', 'PLANNED', now(), now()
 WHERE NOT EXISTS (SELECT 1 FROM course WHERE title = 'Algorithmique - Chapitre 3');
 
 INSERT INTO course (title, description, start_date, end_date, start_time, assigned_to, classe, status, created_at, updated_at)
 SELECT 'Réseaux - TP VLAN', 'Salle Info 2 - Cisco Packet Tracer',
        CURRENT_DATE + INTERVAL '2 day', CURRENT_DATE + INTERVAL '2 day', '10:00:00',
-       (SELECT id FROM enseignant WHERE email = 'prof.mensah@men.tg'), 'L2-INFO', 'PLANNED', now(), now()
+       (SELECT id FROM enseignant WHERE email = 'prof.mensah@men.tg'), 'Formation Cybersécurité', 'PLANNED', now(), now()
 WHERE NOT EXISTS (SELECT 1 FROM course WHERE title = 'Réseaux - TP VLAN');
 
 INSERT INTO course (title, description, start_date, end_date, start_time, assigned_to, classe, status, created_at, updated_at)
 SELECT 'Base de données - Modélisation', 'Salle B12 - Modèle relationnel',
        CURRENT_DATE + INTERVAL '4 day', CURRENT_DATE + INTERVAL '4 day', '09:00:00',
-       (SELECT id FROM enseignant WHERE email = 'prof.dosseh@men.tg'), 'L1-INFO', 'PLANNED', now(), now()
+       (SELECT id FROM enseignant WHERE email = 'prof.dosseh@men.tg'), 'Formation DevOps', 'PLANNED', now(), now()
 WHERE NOT EXISTS (SELECT 1 FROM course WHERE title = 'Base de données - Modélisation');
 
 INSERT INTO course (title, description, start_date, end_date, start_time, assigned_to, classe, status, created_at, updated_at)
 SELECT 'Sécurité réseau', 'Salle Info 2 - Pare-feu et VPN',
        CURRENT_DATE + INTERVAL '5 day', CURRENT_DATE + INTERVAL '5 day', '14:00:00',
-       (SELECT id FROM enseignant WHERE email = 'prof.mensah@men.tg'), 'L2-INFO', 'PLANNED', now(), now()
+       (SELECT id FROM enseignant WHERE email = 'prof.mensah@men.tg'), 'Formation Cybersécurité', 'PLANNED', now(), now()
 WHERE NOT EXISTS (SELECT 1 FROM course WHERE title = 'Sécurité réseau');
 
 -- ---------------------------------------------------------------------

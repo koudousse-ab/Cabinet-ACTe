@@ -51,7 +51,7 @@ export default function EtudiantList({ etudiants, deleteEtudiant, openEdit, onSe
             <tr>
               <th>Nom</th>
               <th>Email</th>
-              <th>Classe</th>
+              <th>Cours</th>
               <th>Actions</th>
             </tr>
           </thead>

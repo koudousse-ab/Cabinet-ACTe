@@ -57,8 +57,8 @@ export default function EtudiantForm({ etudiant, onSave, onClose }) {
             <input type="email" value={formData.email} onChange={handleChange('email')} required />
           </div>
           <div className="form-group">
-            <label>Classe</label>
-            <input type="text" value={formData.classe} onChange={handleChange('classe')} placeholder="Ex: L3 Informatique" />
+            <label>Cours</label>
+            <input type="text" value={formData.classe} onChange={handleChange('classe')} placeholder="Ex: Formation DevOps" />
           </div>
           <div className="form-group">
             <label>Mot de passe {!isEditing && '*'}</label>
