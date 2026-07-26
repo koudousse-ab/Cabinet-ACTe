@@ -1,6 +1,6 @@
 # Audit de sécurité & guide de déploiement Render
 
-## 1. Audit de sécurité — ce qui a été trouvé et corrigé
+## 1. Audit de sécurité — 
 
 | # | Problème trouvé | Gravité | Correction apportée |
 |---|---|---|---|
@@ -43,7 +43,7 @@ Un fichier `render.yaml` a été ajouté à la racine du projet. Il décrit :
 4. Après le premier déploiement, aller dans le service **missionflow-backend** → **Environment** → récupérer la valeur générée de `ADMIN_PASSWORD` (Render l'a générée aléatoirement) pour te connecter la première fois, puis **change immédiatement ce mot de passe** depuis l'application.
 5. Si les noms `missionflow-backend` / `missionflow-frontend` sont déjà pris, Render leur donnera une URL différente : mets alors à jour `CORS_ALLOWED_ORIGINS` (backend) et `VITE_API_URL` (frontend) avec les vraies URL générées, dans l'onglet **Environment** de chaque service, puis redéploie.
 
-### Option B — Configuration manuelle (si tu préfères ne pas utiliser le Blueprint)
+### Option B — Configuration manuelle 
 
 **Base de données**
 - New + → PostgreSQL → note l'*Internal Database URL*, l'utilisateur et le mot de passe.
