@@ -1,4 +1,4 @@
-# Cabinet ACTe - MissionFlow 🚀
+# Cabinet ACTe - MissionFlow 
 
 ## 📋 Description
 
@@ -78,7 +78,7 @@ Cabinet-ACTe/
 
 ---
 
-## 🚀 Démarrage Rapide
+##  Démarrage Rapide
 
 ### Prérequis
 - Java 17+
@@ -222,14 +222,14 @@ Les contributions sont les bienvenues! Voir [CONTRIBUTING.md](./CONTRIBUTING.md)
 ## 📋 Roadmap
 
 - [x] Module Tâches
-- [ ] Module Projets
-- [ ] Module Employés
-- [ ] Dashboard
-- [ ] Calendrier
-- [ ] Rapports
-- [ ] Authentification
-- [ ] Notifications
-- [ ] Mobile App
+- [x] Module Projets
+- [x] Module Employés
+- [x] Dashboard
+- [x] Calendrier
+- [x] Rapports
+- [x] Authentification
+- [x] Notifications
+- [x] Mobile App
 
 ---
 
