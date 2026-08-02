@@ -12,8 +12,11 @@ const styles = StyleSheet.create({
   headerRow: { backgroundColor: '#e9ecef', fontWeight: 'bold' },
   dayCol: { width: '18%', padding: 4, borderRightWidth: 1, borderRightColor: '#000', borderRightStyle: 'solid' },
   activitiesCol: { width: '82%', padding: 4 },
-  activityItem: { fontSize: 8, marginBottom: 2 },
-  activityType: { fontWeight: 'bold', color: '#1e293b' },
+  activityBlock: { marginBottom: 6, paddingBottom: 4, borderBottomWidth: 0.5, borderBottomColor: '#ccc', borderBottomStyle: 'solid' },
+  activityLine: { fontSize: 8, marginBottom: 1 },
+  activityTitleLine: { fontSize: 8, fontWeight: 'bold', color: '#1e293b', marginBottom: 1 },
+  activityMeta: { fontSize: 7.5, color: '#334155' },
+  activityUsers: { fontSize: 7.5, color: '#475569', fontStyle: 'italic' },
   footer: { marginTop: 20, textAlign: 'center', color: '#888', fontSize: 8 },
 });
 
@@ -29,6 +32,12 @@ export const WeeklyProgramPDF = ({ weekStart, weekEnd, activitiesByDay, enseigna
     return activitiesByDay[dateStr] || [];
   };
 
+  const getDayDate = (dayIndex) => {
+    const date = new Date(start);
+    date.setDate(start.getDate() + dayIndex);
+    return date;
+  };
+
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -41,27 +50,40 @@ export const WeeklyProgramPDF = ({ weekStart, weekEnd, activitiesByDay, enseigna
         <View style={styles.table}>
           <View style={[styles.row, styles.headerRow]}>
             <Text style={styles.dayCol}>Jour</Text>
-            <Text style={styles.activitiesCol}>Activités</Text>
+            <Text style={styles.activitiesCol}>Activités (nom, date, horaires, utilisateurs assignés)</Text>
           </View>
           {days.map((day, idx) => {
             const activities = getDayActivities(idx);
+            const dayDate = getDayDate(idx);
             return (
               <View key={idx} style={styles.row}>
-                <Text style={styles.dayCol}>{day}</Text>
+                <Text style={styles.dayCol}>{day}{'\n'}{formatDate(dayDate)}</Text>
                 <View style={styles.activitiesCol}>
                   {activities.length === 0 ? (
-                    <Text style={styles.activityItem}>Aucune activité</Text>
+                    <Text style={styles.activityLine}>Aucune activité</Text>
                   ) : (
-                    activities.map((act, index) => (
-                      <Text key={index} style={styles.activityItem}>
-                        {act.type === 'course' ? 'Cours' : 'Tâche'} - {act.title}
-                        {act.type === 'course' && act.startTime && ` (${act.startTime})`}
-                        {' - '}
-                        <Text style={styles.activityType}>
-                          {act.type === 'course' ? statusLabel(act.status) : statusLabel(act.status)}
-                        </Text>
-                      </Text>
-                    ))
+                    activities.map((act, index) => {
+                      const isCourse = act.type === 'course';
+                      const startTime = isCourse ? act.startTime : act.scheduledTime;
+                      const endTime = isCourse ? act.endTime : null;
+                      const dateLabel = isCourse
+                        ? `${formatDate(act.startDate)}${act.endDate && act.endDate !== act.startDate ? ` au ${formatDate(act.endDate)}` : ''}`
+                        : (act.dueDate ? formatDate(act.dueDate) : 'Sans date');
+                      return (
+                        <View key={index} style={styles.activityBlock}>
+                          <Text style={styles.activityTitleLine}>
+                            {isCourse ? 'Cours' : 'Tâche'} : {act.title} — {statusLabel(act.status)}
+                          </Text>
+                          <Text style={styles.activityMeta}>
+                            Date : {dateLabel}
+                            {startTime ? `  |  Heure : ${startTime}${endTime ? ` - ${endTime}` : ''}` : ''}
+                          </Text>
+                          <Text style={styles.activityUsers}>
+                            Assigné à : {act.assignedUsersLabel || act.assignedToName || 'Non assigné'}
+                          </Text>
+                        </View>
+                      );
+                    })
                   )}
                 </View>
               </View>

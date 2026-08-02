@@ -7,22 +7,23 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: white;
+  background-color: var(--acte-surface);
+  border: 1px solid var(--acte-line);
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: var(--acte-radius-md);
+  box-shadow: var(--acte-shadow-sm);
 }
 .project-list-header h2 {
   margin: 0;
-  color: #3D2B1F;
 }
 .filters {
   display: flex;
   gap: 20px;
-  background-color: white;
+  background-color: var(--acte-surface);
+  border: 1px solid var(--acte-line);
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: var(--acte-radius-md);
+  box-shadow: var(--acte-shadow-sm);
   flex-wrap: wrap;
 }
 .filter-group {
@@ -34,14 +35,16 @@
 .filter-group label {
   font-weight: 600;
   margin-bottom: 8px;
-  color: #3D2B1F;
+  color: var(--acte-ink);
   font-size: 13px;
 }
 .filter-group select,
 .filter-group input {
   padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  border: 1px solid var(--acte-line);
+  border-radius: var(--acte-radius-sm);
+  background: var(--acte-surface);
+  color: var(--acte-ink);
   font-size: 14px;
 }
 .projects-grid {
@@ -50,19 +53,24 @@
   gap: 16px;
 }
 .btn-primary {
-  background-color: #C3B091;
+  background-color: var(--acte-navy);
   color: white;
   border: none;
   padding: 9px 16px;
-  border-radius: 4px;
+  border-radius: var(--acte-radius-sm);
   cursor: pointer;
+  transition: background var(--acte-transition);
+}
+.btn-primary:hover {
+  background-color: var(--acte-navy-deep);
 }
 .no-projects {
   text-align: center;
   padding: 40px;
-  color: #999;
-  background-color: white;
-  border-radius: 8px;
+  color: var(--acte-slate-soft);
+  background-color: var(--acte-surface);
+  border: 1px solid var(--acte-line);
+  border-radius: var(--acte-radius-md);
 }
 
 /* Barre de recherche */
@@ -77,18 +85,20 @@
   left: 10px;
   top: 50%;
   transform: translateY(-50%);
-  color: #C3B091;
+  color: var(--acte-slate);
 }
 .search-input-wrapper input {
   padding-left: 32px;
   width: 100%;
-  border: 1px solid #C3B091;
-  border-radius: 6px;
+  border: 1px solid var(--acte-line);
+  border-radius: var(--acte-radius-sm);
+  background: var(--acte-surface);
+  color: var(--acte-ink);
   padding: 8px 12px 8px 32px;
   font-size: 0.9rem;
 }
 .search-input-wrapper input:focus {
-  border-color: #C4A35A;
+  border-color: var(--acte-navy);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(196, 163, 90, 0.2);
+  box-shadow: 0 0 0 3px rgba(27, 66, 114, 0.16);
 }

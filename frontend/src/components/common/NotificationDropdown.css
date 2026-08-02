@@ -6,7 +6,7 @@
 .notification-bell {
   background: none;
   border: none;
-  color: #d4c5b5;
+  color: var(--acte-sidebar-text);
   font-size: 1.2rem;
   cursor: pointer;
   position: relative;
@@ -16,7 +16,7 @@
   position: absolute;
   top: -6px;
   right: -8px;
-  background: #dc3545;
+  background: var(--acte-danger);
   color: white;
   border-radius: 50%;
   padding: 2px 6px;
@@ -33,9 +33,10 @@
   transform: translate(-50%, -50%);
   width: 480px;
   max-height: 70vh;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.20);
+  background: var(--acte-surface);
+  border: 1px solid var(--acte-line);
+  border-radius: var(--acte-radius-md);
+  box-shadow: var(--acte-shadow-lg);
   z-index: 99999;
   display: flex;
   flex-direction: column;
@@ -47,11 +48,11 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px 20px;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid var(--acte-line);
   font-weight: 600;
   font-size: 1.1rem;
-  color: #1a1a1a;
-  background: #fafafa;
+  color: var(--acte-ink);
+  background: var(--acte-surface-alt);
   flex-shrink: 0;
 }
 
@@ -59,7 +60,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: #1a1a1a;
+  color: var(--acte-ink);
   font-size: 1.2rem;
 }
 
@@ -71,7 +72,7 @@
 
 .notification-item {
   padding: 14px 20px;
-  border-bottom: 1px solid #f5f5f5;
+  border-bottom: 1px solid var(--acte-line);
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -80,7 +81,7 @@
 .notification-item .message {
   font-size: 0.95rem;
   line-height: 1.5;
-  color: #1a1a1a !important;
+  color: var(--acte-ink);
   word-wrap: break-word;
   white-space: normal;
   overflow-wrap: break-word;
@@ -91,43 +92,43 @@
   justify-content: space-between;
   align-items: center;
   font-size: 0.8rem;
-  color: #1a1a1a !important;
+  color: var(--acte-slate);
 }
 
 .notification-item .meta small {
   font-size: 0.75rem;
-  color: #1a1a1a !important;
+  color: var(--acte-slate);
 }
 
 .mark-read-btn {
   background: none;
   border: none;
-  color: #1a1a1a !important;
+  color: var(--acte-slate);
   cursor: pointer;
   font-size: 1rem;
   padding: 0 6px;
 }
 .mark-read-btn:hover {
-  color: #3D2B1F;
+  color: var(--acte-navy);
 }
 
 .no-notifications {
   padding: 40px 20px;
   text-align: center;
-  color: #1a1a1a !important;
+  color: var(--acte-slate);
   font-size: 0.95rem;
 }
 
 .mark-all-read-btn {
   padding: 12px;
-  background: #C4A35A;
-  color: #1a1a1a !important;
+  background: var(--acte-navy);
+  color: white;
   border: none;
   cursor: pointer;
   font-weight: 500;
-  border-top: 1px solid #e9ecef;
+  border-top: 1px solid var(--acte-line);
   flex-shrink: 0;
 }
 .mark-all-read-btn:hover {
-  background: #B08E4A;
+  background: var(--acte-navy-deep);
 }

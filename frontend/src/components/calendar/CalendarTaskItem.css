@@ -3,10 +3,10 @@
   align-items: center;
   gap: 5px;
   padding: 3px 6px;
-  border-radius: 4px;
-  background-color: #f0f2f5;
+  border-radius: var(--acte-radius-sm);
+  background-color: var(--acte-surface-alt);
   font-size: 11px;
-  color: #3D2B1F;
+  color: var(--acte-ink);
   cursor: grab;
   overflow: hidden;
   white-space: nowrap;
@@ -26,8 +26,8 @@
   text-decoration: line-through;
 }
 .calendar-task-item.overdue {
-  background-color: #fdeaea;
-  color: #a71d2a;
+  background-color: var(--acte-danger-bg);
+  color: var(--acte-danger);
 }
 .calendar-task-item .label {
   overflow: hidden;

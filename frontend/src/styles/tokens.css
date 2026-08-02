@@ -1,0 +1,156 @@
+/* =====================================================================
+   ACTe — Système de design
+   Direction : sobre & corporate (encre marine / gris), mode clair + sombre.
+   Chargé après bootstrap.min.css afin de réharmoniser ses composants
+   (formulaires, boutons, badges) avec la palette de l'application.
+   ===================================================================== */
+
+:root {
+  /* --- Couleurs de marque --- */
+  --acte-ink: #10233d;          /* texte principal, quasi-noir teinté marine */
+  --acte-navy: #1b4272;         /* couleur d'action principale */
+  --acte-navy-deep: #0e2a4a;    /* hover / actif / fond de la sidebar */
+  --acte-navy-soft: #eaf0f7;    /* fond des zones actives / sélectionnées */
+  --acte-slate: #5b6b7c;        /* texte secondaire, icônes */
+  --acte-slate-soft: #8a97a6;   /* texte tertiaire, placeholders */
+  --acte-line: #dce3ea;         /* bordures, séparateurs */
+  --acte-canvas: #f3f5f7;       /* fond général de l'application */
+  --acte-surface: #ffffff;      /* fond des cartes / panneaux */
+  --acte-surface-alt: #f7f9fb;  /* fond alterné (lignes de tableau, hover léger) */
+
+  /* --- Couleurs sémantiques (statuts) --- */
+  --acte-info: #2e6ba8;         /* planifié / informatif */
+  --acte-warning: #b4790a;      /* en cours / à surveiller */
+  --acte-success: #1e7a46;      /* terminé / validé */
+  --acte-danger: #b23a32;       /* annulé / erreur / en retard */
+
+  --acte-info-bg: #e7eff8;
+  --acte-warning-bg: #fbf1e0;
+  --acte-success-bg: #e6f2ea;
+  --acte-danger-bg: #f8e9e7;
+
+  /* --- Typographie --- */
+  --acte-font-display: 'Fraunces', Georgia, serif;
+  --acte-font-body: 'IBM Plex Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --acte-font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+
+  /* --- Rayons, ombres, transitions --- */
+  --acte-radius-sm: 6px;
+  --acte-radius-md: 10px;
+  --acte-radius-lg: 16px;
+  --acte-shadow-sm: 0 1px 2px rgba(16, 35, 61, 0.06);
+  --acte-shadow-md: 0 4px 16px rgba(16, 35, 61, 0.10);
+  --acte-shadow-lg: 0 12px 32px rgba(16, 35, 61, 0.16);
+  --acte-transition: 150ms ease;
+
+  /* Sidebar : reste en marine foncé quel que soit le thème (repère de marque stable) */
+  --acte-sidebar-bg: #0e2a4a;
+  --acte-sidebar-bg-active: #163a63;
+  --acte-sidebar-text: #cfdcec;
+  --acte-sidebar-text-muted: #8fa4bc;
+  --acte-sidebar-text-active: #ffffff;
+  --acte-sidebar-border: #1c3d63;
+  --acte-sidebar-accent: #4c8dd9;
+
+  /* --- Réharmonisation de Bootstrap 5 avec la palette ACTe --- */
+  --bs-body-bg: var(--acte-canvas);
+  --bs-body-color: var(--acte-ink);
+  --bs-body-font-family: var(--acte-font-body);
+  --bs-border-color: var(--acte-line);
+  --bs-border-radius: var(--acte-radius-sm);
+  --bs-border-radius-lg: var(--acte-radius-md);
+  --bs-link-color: var(--acte-navy);
+  --bs-link-hover-color: var(--acte-navy-deep);
+  --bs-primary: var(--acte-navy);
+  --bs-primary-rgb: 27, 66, 114;
+  --bs-focus-ring-color: rgba(27, 66, 114, 0.25);
+}
+
+/* Boutons/badges Bootstrap non stylés localement par les composants ACTe :
+   on les réharmonise explicitement, car Bootstrap fige ces teintes en
+   variables locales plutôt que de suivre --bs-primary. */
+.btn-primary {
+  --bs-btn-bg: var(--acte-navy);
+  --bs-btn-border-color: var(--acte-navy);
+  --bs-btn-hover-bg: var(--acte-navy-deep);
+  --bs-btn-hover-border-color: var(--acte-navy-deep);
+  --bs-btn-active-bg: var(--acte-navy-deep);
+  --bs-btn-active-border-color: var(--acte-navy-deep);
+  --bs-btn-focus-shadow-rgb: 27, 66, 114;
+}
+.badge.bg-primary, .text-bg-primary { background-color: var(--acte-navy) !important; }
+
+/* =====================================================================
+   Mode sombre — activé via [data-bs-theme="dark"] sur <html>
+   ===================================================================== */
+[data-bs-theme="dark"] {
+  --acte-ink: #e7ecf2;
+  --acte-navy: #4c8dd9;
+  --acte-navy-deep: #79aee8;
+  --acte-navy-soft: #16273c;
+  --acte-slate: #9aabbd;
+  --acte-slate-soft: #6d7c8d;
+  --acte-line: #223244;
+  --acte-canvas: #0b1520;
+  --acte-surface: #101b29;
+  --acte-surface-alt: #16233407;
+  --acte-surface-alt: #142234;
+
+  --acte-info: #6fa8dc;
+  --acte-warning: #e0a23d;
+  --acte-success: #3fa873;
+  --acte-danger: #e2716a;
+
+  --acte-info-bg: #1a2c3c;
+  --acte-warning-bg: #33270f;
+  --acte-success-bg: #143327;
+  --acte-danger-bg: #391f1c;
+
+  --acte-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --acte-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45);
+  --acte-shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.55);
+
+  --bs-body-bg: var(--acte-canvas);
+  --bs-body-color: var(--acte-ink);
+  --bs-border-color: var(--acte-line);
+  --bs-primary: var(--acte-navy);
+  --bs-primary-rgb: 76, 141, 217;
+}
+
+[data-bs-theme="dark"] .btn-primary {
+  --bs-btn-bg: var(--acte-navy);
+  --bs-btn-border-color: var(--acte-navy);
+  --bs-btn-color: #06111d;
+  --bs-btn-hover-bg: var(--acte-navy-deep);
+  --bs-btn-hover-border-color: var(--acte-navy-deep);
+  --bs-btn-hover-color: #06111d;
+  --bs-btn-active-bg: var(--acte-navy-deep);
+  --bs-btn-active-border-color: var(--acte-navy-deep);
+}
+
+/* Champs de formulaire Bootstrap : fond de saisie dédié en mode sombre
+   (form-control referme déjà --bs-body-bg/--bs-body-color en amont). */
+[data-bs-theme="dark"] .form-control,
+[data-bs-theme="dark"] .form-select {
+  background-color: var(--acte-surface);
+  color: var(--acte-ink);
+}
+
+/* Hiérarchie typographique : Fraunces (display) pour les titres, IBM Plex Sans
+   (corps) pour le reste. Les composants qui définissent déjà leur propre
+   font-family (ex. wordmark de la page de connexion) restent inchangés. */
+h1, h2, h3 {
+  font-family: var(--acte-font-display);
+  color: var(--acte-ink);
+  font-weight: 600;
+}
+
+::selection {
+  background: var(--acte-navy-soft);
+  color: var(--acte-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--acte-navy);
+  outline-offset: 2px;
+}

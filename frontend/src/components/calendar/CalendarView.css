@@ -4,10 +4,10 @@
   gap: 14px;
 }
 .reminder-banner {
-  background-color: #fff3cd;
-  color: #856404;
+  background-color: var(--acte-warning-bg);
+  color: var(--acte-warning);
   padding: 12px 16px;
-  border-radius: 8px;
+  border-radius: var(--acte-radius-sm);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -18,7 +18,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: #856404;
+  color: var(--acte-warning);
   font-size: 14px;
 }
 .calendar-toolbar {
@@ -27,10 +27,11 @@
   gap: 14px;
   align-items: center;
   justify-content: space-between;
-  background-color: white;
+  background-color: var(--acte-surface);
+  border: 1px solid var(--acte-line);
   padding: 16px 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: var(--acte-radius-md);
+  box-shadow: var(--acte-shadow-sm);
 }
 .nav-group {
   display: flex;
@@ -38,21 +39,22 @@
   gap: 10px;
 }
 .nav-btn, .today-btn, .mode-btn {
-  border: 1px solid #ddd;
-  background-color: white;
-  border-radius: 6px;
+  border: 1px solid var(--acte-line);
+  background-color: var(--acte-surface);
+  color: var(--acte-ink);
+  border-radius: var(--acte-radius-sm);
   padding: 6px 12px;
   cursor: pointer;
   font-size: 13px;
 }
 .mode-btn.active {
-  background-color: #C3B091;
+  background-color: var(--acte-navy);
   color: white;
-  border-color: #C3B091;
+  border-color: var(--acte-navy);
 }
 .period-label {
   font-weight: 700;
-  color: #3D2B1F;
+  color: var(--acte-ink);
   text-transform: capitalize;
   min-width: 150px;
   text-align: center;
@@ -68,14 +70,17 @@
 }
 .filters select {
   padding: 6px 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  border: 1px solid var(--acte-line);
+  border-radius: var(--acte-radius-sm);
+  background: var(--acte-surface);
+  color: var(--acte-ink);
   font-size: 13px;
 }
 .month-grid {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: var(--acte-surface);
+  border: 1px solid var(--acte-line);
+  border-radius: var(--acte-radius-md);
+  box-shadow: var(--acte-shadow-sm);
   overflow: hidden;
 }
 .weekday-row, .days-grid {
@@ -86,14 +91,14 @@
   text-align: center;
   padding: 10px;
   font-weight: 700;
-  color: #666;
-  background-color: #F4F6F9;
-  border-bottom: 1px solid #dee2e6;
+  color: var(--acte-slate);
+  background-color: var(--acte-surface-alt);
+  border-bottom: 1px solid var(--acte-line);
   font-size: 12px;
 }
 .day-cell {
   min-height: 100px;
-  border: 1px solid #eee;
+  border: 1px solid var(--acte-line);
   padding: 6px;
   cursor: pointer;
   display: flex;
@@ -102,14 +107,14 @@
   transition: background-color 0.15s ease;
 }
 .day-cell:hover {
-  background-color: #F4F6F9;
+  background-color: var(--acte-surface-alt);
 }
 .day-cell.other-month {
-  background-color: #fafafa;
-  color: #ccc;
+  background-color: var(--acte-canvas);
+  color: var(--acte-slate-soft);
 }
 .day-cell.today .day-number {
-  background-color: #C3B091;
+  background-color: var(--acte-navy);
   color: white;
   border-radius: 50%;
   width: 22px;
@@ -119,12 +124,12 @@
   justify-content: center;
 }
 .day-cell.drag-over {
-  background-color: #dbe7fb;
+  background-color: var(--acte-navy-soft);
 }
 .day-number {
   font-size: 12px;
   font-weight: 600;
-  color: #3D2B1F;
+  color: var(--acte-ink);
 }
 .day-tasks {
   display: flex;
@@ -137,29 +142,30 @@
   gap: 10px;
 }
 .week-day-column {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: var(--acte-surface);
+  border: 1px solid var(--acte-line);
+  border-radius: var(--acte-radius-md);
+  box-shadow: var(--acte-shadow-sm);
   min-height: 220px;
   display: flex;
   flex-direction: column;
 }
 .week-day-column.today {
-  border: 2px solid #C3B091;
+  border: 2px solid var(--acte-navy);
 }
 .week-day-column.drag-over {
-  background-color: #dbe7fb;
+  background-color: var(--acte-navy-soft);
 }
 .week-day-header {
   padding: 10px;
   text-align: center;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--acte-line);
   cursor: pointer;
 }
 .weekday-name {
   display: block;
   font-size: 11px;
-  color: #999;
+  color: var(--acte-slate-soft);
   text-transform: uppercase;
 }
 .week-day-header .day-number {
@@ -173,14 +179,15 @@
   flex: 1;
 }
 .empty-day {
-  color: #ccc;
+  color: var(--acte-slate-soft);
   text-align: center;
   font-size: 12px;
 }
 .day-list {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: var(--acte-surface);
+  border: 1px solid var(--acte-line);
+  border-radius: var(--acte-radius-md);
+  box-shadow: var(--acte-shadow-sm);
   padding: 20px;
 }
 .day-list-header {
@@ -191,19 +198,23 @@
 }
 .day-list-header h3 {
   text-transform: capitalize;
-  color: #3D2B1F;
+  margin: 0;
 }
 .add-btn {
-  background-color: #C3B091;
+  background-color: var(--acte-navy);
   color: white;
   border: none;
   padding: 8px 14px;
-  border-radius: 6px;
+  border-radius: var(--acte-radius-sm);
   cursor: pointer;
+  transition: background var(--acte-transition);
+}
+.add-btn:hover {
+  background-color: var(--acte-navy-deep);
 }
 .empty-day-list {
   text-align: center;
-  color: #999;
+  color: var(--acte-slate-soft);
   padding: 30px;
 }
 .day-list-items {
@@ -216,23 +227,19 @@
   align-items: center;
   gap: 10px;
   padding: 10px 14px;
-  background-color: #F4F6F9;
-  border-radius: 6px;
+  background-color: var(--acte-surface-alt);
+  border-radius: var(--acte-radius-sm);
   cursor: pointer;
 }
 .day-list-item:hover {
-  background-color: #eef0f3;
-}
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  flex-shrink: 0;
+  background-color: var(--acte-navy-soft);
 }
 .task-title {
   flex: 1;
   font-weight: 500;
-  color: #3D2B1F;
+  color: var(--acte-ink);
 }
+.badge-text {
   font-size: 11px;
   padding: 3px 8px;
   border-radius: 4px;

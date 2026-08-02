@@ -5,13 +5,13 @@ import './CalendarTaskItem.css';
 export default function CalendarTaskItem({ task, onDragStart, onOpen }) {
  return (
  <div
- className={`calendar-task-item${task.status === 'TERMINE' ? ' done' : ''}${isOverdue(task) ? ' overdue' : ''}`}
+ className={`calendar-task-item${task.status === 'DONE' ? ' done' : ''}${isOverdue(task) ? ' overdue' : ''}`}
  draggable
  onDragStart={() => onDragStart(task)}
  onClick={(e) => { e.stopPropagation(); onOpen(task); }}
  title={task.title}
  >
- <span className="dot" style={{ }} />
+ <span className="dot" style={{ backgroundColor: PRIORITY_COLORS[task.priority] }} />
  <span className="label">{task.title}</span>
  </div>
 );

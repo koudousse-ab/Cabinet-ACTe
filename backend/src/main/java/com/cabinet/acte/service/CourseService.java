@@ -15,5 +15,6 @@ public interface CourseService {
     List<CourseDTO> getCoursesForWeek(LocalDate startDate, LocalDate endDate);
     List<CourseDTO> getCoursesByAssignedTo(Long enseignantId);
     List<CourseDTO> getCoursesByClasse(String classe);
+    List<CourseDTO> getCoursesByEtudiant(Long etudiantId);
     CourseDTO updateCourseStatus(Long id, Course.CourseStatus status);
 }

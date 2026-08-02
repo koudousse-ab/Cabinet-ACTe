@@ -1,12 +1,5 @@
-.recent-activity {
-  background-color: white;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
 .recent-activity h3 {
   margin-top: 0;
-  color: #3D2B1F;
 }
 .recent-columns {
   display: grid;
@@ -15,19 +8,22 @@
 }
 .recent-columns h4 {
   font-size: 13px;
-  color: #888;
+  font-weight: 600;
+  color: var(--acte-slate);
   text-transform: uppercase;
+  letter-spacing: 0.04em;
   margin-bottom: 10px;
 }
 .recent-item {
   padding: 8px 0;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--acte-line);
   font-size: 14px;
-  color: #444;
+  color: var(--acte-ink);
   cursor: pointer;
+  transition: color var(--acte-transition);
 }
 .recent-item:hover {
-  color: #C3B091;
+  color: var(--acte-navy);
 }
 @media (max-width: 700px) {
   .recent-columns { grid-template-columns: 1fr; }

@@ -1,4 +1,10 @@
 // ============================================
+// Couleurs : toutes réfèrent les tokens CSS ACTe (frontend/src/styles/tokens.css)
+// afin de rester cohérentes partout dans l'application et de suivre
+// automatiquement le mode sombre. Une seule source de vérité par catégorie.
+// ============================================
+
+// ============================================
 // STATUTS DES TÂCHES
 // ============================================
 export const STATUS_OPTIONS = ['TODO', 'IN_PROGRESS', 'DONE', 'BLOCKED', 'CANCELLED'];
@@ -12,11 +18,11 @@ export const STATUS_LABELS = {
 };
 
 export const STATUS_COLORS = {
-  TODO: '#6c757d',
-  IN_PROGRESS: '#e67e22',
-  DONE: '#28a745',
-  BLOCKED: '#dc3545',
-  CANCELLED: '#6c757d'
+  TODO: 'var(--acte-slate)',
+  IN_PROGRESS: 'var(--acte-warning)',
+  DONE: 'var(--acte-success)',
+  BLOCKED: 'var(--acte-danger)',
+  CANCELLED: 'var(--acte-slate-soft)'
 };
 
 export function statusLabel(status) {
@@ -35,9 +41,9 @@ export const PRIORITY_LABELS = {
 };
 
 export const PRIORITY_COLORS = {
-  LOW: '#28a745',
-  MEDIUM: '#f39c12',
-  HIGH: '#dc3545'
+  LOW: 'var(--acte-success)',
+  MEDIUM: 'var(--acte-warning)',
+  HIGH: 'var(--acte-danger)'
 };
 
 export function priorityLabel(priority) {
@@ -55,13 +61,32 @@ export const PROJECT_STATUS_LABELS = {
   ANNULE: 'Annulé'
 };
 export const PROJECT_STATUS_COLORS = {
-  EN_COURS: '#e67e22',
-  TERMINE: '#28a745',
-  EN_ATTENTE: '#ffc107',
-  ANNULE: '#dc3545'
+  EN_COURS: 'var(--acte-warning)',
+  TERMINE: 'var(--acte-success)',
+  EN_ATTENTE: 'var(--acte-info)',
+  ANNULE: 'var(--acte-danger)'
 };
 export function projectStatusLabel(status) {
   return PROJECT_STATUS_LABELS[status] || status;
+}
+
+// ============================================
+// STATUTS DES COURS
+// ============================================
+export const COURSE_STATUS_LABELS = {
+  PLANNED: 'Planifié',
+  IN_PROGRESS: 'En cours',
+  COMPLETED: 'Terminé',
+  CANCELLED: 'Annulé'
+};
+export const COURSE_STATUS_COLORS = {
+  PLANNED: 'var(--acte-info)',
+  IN_PROGRESS: 'var(--acte-warning)',
+  COMPLETED: 'var(--acte-success)',
+  CANCELLED: 'var(--acte-danger)'
+};
+export function courseStatusLabel(status) {
+  return COURSE_STATUS_LABELS[status] || status;
 }
 
 // ============================================
@@ -75,10 +100,10 @@ export const ROLE_LABELS = {
   ETUDIANT: 'Étudiant'
 };
 export const ROLE_COLORS = {
-  ADMIN: '#dc3545',
-  CHEF_PROJET: '#0066cc',
-  ENSEIGNANT: '#6c757d',
-  ETUDIANT: '#8a6d3b'
+  ADMIN: 'var(--acte-navy)',
+  CHEF_PROJET: 'var(--acte-info)',
+  ENSEIGNANT: 'var(--acte-success)',
+  ETUDIANT: 'var(--acte-slate)'
 };
 export function roleLabel(role) {
   return ROLE_LABELS[role] || role;

@@ -12,40 +12,39 @@
 }
 .courses-header h2 {
   margin: 0;
-  color: #1e293b;
   font-size: 1.6rem;
   display: flex;
   align-items: center;
   gap: 10px;
 }
 .btn-create {
-  background: #c8a882;
-  color: #1e293b;
+  background: var(--acte-navy);
+  color: #fff;
   border: none;
   padding: 10px 20px;
-  border-radius: 8px;
+  border-radius: var(--acte-radius-sm);
   cursor: pointer;
   font-weight: 600;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   font-size: 0.95rem;
-  transition: background 0.15s;
+  transition: background var(--acte-transition);
 }
 .btn-create:hover {
-  background: #b8966e;
+  background: var(--acte-navy-deep);
 }
 
 .filters-bar {
   display: flex;
   flex-wrap: wrap;
   gap: 16px 24px;
-  background: white;
+  background: var(--acte-surface);
   padding: 12px 20px;
-  border-radius: 10px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  border-radius: var(--acte-radius-md);
+  box-shadow: var(--acte-shadow-sm);
   margin-bottom: 24px;
-  border: 1px solid #e9ecef;
+  border: 1px solid var(--acte-line);
   align-items: center;
 }
 .filter-group {
@@ -56,43 +55,45 @@
 .filter-group label {
   font-size: 0.8rem;
   font-weight: 600;
-  color: #475569;
+  color: var(--acte-slate);
   display: flex;
   align-items: center;
   gap: 4px;
 }
 .filter-group select {
   padding: 6px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  background: white;
+  border: 1px solid var(--acte-line);
+  border-radius: var(--acte-radius-sm);
+  background: var(--acte-surface);
+  color: var(--acte-ink);
   font-size: 0.9rem;
   min-width: 140px;
 }
 .btn-clear-filters {
   background: none;
-  border: 1px solid #dc3545;
-  color: #dc3545;
+  border: 1px solid var(--acte-danger);
+  color: var(--acte-danger);
   padding: 6px 14px;
-  border-radius: 6px;
+  border-radius: var(--acte-radius-sm);
   cursor: pointer;
   font-size: 0.85rem;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   margin-left: auto;
+  transition: background var(--acte-transition), color var(--acte-transition);
 }
 .btn-clear-filters:hover {
-  background: #dc3545;
+  background: var(--acte-danger);
   color: white;
 }
 
 .courses-table-wrapper {
   overflow-x: auto;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  border: 1px solid #e9ecef;
+  background: var(--acte-surface);
+  border-radius: var(--acte-radius-md);
+  box-shadow: var(--acte-shadow-sm);
+  border: 1px solid var(--acte-line);
 }
 .courses-table {
   width: 100%;
@@ -100,22 +101,23 @@
   font-size: 0.9rem;
 }
 .courses-table th {
-  background: #f8fafc;
+  background: var(--acte-surface-alt);
   padding: 12px 16px;
   text-align: left;
   font-weight: 600;
-  color: #1e293b;
-  border-bottom: 2px solid #e9ecef;
+  color: var(--acte-ink);
+  border-bottom: 2px solid var(--acte-line);
 }
 .courses-table td {
   padding: 10px 16px;
-  border-bottom: 1px solid #f1f3f5;
+  border-bottom: 1px solid var(--acte-line);
+  color: var(--acte-ink);
 }
 .courses-table tr:last-child td {
   border-bottom: none;
 }
 .courses-table tbody tr:hover {
-  background: #fafbfc;
+  background: var(--acte-surface-alt);
 }
 
 .badge {
@@ -126,10 +128,10 @@
   font-weight: 600;
   color: white;
 }
-.badge.status-PLANNED { background: #1e293b; }
-.badge.status-IN_PROGRESS { background: #0c4a6e; }
-.badge.status-COMPLETED { background: #14532d; }
-.badge.status-CANCELLED { background: #7f1d1d; }
+.badge.status-PLANNED { background: var(--acte-info); }
+.badge.status-IN_PROGRESS { background: var(--acte-warning); }
+.badge.status-COMPLETED { background: var(--acte-success); }
+.badge.status-CANCELLED { background: var(--acte-danger); }
 
 .actions-cell {
   display: flex;
@@ -140,49 +142,52 @@
   border: none;
   cursor: pointer;
   padding: 6px 10px;
-  border-radius: 6px;
+  border-radius: var(--acte-radius-sm);
   font-size: 0.9rem;
-  transition: background 0.15s;
+  transition: background var(--acte-transition);
 }
 .btn-edit {
-  background: #c8a882;
-  color: #1e293b;
+  background: var(--acte-navy-soft);
+  color: var(--acte-navy);
 }
 .btn-edit:hover {
-  background: #b8966e;
+  background: var(--acte-navy);
+  color: #fff;
 }
 .btn-delete {
-  background: #b91c1c;
-  color: white;
+  background: var(--acte-danger-bg);
+  color: var(--acte-danger);
 }
 .btn-delete:hover {
-  background: #991b1b;
+  background: var(--acte-danger);
+  color: white;
 }
 
 .no-courses {
   text-align: center;
   padding: 40px;
-  color: #94a3b8;
+  color: var(--acte-slate-soft);
 }
 .loading {
   text-align: center;
   padding: 40px;
-  color: #64748b;
+  color: var(--acte-slate);
 }
 
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.4);
+  background: rgba(11, 21, 32, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
 }
 .modal-content {
-  background: white;
+  background: var(--acte-surface);
   padding: 30px;
-  border-radius: 12px;
+  border-radius: var(--acte-radius-md);
+  box-shadow: var(--acte-shadow-lg);
   width: 90%;
   max-width: 550px;
   max-height: 90vh;
@@ -197,11 +202,10 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: #999;
+  color: var(--acte-slate-soft);
 }
 .modal-content h3 {
   margin-top: 0;
-  color: #1e293b;
 }
 .form-group {
   margin-bottom: 16px;
@@ -211,15 +215,17 @@
   font-weight: 600;
   margin-bottom: 4px;
   font-size: 0.9rem;
-  color: #334155;
+  color: var(--acte-ink);
 }
 .form-group input,
 .form-group textarea,
 .form-group select {
   width: 100%;
   padding: 8px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
+  border: 1px solid var(--acte-line);
+  border-radius: var(--acte-radius-sm);
+  background: var(--acte-surface);
+  color: var(--acte-ink);
   font-size: 0.95rem;
 }
 .form-row {
@@ -234,27 +240,28 @@
   margin-top: 20px;
 }
 .btn-submit {
-  background: #c8a882;
-  color: #1e293b;
+  background: var(--acte-navy);
+  color: #fff;
   border: none;
   padding: 10px 24px;
-  border-radius: 6px;
+  border-radius: var(--acte-radius-sm);
   cursor: pointer;
   font-weight: 600;
+  transition: background var(--acte-transition);
 }
 .btn-submit:hover {
-  background: #b8966e;
+  background: var(--acte-navy-deep);
 }
 .btn-cancel {
-  background: #e9ecef;
-  color: #1e293b;
-  border: none;
+  background: var(--acte-surface-alt);
+  color: var(--acte-ink);
+  border: 1px solid var(--acte-line);
   padding: 10px 24px;
-  border-radius: 6px;
+  border-radius: var(--acte-radius-sm);
   cursor: pointer;
 }
 .btn-cancel:hover {
-  background: #d1d5db;
+  background: var(--acte-line);
 }
 
 @media (max-width: 768px) {
@@ -282,4 +289,95 @@
   .actions-cell {
     flex-direction: column;
   }
+}
+
+/* Tableau de sélection des étudiants (création/édition de cours) */
+.students-picker {
+  border: 1px solid var(--acte-line);
+  border-radius: var(--acte-radius-sm);
+  padding: 12px;
+  background: var(--acte-surface-alt);
+}
+
+.students-picker-toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.students-picker-toolbar input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid var(--acte-line);
+  border-radius: var(--acte-radius-sm);
+  background: var(--acte-surface);
+  color: var(--acte-ink);
+  font-size: 0.9rem;
+}
+
+.btn-select-all {
+  white-space: nowrap;
+  padding: 8px 12px;
+  border: 1px solid var(--acte-navy);
+  background: var(--acte-surface);
+  color: var(--acte-navy);
+  border-radius: var(--acte-radius-sm);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background var(--acte-transition), color var(--acte-transition);
+}
+
+.btn-select-all:hover {
+  background: var(--acte-navy);
+  color: #fff;
+}
+
+.students-picker-table-wrapper {
+  max-height: 220px;
+  overflow-y: auto;
+  border: 1px solid var(--acte-line);
+  border-radius: var(--acte-radius-sm);
+  background: var(--acte-surface);
+}
+
+.students-picker-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.students-picker-table th {
+  position: sticky;
+  top: 0;
+  background: var(--acte-surface-alt);
+  text-align: left;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  color: var(--acte-slate);
+}
+
+.students-picker-table td {
+  padding: 6px 10px;
+  font-size: 0.88rem;
+  color: var(--acte-ink);
+  border-top: 1px solid var(--acte-line);
+}
+
+.students-picker-table tbody tr {
+  cursor: pointer;
+}
+
+.students-picker-table tbody tr:hover {
+  background: var(--acte-navy-soft);
+}
+
+.students-picker-table .no-students {
+  text-align: center;
+  color: var(--acte-slate-soft);
+  padding: 14px;
+}
+
+.students-picker-count {
+  margin: 8px 0 0;
+  font-size: 0.82rem;
+  color: var(--acte-slate);
 }

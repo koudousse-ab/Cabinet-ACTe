@@ -4,10 +4,11 @@
   gap: 20px;
 }
 .detail-header {
-  background-color: white;
-  border-radius: 8px;
+  background-color: var(--acte-surface);
+  border: 1px solid var(--acte-line);
+  border-radius: var(--acte-radius-md);
   padding: 24px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--acte-shadow-sm);
 }
 .detail-top {
   display: flex;
@@ -17,7 +18,6 @@
 }
 .detail-top h2 {
   margin: 0;
-  color: #3D2B1F;
 }
 .detail-actions {
   display: flex;
@@ -26,55 +26,66 @@
 .btn {
   padding: 8px 16px;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--acte-radius-sm);
   cursor: pointer;
   font-size: 13px;
+  transition: background var(--acte-transition);
 }
 .btn-back {
-  background-color: #7F8C8D;
-  color: white;
+  background-color: var(--acte-surface-alt);
+  color: var(--acte-ink);
+  border: 1px solid var(--acte-line);
   margin-bottom: 16px;
 }
-.btn-info { background-color: #C3B091; color: white; }
-.btn-danger { background-color: #B03A3A; color: white; }
+.btn-back:hover { background-color: var(--acte-line); }
+.btn-info { background-color: var(--acte-navy-soft); color: var(--acte-navy); }
+.btn-info:hover { background-color: var(--acte-navy); color: #fff; }
+.btn-danger { background-color: var(--acte-danger-bg); color: var(--acte-danger); }
+.btn-danger:hover { background-color: var(--acte-danger); color: #fff; }
+
+/* Badge de statut coloré selon statusUtils (PROJECT_STATUS_COLORS / STATUS_COLORS) */
+.badge-text {
+  display: inline-block;
   font-size: 12px;
   padding: 4px 10px;
   border-radius: 10px;
   color: white;
   font-weight: 600;
 }
+
 .detail-meta {
   display: flex;
   gap: 24px;
-  color: #666;
+  color: var(--acte-slate);
   font-size: 14px;
   flex-wrap: wrap;
 }
 .detail-description {
   margin-top: 12px;
-  color: #444;
+  color: var(--acte-ink);
 }
 .tasks-section {
-  background-color: white;
-  border-radius: 8px;
+  background-color: var(--acte-surface);
+  border: 1px solid var(--acte-line);
+  border-radius: var(--acte-radius-md);
   padding: 24px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--acte-shadow-sm);
 }
 .tasks-section h3 {
   margin-top: 0;
-  color: #3D2B1F;
 }
 .task-row {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 10px 0;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--acte-line);
+  cursor: pointer;
 }
 .task-row:last-child {
   border-bottom: none;
 }
 .task-row-title {
   flex: 1;
-  color: #3D2B1F;
+  color: var(--acte-ink);
 }

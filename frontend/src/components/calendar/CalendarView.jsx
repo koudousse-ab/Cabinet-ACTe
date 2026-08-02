@@ -7,7 +7,7 @@ import projectApi from '../../api/projectApi';
 import enseignantApi from '../../api/enseignantApi';
 import CalendarTaskItem from './CalendarTaskItem';
 import { toISODate, isSameDay, formatDateShort, formatFullDate as fmtFullDate } from '../../utils/dateUtils';
-import { STATUS_OPTIONS, PRIORITY_OPTIONS, statusLabel, priorityLabel } from '../../utils/statusUtils';
+import { STATUS_OPTIONS, PRIORITY_OPTIONS, statusLabel, priorityLabel, STATUS_COLORS } from '../../utils/statusUtils';
 import { startReminderPolling, getTasksDueSoon } from '../../utils/reminderUtils';
 import '../tasks/TaskForm.css';
 import './CalendarView.css';
@@ -277,7 +277,7 @@ export default function CalendarView() {
  {tasksForDay(currentDate).map((task) => (
  <div key={task.id} className="day-list-item" onClick={() => goToDetail(task)}>
  <span className="task-title">{task.title}</span>
- <span className="badge-text" style={{ }}>{statusLabel(task.status)}</span>
+ <span className="badge-text" style={{ backgroundColor: STATUS_COLORS[task.status] }}>{statusLabel(task.status)}</span>
  </div>
 ))}
  </div>

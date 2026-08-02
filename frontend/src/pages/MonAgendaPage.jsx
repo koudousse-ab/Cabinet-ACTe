@@ -1,18 +1,25 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
 import etudiantApi from '../api/etudiantApi';
+import useEnseignants from '../hooks/useEnseignants';
 import { formatDate } from '../utils/dateUtils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGraduationCap, faClock, faChevronLeft, faChevronRight, faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { faGraduationCap, faClock, faChevronLeft, faChevronRight, faChalkboardTeacher } from '@fortawesome/free-solid-svg-icons';
 import './WeeklyProgram.css';
 
 const DAYS = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
 
 export default function MonAgendaPage() {
   const { user } = useAuth();
+  const { enseignants } = useEnseignants();
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [weekOffset, setWeekOffset] = useState(0);
+
+  const getEnseignantName = (id) => {
+    const emp = enseignants.find((e) => e.id === id);
+    return emp ? emp.name : null;
+  };
 
   useEffect(() => {
     if (!user?.id) return;
@@ -92,12 +99,16 @@ export default function MonAgendaPage() {
                   <p className="empty-day">Aucun cours planifié</p>
                 ) : (
                   dayCourses.map(c => (
-                    <div key={c.id} className={`activity-block course ${c.status}`}>
+                    <div key={c.id} className={`activity-block course status-${c.status}`}>
                       <div className="block-header">
-                        <span className="block-time"><FontAwesomeIcon icon={faClock} /> {c.startTime || '—'}</span>
+                        <span className="block-time"><FontAwesomeIcon icon={faClock} /> {c.startTime || '—'}{c.endTime ? ` – ${c.endTime}` : ''}</span>
                       </div>
                       <div className="block-title">{c.title}</div>
-                      {c.description && <div className="block-details"><span><FontAwesomeIcon icon={faLocationDot} /> {c.description}</span></div>}
+                      {getEnseignantName(c.assignedTo) && (
+                        <div className="block-details">
+                          <span><FontAwesomeIcon icon={faChalkboardTeacher} /> {getEnseignantName(c.assignedTo)}</span>
+                        </div>
+                      )}
                     </div>
                   ))
                 )}

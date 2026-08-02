@@ -25,9 +25,10 @@ public class EtudiantController {
     @Autowired
     private EtudiantRepository etudiantRepository;
 
-    // Seul l'Admin (par défaut) gère les comptes étudiants
+    // Admin (gestion des comptes), Chef de projet (sélection dans la création de cours)
+    // et Enseignant (visualisation des étudiants assignés à ses cours)
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'CHEF_PROJET', 'ENSEIGNANT')")
     public ResponseEntity<List<EtudiantDTO>> getAllEtudiants() {
         return ResponseEntity.ok(etudiantService.getAllEtudiants());
     }

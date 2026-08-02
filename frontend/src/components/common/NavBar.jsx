@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import useNotifications from '../../hooks/useNotifications';
+import ThemeToggle from './ThemeToggle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHome, faProjectDiagram, faTasks, faCalendarAlt,
@@ -42,7 +43,8 @@ export default function NavBar() {
           <FontAwesomeIcon icon={faBars} />
         </button>
         <img src="/logo.png" alt="Logo" className="mobile-topbar-logo" />
-        <span className="mobile-topbar-name">Cabinet ACTe</span>
+        <span className="mobile-topbar-name">ACTe</span>
+        <ThemeToggle className="mobile-topbar-theme-toggle" />
         <NavLink to="/notifications" className="mobile-topbar-bell">
           <FontAwesomeIcon icon={faBell} />
           {unreadCount > 0 && <span className="notif-badge-sidebar">{unreadCount}</span>}
@@ -55,7 +57,7 @@ export default function NavBar() {
       <nav className={`sidebar${isOpen ? ' sidebar-open' : ''}`}>
         <div className="sidebar-brand">
           <img src="/logo.png" alt="Logo" className="sidebar-logo" />
-          <span className="sidebar-brand-name">Cabinet ACTe</span>
+          <span className="sidebar-brand-name">ACTe</span>
           <button className="sidebar-close-btn" onClick={() => setIsOpen(false)} aria-label="Fermer le menu">
             <FontAwesomeIcon icon={faXmark} />
           </button>
@@ -114,6 +116,12 @@ export default function NavBar() {
           )}
 
           {isEtudiant && (
+            <NavLink to="/mes-cours" className={({ isActive }) => `sidebar-link${isActive ? ' active' : ''}`}>
+              <FontAwesomeIcon icon={faBook} /> <span>Mes cours</span>
+            </NavLink>
+          )}
+
+          {isEtudiant && (
             <NavLink to="/mon-agenda" className={({ isActive }) => `sidebar-link${isActive ? ' active' : ''}`}>
               <FontAwesomeIcon icon={faGraduationCap} /> <span>Mon agenda</span>
             </NavLink>
@@ -131,6 +139,7 @@ export default function NavBar() {
             <span className="user-email">{user?.email}</span>
             <span className="user-role">({user?.role})</span>
           </div>
+          <ThemeToggle className="sidebar-theme-toggle" />
           <button className="sidebar-logout" onClick={handleLogout}>
             <FontAwesomeIcon icon={faSignOutAlt} /> Déconnexion
           </button>

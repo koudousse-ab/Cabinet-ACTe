@@ -1,7 +1,8 @@
 .online-users-card {
-  background: #fff;
-  border: 1px solid #e9ecef;
-  border-radius: 10px;
+  background: var(--acte-surface);
+  border: 1px solid var(--acte-line);
+  border-radius: var(--acte-radius-md);
+  box-shadow: var(--acte-shadow-sm);
   padding: 20px;
 }
 
@@ -14,11 +15,10 @@
 .online-users-header h3 {
   margin: 0;
   font-size: 1rem;
-  color: #2B1D14;
 }
 .online-count {
-  background: #E9F7EF;
-  color: #1E8449;
+  background: var(--acte-success-bg);
+  color: var(--acte-success);
   font-weight: 700;
   font-size: 0.8rem;
   padding: 2px 9px;
@@ -26,7 +26,7 @@
 }
 
 .online-empty {
-  color: #7A6A57;
+  color: var(--acte-slate);
   font-size: 0.88rem;
   margin: 0;
 }
@@ -56,13 +56,13 @@
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: #2ecc71;
-  box-shadow: 0 0 0 2px #fff;
+  background: var(--acte-success);
+  box-shadow: 0 0 0 2px var(--acte-surface);
 }
 
 .online-avatar {
   font-size: 1.6rem;
-  color: #C4A35A;
+  color: var(--acte-navy);
 }
 
 .online-user-info {
@@ -73,12 +73,12 @@
 .online-user-name {
   font-size: 0.9rem;
   font-weight: 600;
-  color: #2B1D14;
+  color: var(--acte-ink);
 }
 
 .online-user-meta {
   font-size: 0.76rem;
-  color: #7A6A57;
+  color: var(--acte-slate);
 }
 
 @media (max-width: 600px) {

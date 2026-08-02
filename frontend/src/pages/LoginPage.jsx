@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { login as apiLogin } from '../api/authApi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock, faEye, faEyeSlash, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import ThemeToggle from '../components/common/ThemeToggle';
 import './LoginPage.css';
 
 export default function LoginPage() {
@@ -38,11 +39,11 @@ export default function LoginPage() {
       <aside className="login-brand">
         <div className="login-brand-inner">
           <div className="brand-seal" aria-hidden="true">
-            <span>CA</span>
+            <img src="/logo.png" alt="" className="brand-seal-logo" />
           </div>
-          <h1 className="brand-wordmark">Cabinet ACTe</h1>
+          <h1 className="brand-wordmark">ACTe</h1>
           <p className="brand-tagline">
-            Votre réussite, notre mission. Un outil signé Cabinet ACTe,
+            Votre réussite, notre mission. Un outil signé ACTe,
             Agence de Conseil en Management et Technologie.
           </p>
         </div>
@@ -54,6 +55,7 @@ export default function LoginPage() {
 
       {/* Panneau de connexion */}
       <main className="login-panel">
+        <ThemeToggle className="login-theme-toggle" />
         <form className="login-form" onSubmit={handleSubmit}>
           <p className="login-eyebrow">Bienvenue</p>
           <h2 className="login-title">Connexion à votre espace</h2>

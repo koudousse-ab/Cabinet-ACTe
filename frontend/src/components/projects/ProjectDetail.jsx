@@ -52,7 +52,7 @@ export default function ProjectDetail() {
  <div className="detail-top">
  <h2>{project.name}</h2>
  <div className="detail-actions">
- <span className="badge-text" style={{ }}>
+ <span className="badge-text" style={{ backgroundColor: PROJECT_STATUS_COLORS[project.status] }}>
  {projectStatusLabel(project.status)}
  </span>
  {isManager && (
@@ -68,7 +68,7 @@ export default function ProjectDetail() {
  </div>
  </div>
  <div className="detail-meta">
- <span>Client : {project.client}</span>
+ <span>Objet : {project.client}</span>
  {(project.startDate || project.endDate) && (
  <span>Du {formatDate(project.startDate)} au {formatDate(project.endDate) || '—'}</span>
 )}
@@ -84,7 +84,7 @@ export default function ProjectDetail() {
  tasks.map((task) => (
  <div key={task.id} className="task-row" onClick={() => navigate(`/tasks?edit=${task.id}`)}>
  <span className="task-row-title">{task.title}</span>
- <span className="badge-text" style={{ }}>
+ <span className="badge-text" style={{ backgroundColor: STATUS_COLORS[task.status] }}>
  {statusLabel(task.status)}
  </span>
  </div>

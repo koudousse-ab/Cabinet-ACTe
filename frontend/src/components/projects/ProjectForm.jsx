@@ -33,7 +33,7 @@ export default function ProjectForm({ project, onSave, onClose }) {
  <input type="text" value={formData.name} onChange={handleChange('name')} required />
  </div>
  <div className="form-group">
- <label>Client *</label>
+ <label>Objet *</label>
  <input type="text" value={formData.client} onChange={handleChange('client')} required />
  </div>
  <div className="form-group">

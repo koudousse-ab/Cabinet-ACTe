@@ -50,7 +50,7 @@ export default function EnseignantDetail() {
  <div className="detail-top">
  <h2>{enseignant.name}</h2>
  <div className="detail-actions">
- <span className="badge-text" style={{ }}>
+ <span className="badge-text" style={{ backgroundColor: ROLE_COLORS[enseignant.role] }}>
  {roleLabel(enseignant.role)}
  </span>
  <button className="btn btn-info" onClick={() => setShowForm(true)}> Éditer</button>
@@ -74,7 +74,7 @@ export default function EnseignantDetail() {
  tasks.map((task) => (
  <div key={task.id} className="task-row" onClick={() => navigate(`/tasks?edit=${task.id}`)}>
  <span className="task-row-title">{task.title}</span>
- <span className="badge-text" style={{ }}>
+ <span className="badge-text" style={{ backgroundColor: STATUS_COLORS[task.status] }}>
  {statusLabel(task.status)}
  </span>
  </div>

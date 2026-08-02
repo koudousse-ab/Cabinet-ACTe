@@ -4,6 +4,7 @@ import useTasks from '../hooks/useTasks';
 import useCourses from '../hooks/useCourses';
 import useProjects from '../hooks/useProjects';
 import useEnseignants from '../hooks/useEnseignants';
+import useEtudiants from '../hooks/useEtudiants';
 import SearchableSelect from '../components/common/SearchableSelect';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { WeeklyProgramPDF } from './WeeklyProgramPDF';
@@ -29,6 +30,7 @@ export default function WeeklyProgram() {
   const { courses, loading: coursesLoading, updateCourseStatus } = useCourses();
   const { projects } = useProjects();
   const { enseignants } = useEnseignants();
+  const { etudiants } = useEtudiants();
 
   const [weekOffset, setWeekOffset] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
@@ -99,18 +101,6 @@ export default function WeeklyProgram() {
     return map;
   }, [filteredTasks, filteredCourses, weekStart]);
 
-  // Préparer les données pour le PDF (pas de variable intermédiaire)
-  const pdfActivities = useMemo(() => {
-    const pdfMap = {};
-    DAYS.forEach((_, idx) => {
-      const date = new Date(weekStart);
-      date.setDate(weekStart.getDate() + idx);
-      const dateStr = date.toISOString().split('T')[0];
-      pdfMap[dateStr] = activitiesByDay[dateStr] || [];
-    });
-    return pdfMap;
-  }, [activitiesByDay, weekStart]);
-
   const getProjectName = (id) => {
     const p = projects.find(proj => proj.id === id);
     return p ? p.name : 'Projet inconnu';
@@ -120,6 +110,40 @@ export default function WeeklyProgram() {
     const emp = enseignants.find(e => e.id === id);
     return emp ? emp.name : 'Inconnu';
   };
+
+  const getStudentNames = (course) => {
+    if (course.studentIds && course.studentIds.length > 0) {
+      return etudiants.filter(e => course.studentIds.includes(e.id)).map(e => e.name).join(', ');
+    }
+    return course.classe || 'Aucun étudiant assigné';
+  };
+
+  // Préparer les données pour le PDF : on résout les noms des utilisateurs assignés ici,
+  // car le composant PDF (React-PDF) ne peut pas accéder aux hooks de données de cette page.
+  const pdfActivities = useMemo(() => {
+    const pdfMap = {};
+    DAYS.forEach((_, idx) => {
+      const date = new Date(weekStart);
+      date.setDate(weekStart.getDate() + idx);
+      const dateStr = date.toISOString().split('T')[0];
+      const dayActivities = activitiesByDay[dateStr] || [];
+      pdfMap[dateStr] = dayActivities.map((act) => {
+        if (act.type === 'course') {
+          return {
+            ...act,
+            assignedToName: getEnseignantName(act.assignedTo),
+            assignedUsersLabel: `Enseignant : ${getEnseignantName(act.assignedTo)} | Étudiants : ${getStudentNames(act)}`
+          };
+        }
+        return {
+          ...act,
+          assignedToName: getEnseignantName(act.assignedTo),
+          assignedUsersLabel: getEnseignantName(act.assignedTo)
+        };
+      });
+    });
+    return pdfMap;
+  }, [activitiesByDay, weekStart, enseignants, etudiants]);
 
   const handleActivityClick = (activity, event) => {
     setSelectedActivity(activity);
@@ -260,17 +284,19 @@ export default function WeeklyProgram() {
                       return (
                         <div
                           key={act.id}
-                          className={`activity-block course ${act.status}`}
+                          className={`activity-block course status-${act.status}`}
                           onClick={(e) => handleActivityClick(act, e)}
                         >
                           <div className="block-header">
-                            <span className="block-time">{act.startTime || '07:00'}</span>
+                            <span className="block-time">
+                              {act.startTime || '07:00'}{act.endTime ? ` – ${act.endTime}` : ''}
+                            </span>
                             <span className="block-badge course-badge"><FontAwesomeIcon icon={faGraduationCap} /> Cours</span>
                           </div>
                           <div className="block-title">{act.title}</div>
                           <div className="block-details">
-                            <span><FontAwesomeIcon icon={faLocationDot} /> Salle 204</span>
-                            <span><FontAwesomeIcon icon={faUsers} /> L3 Informatique</span>
+                            <span><FontAwesomeIcon icon={faChalkboardTeacher} /> {getEnseignantName(act.assignedTo)}</span>
+                            <span><FontAwesomeIcon icon={faUsers} /> {getStudentNames(act)}</span>
                           </div>
                           <button className="block-btn">Détails</button>
                         </div>
@@ -279,17 +305,20 @@ export default function WeeklyProgram() {
                       return (
                         <div
                           key={act.id}
-                          className={`activity-block task ${act.status}`}
+                          className={`activity-block task status-${act.status}`}
                           onClick={(e) => handleActivityClick(act, e)}
                         >
                           <div className="block-header">
-                            <span className="block-time">{act.dueDate ? formatDate(act.dueDate) : 'Sans date'}</span>
+                            <span className="block-time">
+                              {act.dueDate ? formatDate(act.dueDate) : 'Sans date'}
+                              {act.scheduledTime ? ` — ${act.scheduledTime}` : ''}
+                            </span>
                             <span className="block-badge task-badge"><FontAwesomeIcon icon={faBriefcase} /> Projet</span>
                           </div>
                           <div className="block-title">{act.title}</div>
                           <div className="block-details">
                             <span><FontAwesomeIcon icon={faMapPin} /> {getProjectName(act.projectId)}</span>
-                            <span><FontAwesomeIcon icon={faMoneyBill} /> Budget en cours</span>
+                            <span><FontAwesomeIcon icon={faChalkboardTeacher} /> {getEnseignantName(act.assignedTo)}</span>
                           </div>
                           <div className="block-status">
                             <span className={`badge status-${act.status}`}>{statusLabel(act.status)}</span>
@@ -326,9 +355,12 @@ export default function WeeklyProgram() {
                 <>
                   <li><FontAwesomeIcon icon={faGraduationCap} /> {selectedActivity.title}</li>
                   <li><FontAwesomeIcon icon={faList} /> Statut : {statusLabel(selectedActivity.status)}</li>
-                  <li><FontAwesomeIcon icon={faClock} /> Heure : {selectedActivity.startTime || 'Non défini'}</li>
-                  <li><FontAwesomeIcon icon={faLocationDot} /> Salle 204</li>
-                  <li><FontAwesomeIcon icon={faUsers} /> L3 Informatique</li>
+                  <li>
+                    <FontAwesomeIcon icon={faClock} /> Horaire : {selectedActivity.startTime || 'Non défini'}
+                    {selectedActivity.endTime ? ` – ${selectedActivity.endTime}` : ''}
+                  </li>
+                  <li><FontAwesomeIcon icon={faChalkboardTeacher} /> Enseignant : {getEnseignantName(selectedActivity.assignedTo)}</li>
+                  <li><FontAwesomeIcon icon={faUsers} /> Étudiants : {getStudentNames(selectedActivity)}</li>
                 </>
               )}
               {selectedActivity.type === 'task' && (

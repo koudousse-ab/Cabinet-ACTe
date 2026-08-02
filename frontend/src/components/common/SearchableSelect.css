@@ -10,25 +10,25 @@
   justify-content: space-between;
   gap: 8px;
   padding: 8px 12px;
-  border: 1px solid #ced4da;
-  border-radius: 6px;
-  background: #fff;
+  border: 1px solid var(--acte-line);
+  border-radius: var(--acte-radius-sm);
+  background: var(--acte-surface);
   font-size: 0.9rem;
-  color: #212529;
+  color: var(--acte-ink);
   cursor: pointer;
   text-align: left;
 }
 .searchable-select.disabled .searchable-select-trigger {
-  background: #f1f3f5;
+  background: var(--acte-surface-alt);
   cursor: not-allowed;
-  color: #868e96;
+  color: var(--acte-slate-soft);
 }
 .searchable-select-trigger .placeholder {
-  color: #868e96;
+  color: var(--acte-slate-soft);
 }
 .searchable-select-caret {
   font-size: 0.75rem;
-  color: #868e96;
+  color: var(--acte-slate-soft);
   flex-shrink: 0;
 }
 
@@ -37,10 +37,10 @@
   top: calc(100% + 4px);
   left: 0;
   right: 0;
-  background: #fff;
-  border: 1px solid #dee2e6;
-  border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  background: var(--acte-surface);
+  border: 1px solid var(--acte-line);
+  border-radius: var(--acte-radius-md);
+  box-shadow: var(--acte-shadow-md);
   z-index: 50;
   overflow: hidden;
 }
@@ -50,10 +50,10 @@
   align-items: center;
   gap: 8px;
   padding: 8px 10px;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid var(--acte-line);
 }
 .searchable-select-search svg:first-child {
-  color: #868e96;
+  color: var(--acte-slate-soft);
   font-size: 0.8rem;
 }
 .searchable-select-search input {
@@ -61,11 +61,13 @@
   border: none;
   outline: none;
   font-size: 0.88rem;
+  background: transparent;
+  color: var(--acte-ink);
 }
 .searchable-select-clear {
   background: none;
   border: none;
-  color: #868e96;
+  color: var(--acte-slate-soft);
   cursor: pointer;
   padding: 2px;
 }
@@ -81,18 +83,18 @@
   padding: 8px 14px;
   font-size: 0.88rem;
   cursor: pointer;
-  color: #212529;
+  color: var(--acte-ink);
 }
 .searchable-select-options li:hover {
-  background: #f1f3f5;
+  background: var(--acte-surface-alt);
 }
 .searchable-select-options li.active {
-  background: #eef4ff;
+  background: var(--acte-navy-soft);
   font-weight: 600;
-  color: #0d5cd8;
+  color: var(--acte-navy);
 }
 .searchable-select-empty {
-  color: #868e96;
+  color: var(--acte-slate-soft);
   cursor: default !important;
 }
 .searchable-select-empty:hover {

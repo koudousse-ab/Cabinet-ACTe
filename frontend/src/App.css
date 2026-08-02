@@ -5,9 +5,10 @@
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f8f9fa;  /* fond gris clair */
-  color: #212529;
+  font-family: var(--acte-font-body);
+  background: var(--acte-canvas);
+  color: var(--acte-ink);
+  transition: background var(--acte-transition), color var(--acte-transition);
 }
 
 .app-container {
@@ -25,7 +26,7 @@ body {
   flex: 1;
   margin-left: 240px;
   padding: 24px 32px;
-  background: #f8f9fa;
+  background: var(--acte-canvas);
   min-height: calc(100vh - 60px);
 }
 
@@ -33,10 +34,10 @@ body {
   margin-left: 240px;
   padding: 12px 32px;
   text-align: right;
-  color: #6c757d;
+  color: var(--acte-slate);
   font-size: 0.9rem;
-  border-top: 1px solid #e9ecef;
-  background: white;
+  border-top: 1px solid var(--acte-line);
+  background: var(--acte-surface);
   width: calc(100% - 240px);
   flex-shrink: 0;
 }

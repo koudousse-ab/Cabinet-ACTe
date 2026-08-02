@@ -86,10 +86,13 @@ public class EtudiantServiceImpl implements EtudiantService {
     public List<CourseDTO> getProgrammeEtudiant(Long id) {
         Etudiant etudiant = etudiantRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Étudiant non trouvé avec id: " + id));
-        if (etudiant.getClasse() == null) {
-            return List.of();
+
+        java.util.Map<Long, com.cabinet.acte.entity.Course> merged = new java.util.LinkedHashMap<>();
+        courseRepository.findByStudentId(id).forEach(c -> merged.put(c.getId(), c));
+        if (etudiant.getClasse() != null && !etudiant.getClasse().isBlank()) {
+            courseRepository.findByClasse(etudiant.getClasse()).forEach(c -> merged.put(c.getId(), c));
         }
-        return courseRepository.findByClasse(etudiant.getClasse()).stream()
+        return merged.values().stream()
                 .map(CourseDTO::fromEntity)
                 .collect(Collectors.toList());
     }

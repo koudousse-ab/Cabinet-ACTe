@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { ROLE_LABELS, roleLabel } from '../../utils/statusUtils';
+import { ROLE_LABELS, roleLabel, ROLE_COLORS } from '../../utils/statusUtils';
 import enseignantApi from '../../api/enseignantApi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faEye, faUserPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -74,7 +74,7 @@ export default function EnseignantList({ enseignants, deleteEnseignant, openEdit
                 <td>{emp.name}</td>
                 <td>{emp.email}</td>
                 <td>
-                  <span className="role-badge role-text">{roleLabel(emp.role)}</span>
+                  <span className="role-badge" style={{ backgroundColor: ROLE_COLORS[emp.role] }}>{roleLabel(emp.role)}</span>
                 </td>
                 <td className="actions">
                   <button className="btn-icon" onClick={() => navigate(`/enseignants/${emp.id}`)} title="Voir">

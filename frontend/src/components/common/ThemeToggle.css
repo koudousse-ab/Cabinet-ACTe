@@ -1,0 +1,20 @@
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--acte-radius-sm);
+  border: 1px solid var(--acte-line);
+  background: var(--acte-surface);
+  color: var(--acte-slate);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background var(--acte-transition), color var(--acte-transition), border-color var(--acte-transition);
+}
+
+.theme-toggle:hover {
+  background: var(--acte-navy-soft);
+  color: var(--acte-navy);
+  border-color: var(--acte-navy);
+}

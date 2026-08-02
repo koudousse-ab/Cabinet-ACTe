@@ -68,7 +68,7 @@ export default function ProjectList({ projects, createProject, updateProject }) 
           <label>Recherche</label>
           <input
             type="text"
-            placeholder="Rechercher un projet ou un client..."
+            placeholder="Rechercher un projet ou un objet..."
             value={filters.client}
             onChange={(e) => setFilters((f) => ({ ...f, client: e.target.value }))}
           />

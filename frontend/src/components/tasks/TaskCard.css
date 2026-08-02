@@ -1,14 +1,15 @@
 .task-card {
-  background-color: #FFFFFF;
-  border-radius: 6px;
+  background-color: var(--acte-surface);
+  border: 1px solid var(--acte-line);
+  border-radius: var(--acte-radius-sm);
   padding: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--acte-shadow-sm);
   cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
-  color: #3D2B1F; /* Texte noir */
+  transition: transform 0.1s ease, box-shadow var(--acte-transition);
+  color: var(--acte-ink);
 }
 .task-card:hover {
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--acte-shadow-md);
 }
 .task-card.dragging {
   opacity: 0.4;
@@ -27,7 +28,7 @@
 }
 .task-title {
   font-weight: 600;
-  color: #3D2B1F;
+  color: var(--acte-ink);
   font-size: 14px;
 }
 .task-card-meta {
@@ -35,12 +36,15 @@
   flex-direction: column;
   gap: 4px;
   font-size: 12px;
-  color: #5D6D7E; /* Gris foncé pour les métadonnées */
+  color: var(--acte-slate);
 }
 .due-date.overdue {
-  color: #B03A3A;
+  color: var(--acte-danger);
   font-weight: 600;
 }
 .assignee {
-  color: #5D6D7E;
+  color: var(--acte-slate);
+}
+.scheduled-time {
+  font-family: var(--acte-font-mono);
 }

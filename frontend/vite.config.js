@@ -10,10 +10,10 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['logo.png'],
       manifest: {
-        name: 'Cabinet ACTe - Gestion Enseignants & Étudiants',
-        short_name: 'Cabinet ACTe',
+        name: 'ACTe - Gestion Enseignants & Étudiants',
+        short_name: 'ACTe',
         description: 'Gestion des projets, tâches, cours et programmes pour Admin, Chef de projet, Enseignants et Étudiants',
-        theme_color: '#1b6ec2',
+        theme_color: '#0E2A4A',
         background_color: '#ffffff',
         display: 'standalone',
         start_url: '/',

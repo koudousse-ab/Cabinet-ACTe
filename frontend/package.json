@@ -1,7 +1,7 @@
 {
   "name": "missionflow-module2-frontend",
   "version": "1.0.0",
-  "description": "Cabinet ACTe - Module 2 (Tâches + Calendrier)",
+  "description": "ACTe - Module 2 (Tâches + Calendrier)",
   "type": "module",
   "scripts": {
     "dev": "vite",

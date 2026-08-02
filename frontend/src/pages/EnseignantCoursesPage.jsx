@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
 import useCourses from '../hooks/useCourses';
 import useEnseignants from '../hooks/useEnseignants';
+import useEtudiants from '../hooks/useEtudiants';
 import { formatDate } from '../utils/dateUtils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -18,6 +19,7 @@ export default function EnseignantCoursesPage() {
   const { user } = useAuth();
   const { courses, loading, updateCourseStatus } = useCourses();
   const { enseignants } = useEnseignants();
+  const { etudiants } = useEtudiants();
   const [statusFilter, setStatusFilter] = useState('');
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -210,7 +212,12 @@ export default function EnseignantCoursesPage() {
                         >
                           <div className="course-title">{course.title}</div>
                           <div className="course-meta">
-                            {course.startTime && <span><FontAwesomeIcon icon={faClock} /> {course.startTime}</span>}
+                            {course.startTime && (
+                              <span>
+                                <FontAwesomeIcon icon={faClock} /> {course.startTime}
+                                {course.endTime ? ` – ${course.endTime}` : ''}
+                              </span>
+                            )}
                           </div>
                         </div>
                       );
@@ -231,9 +238,16 @@ export default function EnseignantCoursesPage() {
             <div className="detail-item"><strong>Description :</strong> {selectedCourse.description || 'Aucune'}</div>
             <div className="detail-item"><strong>Début :</strong> {formatDate(selectedCourse.startDate)}</div>
             {selectedCourse.endDate && <div className="detail-item"><strong>Fin :</strong> {formatDate(selectedCourse.endDate)}</div>}
-            {selectedCourse.startTime && <div className="detail-item"><strong>Heure :</strong> {selectedCourse.startTime}</div>}
+            {selectedCourse.startTime && <div className="detail-item"><strong>Heure de début :</strong> {selectedCourse.startTime}</div>}
+            {selectedCourse.endTime && <div className="detail-item"><strong>Heure de fin :</strong> {selectedCourse.endTime}</div>}
             <div className="detail-item"><strong>Statut :</strong> {statusLabel(selectedCourse.status)}</div>
             <div className="detail-item"><strong>Assigné à :</strong> {getEnseignantName(selectedCourse.assignedTo)}</div>
+            <div className="detail-item">
+              <strong>Étudiants :</strong>{' '}
+              {selectedCourse.studentIds && selectedCourse.studentIds.length > 0
+                ? etudiants.filter(e => selectedCourse.studentIds.includes(e.id)).map(e => e.name).join(', ')
+                : (selectedCourse.classe || 'Aucun étudiant assigné')}
+            </div>
             <div className="modal-actions">
               {selectedCourse.status === 'PLANNED' && (
                 <button className="btn-start" onClick={() => handleStatusUpdate(selectedCourse.id, 'IN_PROGRESS')}>

@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
 import useCourses from '../hooks/useCourses';
 import useEnseignants from '../hooks/useEnseignants';
+import useEtudiants from '../hooks/useEtudiants';
 import SearchableSelect from '../components/common/SearchableSelect';
 import { formatDate } from '../utils/dateUtils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,17 +16,21 @@ export default function CoursesPage() {
   const { user } = useAuth();
   const { courses, loading, createCourse, updateCourse, deleteCourse } = useCourses();
   const { enseignants } = useEnseignants();
+  const { etudiants } = useEtudiants();
 
   const [filters, setFilters] = useState({ status: '', assignedTo: '' });
   const [showModal, setShowModal] = useState(false);
   const [editingCourse, setEditingCourse] = useState(null);
+  const [studentSearch, setStudentSearch] = useState('');
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     startDate: '',
     endDate: '',
     startTime: '',
+    endTime: '',
     assignedTo: '',
+    studentIds: [],
     status: 'PLANNED'
   });
 
@@ -39,13 +44,16 @@ export default function CoursesPage() {
 
   const openCreate = () => {
     setEditingCourse(null);
+    setStudentSearch('');
     setFormData({
       title: '',
       description: '',
       startDate: '',
       endDate: '',
       startTime: '',
+      endTime: '',
       assignedTo: '',
+      studentIds: [],
       status: 'PLANNED'
     });
     setShowModal(true);
@@ -53,13 +61,16 @@ export default function CoursesPage() {
 
   const openEdit = (course) => {
     setEditingCourse(course);
+    setStudentSearch('');
     setFormData({
       title: course.title || '',
       description: course.description || '',
       startDate: course.startDate || '',
       endDate: course.endDate || '',
       startTime: course.startTime || '',
+      endTime: course.endTime || '',
       assignedTo: String(course.assignedTo || ''),
+      studentIds: course.studentIds ? [...course.studentIds] : [],
       status: course.status || 'PLANNED'
     });
     setShowModal(true);
@@ -81,7 +92,9 @@ export default function CoursesPage() {
       assignedTo: formData.assignedTo ? Number(formData.assignedTo) : null,
       startDate: formData.startDate || null,
       endDate: formData.endDate || null,
-      startTime: formData.startTime || null
+      startTime: formData.startTime || null,
+      endTime: formData.endTime || null,
+      studentIds: formData.studentIds
     };
     if (editingCourse) {
       updateCourse(editingCourse.id, data)
@@ -92,6 +105,38 @@ export default function CoursesPage() {
         .then(() => closeModal())
         .catch(() => alert('Erreur lors de la création.'));
     }
+  };
+
+  const toggleStudent = (id) => {
+    setFormData((f) => {
+      const has = f.studentIds.includes(id);
+      return {
+        ...f,
+        studentIds: has ? f.studentIds.filter((sId) => sId !== id) : [...f.studentIds, id]
+      };
+    });
+  };
+
+  const visibleStudents = useMemo(() => {
+    if (!studentSearch) return etudiants;
+    const q = studentSearch.toLowerCase();
+    return etudiants.filter((e) =>
+      e.name.toLowerCase().includes(q) || (e.classe || '').toLowerCase().includes(q)
+    );
+  }, [etudiants, studentSearch]);
+
+  const allVisibleSelected = visibleStudents.length > 0 &&
+    visibleStudents.every((e) => formData.studentIds.includes(e.id));
+
+  const toggleSelectAll = () => {
+    setFormData((f) => {
+      if (allVisibleSelected) {
+        const visibleIds = new Set(visibleStudents.map((e) => e.id));
+        return { ...f, studentIds: f.studentIds.filter((id) => !visibleIds.has(id)) };
+      }
+      const merged = new Set([...f.studentIds, ...visibleStudents.map((e) => e.id)]);
+      return { ...f, studentIds: [...merged] };
+    });
   };
 
   const handleDelete = (id) => {
@@ -173,7 +218,8 @@ export default function CoursesPage() {
                 <th>Description</th>
                 <th>Date début</th>
                 <th>Date fin</th>
-                <th>Heure</th>
+                <th>Heure début</th>
+                <th>Heure fin</th>
                 <th>Assigné à</th>
                 <th>Statut</th>
                 <th>Actions</th>
@@ -187,6 +233,7 @@ export default function CoursesPage() {
                   <td>{formatDate(course.startDate)}</td>
                   <td>{course.endDate ? formatDate(course.endDate) : '-'}</td>
                   <td>{course.startTime || '-'}</td>
+                  <td>{course.endTime || '-'}</td>
                   <td>{getEnseignantName(course.assignedTo)}</td>
                   <td>
                     <span className={`badge status-${course.status}`}>
@@ -273,17 +320,26 @@ export default function CoursesPage() {
                   />
                 </div>
                 <div className="form-group">
-                  <label>Statut</label>
-                  <select name="status" value={formData.status} onChange={handleChange}>
-                    <option value="PLANNED">Planifié</option>
-                    <option value="IN_PROGRESS">En cours</option>
-                    <option value="COMPLETED">Terminé</option>
-                    <option value="CANCELLED">Annulé</option>
-                  </select>
+                  <label>Heure de fin</label>
+                  <input
+                    type="time"
+                    name="endTime"
+                    value={formData.endTime}
+                    onChange={handleChange}
+                  />
                 </div>
               </div>
               <div className="form-group">
-                <label>Assigner à</label>
+                <label>Statut</label>
+                <select name="status" value={formData.status} onChange={handleChange}>
+                  <option value="PLANNED">Planifié</option>
+                  <option value="IN_PROGRESS">En cours</option>
+                  <option value="COMPLETED">Terminé</option>
+                  <option value="CANCELLED">Annulé</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Enseignant intervenant</label>
                 <SearchableSelect
                   options={enseignants.map(e => ({ value: e.id, label: e.name }))}
                   value={formData.assignedTo}
@@ -291,6 +347,54 @@ export default function CoursesPage() {
                   placeholder="Rechercher un enseignant..."
                   emptyLabel="Non assigné"
                 />
+              </div>
+              <div className="form-group">
+                <label>Étudiants concernés par ce cours</label>
+                <div className="students-picker">
+                  <div className="students-picker-toolbar">
+                    <input
+                      type="text"
+                      placeholder="Rechercher un étudiant ou une classe..."
+                      value={studentSearch}
+                      onChange={(e) => setStudentSearch(e.target.value)}
+                    />
+                    <button type="button" className="btn-select-all" onClick={toggleSelectAll}>
+                      {allVisibleSelected ? 'Tout désélectionner' : 'Tout sélectionner'}
+                    </button>
+                  </div>
+                  <div className="students-picker-table-wrapper">
+                    <table className="students-picker-table">
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th>Nom</th>
+                          <th>Classe</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {visibleStudents.length === 0 ? (
+                          <tr><td colSpan="3" className="no-students">Aucun étudiant trouvé.</td></tr>
+                        ) : (
+                          visibleStudents.map((etu) => (
+                            <tr key={etu.id} onClick={() => toggleStudent(etu.id)}>
+                              <td>
+                                <input
+                                  type="checkbox"
+                                  checked={formData.studentIds.includes(etu.id)}
+                                  onChange={() => toggleStudent(etu.id)}
+                                  onClick={(e) => e.stopPropagation()}
+                                />
+                              </td>
+                              <td>{etu.name}</td>
+                              <td>{etu.classe || '-'}</td>
+                            </tr>
+                          ))
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                  <p className="students-picker-count">{formData.studentIds.length} étudiant(s) sélectionné(s)</p>
+                </div>
               </div>
               <div className="form-actions">
                 <button type="submit" className="btn-submit">

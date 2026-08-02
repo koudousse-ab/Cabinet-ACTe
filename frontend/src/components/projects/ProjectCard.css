@@ -1,42 +1,47 @@
 .project-card {
-  background-color: white;
-  border-radius: 8px;
+  background-color: var(--acte-surface);
+  border: 1px solid var(--acte-line);
+  border-left: 4px solid var(--acte-slate-soft);
+  border-radius: var(--acte-radius-sm);
   padding: 18px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--acte-shadow-sm);
   cursor: pointer;
-  transition: box-shadow 0.15s ease, transform 0.15s ease;
+  transition: box-shadow var(--acte-transition), transform var(--acte-transition);
 }
 .project-card:hover {
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--acte-shadow-md);
   transform: translateY(-2px);
 }
-.project-card-top {
+.project-card-header {
   display: flex;
   justify-content: space-between;
-  align-items: start;
+  align-items: flex-start;
+  gap: 10px;
   margin-bottom: 8px;
 }
-.project-card-top h3 {
+.project-name {
   margin: 0;
-  color: #000000;  /* noir */
+  color: var(--acte-ink);
   font-size: 16px;
   font-weight: 600;
 }
-.badge {
+.project-status {
   font-size: 11px;
   padding: 3px 9px;
   border-radius: 10px;
-  color: white;
+  color: var(--acte-navy);
+  background: var(--acte-navy-soft);
   font-weight: 600;
   white-space: nowrap;
 }
 .project-client {
-  color: #666;
+  color: var(--acte-slate);
   font-size: 13px;
   margin: 4px 0;
 }
 .project-dates {
-  color: #999;
+  color: var(--acte-slate-soft);
   font-size: 12px;
   margin-top: 10px;
+  font-family: var(--acte-font-mono);
 }

@@ -45,7 +45,7 @@ export default function WeeklyReport() {
 ) : (
  <div id="weekly-report-content" className="report-content">
  <div className="report-header">
- <h2>Bilan hebdomadaire — Cabinet ACTe</h2>
+ <h2>Bilan hebdomadaire — ACTe</h2>
  <p>Semaine du {formatDate(report.weekStart)} au {formatDate(report.weekEnd)}</p>
  </div>
 

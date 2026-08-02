@@ -10,29 +10,29 @@
 }
 .enseignant-list-header h2 {
   margin: 0;
-  color: #3D2B1F;
 }
 .btn-add {
-  background: #C3B091;
+  background: var(--acte-navy);
   color: white;
   border: none;
   padding: 8px 16px;
-  border-radius: 4px;
+  border-radius: var(--acte-radius-sm);
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 0.9rem;
+  transition: background var(--acte-transition);
 }
 .btn-add:hover {
-  background: #3D5E8A;
+  background: var(--acte-navy-deep);
 }
 .enseignant-table-wrapper {
   overflow-x: auto;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-  border: 1px solid #e9ecef;
+  background: var(--acte-surface);
+  border-radius: var(--acte-radius-md);
+  box-shadow: var(--acte-shadow-sm);
+  border: 1px solid var(--acte-line);
 }
 .enseignant-table {
   width: 100%;
@@ -42,28 +42,25 @@
   padding: 12px 16px;
   text-align: left;
   font-weight: 600;
-  color: #3D2B1F;
-  background: #F5E6D3;
-  border-bottom: 2px solid #e9ecef;
+  color: var(--acte-ink);
+  background: var(--acte-surface-alt);
+  border-bottom: 2px solid var(--acte-line);
 }
 .enseignant-table td {
   padding: 10px 16px;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid var(--acte-line);
+  color: var(--acte-ink);
 }
 .enseignant-table tbody tr:hover {
-  background: #F5E6D3;
+  background: var(--acte-surface-alt);
 }
 .role-badge {
   display: inline-block;
   padding: 4px 12px;
   border-radius: 12px;
   font-size: 0.8rem;
-  font-weight: 500;
-}
-/* Rôles : uniquement du texte, pas de couleur de fond */
-.role-text {
-  background: transparent;
-  color: #3D2B1F;
+  font-weight: 600;
+  color: white;
 }
 .actions {
   display: flex;
@@ -74,15 +71,15 @@
   border: none;
   cursor: pointer;
   padding: 4px 6px;
-  color: #5D6D7E;
+  color: var(--acte-slate);
   font-size: 1rem;
-  transition: color 0.15s;
+  transition: color var(--acte-transition);
 }
 .btn-icon:hover {
-  color: #C3B091;
+  color: var(--acte-navy);
 }
 .btn-icon.danger:hover {
-  color: #B03A3A;
+  color: var(--acte-danger);
 }
 
 /* Barre de recherche (réutilisée par EnseignantList et EtudiantList) */
@@ -90,7 +87,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #f1f3f5;
+  background: var(--acte-surface-alt);
+  border: 1px solid var(--acte-line);
   padding: 6px 14px;
   border-radius: 20px;
   margin-bottom: 16px;
@@ -103,7 +101,8 @@
   outline: none;
   font-size: 0.9rem;
   width: 100%;
+  color: var(--acte-ink);
 }
 .search-bar svg {
-  color: #6c757d;
+  color: var(--acte-slate);
 }

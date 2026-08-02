@@ -97,9 +97,15 @@ public class CourseController {
         return ResponseEntity.ok(courseService.getCoursesByAssignedTo(enseignantId));
     }
 
-    // Programme individuel d'une classe (utilisé par les étudiants)
+    // Programme individuel d'une classe (utilisé par les étudiants, historique)
     @GetMapping("/classe/{classe}")
     public ResponseEntity<List<CourseDTO>> getCoursesByClasse(@PathVariable String classe) {
         return ResponseEntity.ok(courseService.getCoursesByClasse(classe));
+    }
+
+    // Programme individuel d'un étudiant : cours cochés individuellement + cours de sa classe
+    @GetMapping("/etudiant/{etudiantId}")
+    public ResponseEntity<List<CourseDTO>> getCoursesByEtudiant(@PathVariable Long etudiantId) {
+        return ResponseEntity.ok(courseService.getCoursesByEtudiant(etudiantId));
     }
 }

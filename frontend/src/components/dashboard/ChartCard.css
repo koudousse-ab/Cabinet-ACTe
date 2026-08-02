@@ -1,11 +1,14 @@
 .chart-card {
-  background-color: white;
-  border-radius: 8px;
+  background-color: var(--acte-surface);
+  border: 1px solid var(--acte-line);
+  border-radius: var(--acte-radius-md);
   padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--acte-shadow-sm);
 }
 .chart-card h3 {
   margin-top: 0;
-  color: #3D2B1F;
+  font-family: var(--acte-font-body);
+  color: var(--acte-ink);
   font-size: 15px;
+  font-weight: 600;
 }

@@ -38,12 +38,12 @@ export default function HomePage() {
       </header>
 
       <div className="stats-grid">
-        <StatsCard value={stats.totalProjects} label="Projets au total" color="#4e73df" />
-        <StatsCard value={stats.inProgressProjects} label="Projets en cours" color="#e67e22" />
-        <StatsCard value={stats.completedProjects} label="Projets terminés" color="#1cc88a" />
-        <StatsCard value={stats.totalTasks} label="Tâches au total" color="#36b9cc" />
-        <StatsCard value={stats.tasksInProgress} label="Tâches en cours" color="#e67e22" />
-        <StatsCard value={stats.tasksCompleted} label="Tâches terminées" color="#1cc88a" />
+        <StatsCard value={stats.totalProjects} label="Projets au total" tone="navy" />
+        <StatsCard value={stats.inProgressProjects} label="Projets en cours" tone="warning" />
+        <StatsCard value={stats.completedProjects} label="Projets terminés" tone="success" />
+        <StatsCard value={stats.totalTasks} label="Tâches au total" tone="info" />
+        <StatsCard value={stats.tasksInProgress} label="Tâches en cours" tone="warning" />
+        <StatsCard value={stats.tasksCompleted} label="Tâches terminées" tone="success" />
       </div>
 
       <div className="charts-grid">

@@ -7,17 +7,6 @@ export default function ProjectStatusChart({ data }) {
     .filter(([, value]) => value > 0)
     .map(([status, value]) => ({ name: projectStatusLabel(status), value, status }));
 
-  // Couleurs personnalisées pour le projet (on garde celles de statusUtils)
-  const getColor = (status) => {
-    const colors = {
-      EN_COURS: '#17a2b8',   // bleu visible
-      TERMINE: '#28a745',    // vert
-      EN_ATTENTE: '#ffc107', // jaune (mais avec fond blanc, ça reste lisible)
-      ANNULE: '#dc3545'      // rouge
-    };
-    return colors[status] || '#6c757d';
-  };
-
   return (
     <div className="chart-card">
       <h3>Répartition des projets par statut</h3>
@@ -28,7 +17,7 @@ export default function ProjectStatusChart({ data }) {
           <PieChart>
             <Pie data={chartData} dataKey="value" nameKey="name" innerRadius={50} outerRadius={80}>
               {chartData.map((entry) => (
-                <Cell key={entry.status} fill={getColor(entry.status)} />
+                <Cell key={entry.status} fill={PROJECT_STATUS_COLORS[entry.status] || 'var(--acte-slate)'} />
               ))}
             </Pie>
             <Tooltip />

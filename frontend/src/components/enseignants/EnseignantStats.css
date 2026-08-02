@@ -5,27 +5,30 @@
   margin-bottom: 20px;
 }
 .stat-box {
-  background-color: #F4F6F9;
-  border-radius: 8px;
+  background-color: var(--acte-surface-alt);
+  border: 1px solid var(--acte-line);
+  border-radius: var(--acte-radius-sm);
   padding: 16px;
   text-align: center;
 }
 .stat-box .value {
   font-size: 22px;
   font-weight: 700;
-  color: #3D2B1F;
+  font-family: var(--acte-font-mono);
+  color: var(--acte-ink);
 }
 .stat-box .label {
   font-size: 12px;
-  color: #888;
+  color: var(--acte-slate);
   margin-top: 4px;
 }
 
 .error-counter {
-  background-color: white;
-  border-radius: 8px;
+  background-color: var(--acte-surface);
+  border: 1px solid var(--acte-line);
+  border-radius: var(--acte-radius-md);
   padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--acte-shadow-sm);
 }
 .error-counter-header {
   display: flex;
@@ -35,10 +38,9 @@
 }
 .error-counter-header h3 {
   margin: 0;
-  color: #3D2B1F;
 }
 .error-count-badge {
-  background-color: #B03A3A;
+  background-color: var(--acte-danger);
   color: white;
   padding: 4px 12px;
   border-radius: 12px;
@@ -49,16 +51,18 @@
   display: flex;
   justify-content: space-between;
   padding: 8px 0;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--acte-line);
   font-size: 13px;
+  color: var(--acte-ink);
 }
 .error-item:last-child {
   border-bottom: none;
 }
 .error-date {
-  color: #999;
+  color: var(--acte-slate-soft);
   white-space: nowrap;
   margin-left: 10px;
+  font-family: var(--acte-font-mono);
 }
 .add-error-form {
   display: flex;
@@ -68,19 +72,21 @@
 .add-error-form input {
   flex: 1;
   padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  border: 1px solid var(--acte-line);
+  border-radius: var(--acte-radius-sm);
+  background: var(--acte-surface);
+  color: var(--acte-ink);
 }
 .add-error-form button {
-  background-color: #B03A3A;
+  background-color: var(--acte-danger);
   color: white;
   border: none;
   padding: 8px 14px;
-  border-radius: 4px;
+  border-radius: var(--acte-radius-sm);
   cursor: pointer;
 }
 .no-errors {
-  color: #999;
+  color: var(--acte-slate-soft);
   text-align: center;
   padding: 10px;
 }

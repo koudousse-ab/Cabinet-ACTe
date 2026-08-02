@@ -1,12 +1,14 @@
 /* =====================================================================
-   LOGIN — identité "registre académique" : encre, sceau, papier crème.
+   LOGIN — identité "dossier officiel" : encre marine, sceau, papier clair.
+   Suit le système de tokens ACTe (navy/gris) et le mode sombre.
    ===================================================================== */
 
 .login-screen {
   min-height: 100vh;
   display: flex;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #FAF3E8;
+  font-family: var(--acte-font-body);
+  background: var(--acte-canvas);
+  transition: background var(--acte-transition);
 }
 
 .login-brand {
@@ -16,8 +18,8 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 56px 48px;
-  background: #2B1D14;
-  color: #F5E6D3;
+  background: var(--acte-sidebar-bg);
+  color: var(--acte-sidebar-text);
   overflow: hidden;
 }
 
@@ -29,7 +31,7 @@
     to bottom,
     transparent,
     transparent 37px,
-    rgba(245, 230, 211, 0.06) 38px
+    rgba(207, 220, 236, 0.05) 38px
   );
   pointer-events: none;
 }
@@ -41,7 +43,7 @@
   right: -25%;
   width: 60%;
   height: 60%;
-  background: radial-gradient(circle, rgba(196, 163, 90, 0.25) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(76, 141, 217, 0.22) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -55,7 +57,7 @@
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  border: 1.5px solid #C4A35A;
+  border: 1.5px solid rgba(207, 220, 236, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -67,30 +69,37 @@
   position: absolute;
   inset: 6px;
   border-radius: 50%;
-  border: 1px solid rgba(196, 163, 90, 0.5);
+  border: 1px solid rgba(207, 220, 236, 0.3);
 }
 .brand-seal span {
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: var(--acte-font-display);
   font-weight: 500;
   font-size: 1.35rem;
   letter-spacing: 0.02em;
-  color: #C4A35A;
+  color: var(--acte-sidebar-text-active);
+}
+
+.brand-seal-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 50%;
 }
 
 .brand-wordmark {
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: var(--acte-font-display);
   font-weight: 500;
   font-size: 2.6rem;
   line-height: 1.05;
   margin: 0 0 18px 0;
   letter-spacing: -0.01em;
-  color: #FAF3E8;
+  color: var(--acte-sidebar-text-active);
 }
 
 .brand-tagline {
   font-size: 0.98rem;
   line-height: 1.65;
-  color: rgba(245, 230, 211, 0.72);
+  color: rgba(207, 220, 236, 0.75);
   margin: 0 0 40px 0;
 }
 
@@ -98,7 +107,7 @@
   position: relative;
   z-index: 1;
   font-size: 0.8rem;
-  color: rgba(245, 230, 211, 0.55);
+  color: rgba(207, 220, 236, 0.55);
   margin: 0;
   line-height: 1.6;
 }
@@ -107,11 +116,18 @@
 }
 
 .login-panel {
+  position: relative;
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 40px 24px;
+}
+
+.login-theme-toggle {
+  position: absolute;
+  top: 24px;
+  right: 24px;
 }
 
 .login-form {
@@ -124,31 +140,31 @@
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #C4A35A;
+  color: var(--acte-navy);
   margin: 0 0 10px 0;
 }
 
 .login-title {
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: var(--acte-font-display);
   font-weight: 500;
   font-size: 1.9rem;
-  color: #2B1D14;
+  color: var(--acte-ink);
   margin: 0 0 8px 0;
 }
 
 .login-subtitle {
   font-size: 0.92rem;
-  color: #7A6A57;
+  color: var(--acte-slate);
   margin: 0 0 32px 0;
 }
 
 .login-error {
-  background: #FBEAE9;
-  border: 1px solid #E3B5B2;
-  color: #A23E3A;
+  background: var(--acte-danger-bg);
+  border: 1px solid var(--acte-danger);
+  color: var(--acte-danger);
   font-size: 0.86rem;
   padding: 11px 14px;
-  border-radius: 8px;
+  border-radius: var(--acte-radius-sm);
   margin-bottom: 22px;
 }
 
@@ -161,7 +177,7 @@
   display: block;
   font-size: 0.8rem;
   font-weight: 600;
-  color: #4A3A2C;
+  color: var(--acte-ink);
   margin-bottom: 7px;
   letter-spacing: 0.01em;
 }
@@ -176,30 +192,30 @@
   position: absolute;
   left: 14px;
   font-size: 0.85rem;
-  color: #B4A088;
+  color: var(--acte-slate-soft);
   pointer-events: none;
 }
 
 .login-input-wrap input {
   width: 100%;
   padding: 12px 14px 12px 40px;
-  border: 1.5px solid #E4D7C3;
-  border-radius: 8px;
-  background: #FFFFFF;
+  border: 1.5px solid var(--acte-line);
+  border-radius: var(--acte-radius-sm);
+  background: var(--acte-surface);
   font-size: 0.95rem;
   font-family: inherit;
-  color: #2B1D14;
+  color: var(--acte-ink);
   transition: border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
 .login-input-wrap input::placeholder {
-  color: #C4B7A3;
+  color: var(--acte-slate-soft);
 }
 
 .login-input-wrap input:focus {
   outline: none;
-  border-color: #C4A35A;
-  box-shadow: 0 0 0 3px rgba(196, 163, 90, 0.16);
+  border-color: var(--acte-navy);
+  box-shadow: 0 0 0 3px rgba(27, 66, 114, 0.16);
 }
 
 .login-toggle-visibility {
@@ -207,7 +223,7 @@
   right: 12px;
   background: none;
   border: none;
-  color: #B4A088;
+  color: var(--acte-slate-soft);
   cursor: pointer;
   padding: 6px;
   font-size: 0.85rem;
@@ -216,17 +232,17 @@
   transition: color 0.15s ease;
 }
 .login-toggle-visibility:hover {
-  color: #7A6A57;
+  color: var(--acte-slate);
 }
 
 .login-submit {
   width: 100%;
   margin-top: 8px;
   padding: 13px;
-  background: #2B1D14;
-  color: #F5E6D3;
+  background: var(--acte-navy);
+  color: #ffffff;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--acte-radius-sm);
   font-size: 0.95rem;
   font-weight: 600;
   font-family: inherit;
@@ -239,8 +255,8 @@
   transition: background 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease;
 }
 .login-submit:hover:not(:disabled) {
-  background: #3D2B1F;
-  box-shadow: 0 6px 18px rgba(43, 29, 20, 0.25);
+  background: var(--acte-navy-deep);
+  box-shadow: var(--acte-shadow-md);
 }
 .login-submit:active:not(:disabled) {
   transform: translateY(1px);
@@ -260,8 +276,8 @@
 .login-spinner {
   width: 16px;
   height: 16px;
-  border: 2px solid rgba(245, 230, 211, 0.35);
-  border-top-color: #F5E6D3;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #ffffff;
   border-radius: 50%;
   animation: login-spin 0.7s linear infinite;
 }
@@ -271,7 +287,7 @@
 
 .login-toggle-visibility:focus-visible,
 .login-submit:focus-visible {
-  outline: 2px solid #C4A35A;
+  outline: 2px solid var(--acte-navy);
   outline-offset: 2px;
 }
 

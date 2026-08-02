@@ -1,23 +1,31 @@
 .stats-card {
-  background-color: #FFFFFF;
-  border-radius: 8px;
+  background-color: var(--acte-surface);
+  border: 1px solid var(--acte-line);
+  border-radius: var(--acte-radius-md);
   padding: 20px 16px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
-  border-left: 4px solid #C4A35A; /* Pantone 147 */
+  box-shadow: var(--acte-shadow-sm);
+  border-left: 4px solid var(--acte-navy);
   text-align: center;
-  transition: box-shadow 0.2s;
+  transition: box-shadow var(--acte-transition);
 }
 .stats-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+  box-shadow: var(--acte-shadow-md);
 }
+.stats-card.tone-navy { border-left-color: var(--acte-navy); }
+.stats-card.tone-info { border-left-color: var(--acte-info); }
+.stats-card.tone-success { border-left-color: var(--acte-success); }
+.stats-card.tone-warning { border-left-color: var(--acte-warning); }
+.stats-card.tone-danger { border-left-color: var(--acte-danger); }
+
 .stats-value {
+  font-family: var(--acte-font-mono);
   font-size: 2rem;
-  font-weight: 700;
-  color: #3D2B1F; /* Bistre */
+  font-weight: 600;
+  color: var(--acte-ink);
   line-height: 1.2;
 }
 .stats-label {
   font-size: 0.9rem;
-  color: #5D6D7E;
+  color: var(--acte-slate);
   margin-top: 4px;
 }
