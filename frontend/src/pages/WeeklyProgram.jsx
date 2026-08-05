@@ -85,14 +85,17 @@ export default function WeeklyProgram() {
     DAYS.forEach((_, idx) => {
       const date = new Date(weekStart);
       date.setDate(weekStart.getDate() + idx);
-      const dateStr = date.toISOString().split('T')[0];
+      const dateStr = date.toISOString().split('T')[0]; // "YYYY-MM-DD"
+
       const dayTasks = filteredTasks.filter(t => t.dueDate === dateStr);
+
+      // Comparaison directe sur les chaînes YYYY-MM-DD
       const dayCourses = filteredCourses.filter(c => {
-        const start = new Date(c.startDate);
-        const end = c.endDate ? new Date(c.endDate) : start;
-        return (start >= date && start < new Date(date.getTime() + 86400000)) ||
-               (end >= date && end <= new Date(date.getTime() + 86400000));
+        const startStr = c.startDate;          // "YYYY-MM-DD"
+        const endStr = c.endDate || startStr;  // si pas de fin, on prend le même jour
+        return dateStr >= startStr && dateStr <= endStr;
       });
+
       map[dateStr] = [
         ...dayTasks.map(t => ({ ...t, type: 'task' })),
         ...dayCourses.map(c => ({ ...c, type: 'course' }))
