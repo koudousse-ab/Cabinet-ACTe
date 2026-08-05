@@ -45,15 +45,37 @@ export default function useCourses() {
     fetchCourses();
   }, [fetchCourses]);
 
-  const createCourse = (data) => courseApi.createCourse(data).then((res) => {
-    fetchCourses();
-    return res;
-  });
+  const createCourse = async (data) => {
+    try {
+      const res = await courseApi.createCourse(data);
+      await fetchCourses();
+      return res;
+    } catch (err) {
+      if (err.response?.status === 409 && err.response?.data?.errorCode === 'ENSEIGNANT_DEJA_OCCUPE') {
+        const customError = new Error('Cet enseignant est déjà occupé à cette plage horaire. Veuillez choisir un autre créneau.');
+        customError.originalError = err;
+        customError.isConflict = true;
+        throw customError;
+      }
+      throw err;
+    }
+  };
 
-  const updateCourse = (id, data) => courseApi.updateCourse(id, data).then((res) => {
-    fetchCourses();
-    return res;
-  });
+  const updateCourse = async (id, data) => {
+    try {
+      const res = await courseApi.updateCourse(id, data);
+      await fetchCourses();
+      return res;
+    } catch (err) {
+      if (err.response?.status === 409 && err.response?.data?.errorCode === 'ENSEIGNANT_DEJA_OCCUPE') {
+        const customError = new Error('Cet enseignant est déjà occupé à cette plage horaire. Veuillez choisir un autre créneau.');
+        customError.originalError = err;
+        customError.isConflict = true;
+        throw customError;
+      }
+      throw err;
+    }
+  };
 
   const deleteCourse = (id) => courseApi.deleteCourse(id).then(() => {
     setCourses((prev) => prev.filter((c) => c.id !== id));
@@ -64,5 +86,14 @@ export default function useCourses() {
     return res;
   });
 
-  return { courses, loading, error, createCourse, updateCourse, deleteCourse, updateCourseStatus, fetchCourses };
+  return { 
+    courses, 
+    loading, 
+    error, 
+    createCourse, 
+    updateCourse, 
+    deleteCourse, 
+    updateCourseStatus, 
+    fetchCourses 
+  };
 }
