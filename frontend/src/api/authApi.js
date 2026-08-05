@@ -1,19 +1,18 @@
 import axios from 'axios';
 
-// ═══════ Instance dédiée à l'authentification (sans /api/v1) ═══════
-// Dérivée de la même variable d'environnement que le reste de l'app pour
-// fonctionner aussi bien en local qu'une fois déployé (ex: Render).
-const API_ROOT = (import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1').replace(/\/api\/v1\/?$/, '');
+// Utilise la base de l'API (https://cabinet-acte-backend.onrender.com/api/v1)
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/v1';
+
 const authClient = axios.create({
-  baseURL: API_ROOT,
+  baseURL: API_URL,
   headers: { 'Content-Type': 'application/json' }
 });
 
 // ═══════ Fonctions d’authentification ═══════
 export const login = (email, password) =>
-  authClient.post('/api/auth/login', { email, password });
+  authClient.post('/auth/login', { email, password }); // axios va appeler /api/v1/auth/login
 
-// ═══════ Utilitaires (inchangés) ═══════
+// ═══════ Utilitaires ═══════
 export const decodeToken = (token) => {
   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
