@@ -119,7 +119,7 @@ export default function ProjectsPage() {
           </select>
         </div>
         <div className="filter-group">
-          <label>Client</label>
+          <label>Objet</label>
           <input
             type="text"
             placeholder="Rechercher un client..."
@@ -206,7 +206,7 @@ export default function ProjectsPage() {
                 />
               </div>
               <div className="form-group">
-                <label>Client *</label>
+                <label>Objet *</label>
                 <input
                   type="text"
                   name="client"
