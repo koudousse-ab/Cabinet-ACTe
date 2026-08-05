@@ -122,7 +122,7 @@ export default function ProjectsPage() {
           <label>Objet</label>
           <input
             type="text"
-            placeholder="Rechercher un client..."
+            placeholder="Rechercher ..."
             value={filters.client}
             onChange={e => setFilters(f => ({ ...f, client: e.target.value }))}
           />
