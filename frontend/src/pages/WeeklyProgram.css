@@ -279,13 +279,13 @@
   font-weight: 600;
   color: white;
 }
-.status-TODO { background: var(--acte-slate); }
-.status-IN_PROGRESS { background: var(--acte-warning); }
-.status-DONE { background: var(--acte-success); }
-.status-BLOCKED { background: var(--acte-danger); }
-.status-CANCELLED { background: var(--acte-danger); }
-.status-PLANNED { background: var(--acte-info); }
-.status-COMPLETED { background: var(--acte-success); }
+.badge.status-TODO { background: var(--acte-slate); }
+.badge.status-IN_PROGRESS { background: var(--acte-warning); }
+.badge.status-DONE { background: var(--acte-success); }
+.badge.status-BLOCKED { background: var(--acte-danger); }
+.badge.status-CANCELLED { background: var(--acte-danger); }
+.badge.status-PLANNED { background: var(--acte-info); }
+.badge.status-COMPLETED { background: var(--acte-success); }
 
 .block-btn {
   background: none;
