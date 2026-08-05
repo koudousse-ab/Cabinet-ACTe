@@ -145,7 +145,7 @@ export default function ProjectsPage() {
             <thead>
               <tr>
                 <th>Nom</th>
-                <th>Client</th>
+                <th>Objet</th>
                 <th>Description</th>
                 <th>Statut</th>
                 <th>Date début</th>
