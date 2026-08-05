@@ -17,10 +17,10 @@ public class DataInitializer implements CommandLineRunner {
     private final EnseignantRepository enseignantRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Value("${app.admin.email:admin@cabinet-acte.com}")
+    @Value("${app.admin.email}")
     private String adminEmail;
 
-    @Value("${app.admin.password:admin123}")
+    @Value("${app.admin.password}")
     private String adminPassword;
 
     public DataInitializer(EnseignantRepository enseignantRepository, PasswordEncoder passwordEncoder) {
