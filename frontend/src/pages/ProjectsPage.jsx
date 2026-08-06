@@ -119,10 +119,10 @@ export default function ProjectsPage() {
           </select>
         </div>
         <div className="filter-group">
-          <label>Client</label>
+          <label>Objet</label>
           <input
             type="text"
-            placeholder="Rechercher un client..."
+            placeholder="Rechercher ..."
             value={filters.client}
             onChange={e => setFilters(f => ({ ...f, client: e.target.value }))}
           />
@@ -145,7 +145,7 @@ export default function ProjectsPage() {
             <thead>
               <tr>
                 <th>Nom</th>
-                <th>Client</th>
+                <th>Objet</th>
                 <th>Description</th>
                 <th>Statut</th>
                 <th>Date début</th>
@@ -206,7 +206,7 @@ export default function ProjectsPage() {
                 />
               </div>
               <div className="form-group">
-                <label>Client *</label>
+                <label>Objet *</label>
                 <input
                   type="text"
                   name="client"
